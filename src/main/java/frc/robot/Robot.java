@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Chassi;
+import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,12 +19,15 @@ import frc.robot.subsystems.Chassi;
  * project.
  */
 public class Robot extends TimedRobot {
-  Chassi m_chassi;
+  public static Chassi m_chassi;
+  public static Limelight m_limelight;
 
   @Override
   public void robotInit() {
     //Init subsystems
     OI.init();
+    m_chassi = new Chassi();
+    m_limelight = new Limelight();
   }
 
   @Override

@@ -49,17 +49,16 @@ public class Chassi extends SubsystemBase {
   }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean quickTurn){
-    this.differentialDrive.curvatureDrive(xSpeed, zRotation * RobotConstants.Drive.ManualTurnMax, quickTurn);
+    this.differentialDrive.curvatureDrive(xSpeed, zRotation * RobotConstants.Drive.MANUAL_TURN_MAX, quickTurn);
   }
 
   public void arcadeDrive(double xSpeed, double zRotation){
-    this.differentialDrive.arcadeDrive(xSpeed, zRotation * RobotConstants.Drive.ManualTurnMax);
+    this.differentialDrive.arcadeDrive(xSpeed, zRotation * RobotConstants.Drive.MANUAL_TURN_MAX);
   }
 
   public void tankDrive(double lSpeed, double rSpeed){
     this.differentialDrive.tankDrive(lSpeed, rSpeed);
   }
-  
 
   @Override
   public void periodic() {
