@@ -8,30 +8,28 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Utils.LEDMode;
 import frc.robot.subsystems.Chassi;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
   public static Chassi m_chassi;
   public static Limelight m_limelight;
-
+  public static LEDs m_leds;
+  
   @Override
   public void robotInit() {
     //Init subsystems
-    OI.init();
     m_chassi = new Chassi();
     m_limelight = new Limelight();
+    m_leds = new LEDs();
+    OI.init();
   }
 
   @Override
   public void autonomousInit() {
+    m_leds.setMode(LEDMode.GREEN);
   }
 
   @Override
@@ -40,6 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    m_leds.setMode(LEDMode.BLUE);
   }
 
   @Override
@@ -54,7 +53,6 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-  //runs every 0.02 sec no matter which mode
   @Override
   public void robotPeriodic() {
     OI.updateSmartDashBoard();
