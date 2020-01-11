@@ -16,7 +16,7 @@ public class LEDs extends SubsystemBase {
   Spark ledPWM;
 
   public LEDs() {
-    ledPWM = new Spark(RobotMap.LEDPWMP);
+    ledPWM = new Spark(RobotMap.LED_PWM_PORT);
   }
 
   public void setMode(LEDMode mode){

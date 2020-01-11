@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.RobotConstants.Shooter;
 import frc.robot.Utils.LEDMode;
 import frc.robot.subsystems.Chassi;
 import frc.robot.subsystems.LEDs;
@@ -17,6 +18,7 @@ public class Robot extends TimedRobot {
   public static Chassi m_chassi;
   public static Limelight m_limelight;
   public static LEDs m_leds;
+  public static Shooter m_shooter;
   
   @Override
   public void robotInit() {
@@ -24,6 +26,7 @@ public class Robot extends TimedRobot {
     m_chassi = new Chassi();
     m_limelight = new Limelight();
     m_leds = new LEDs();
+    m_shooter = new Shooter();
     OI.init();
   }
 

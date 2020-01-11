@@ -12,4 +12,8 @@ public class RobotConstants{
         public static double TURN_AFF = 0.2825;
         public static double VISION_TURN_MAX = 0.85;
     }
+    public static class Shooter{
+        public static final double POTENTIOMETER_FULL_RANGE = 270;
+        public static final double ZERO_ANGLE = 20;
+    }
 }

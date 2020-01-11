@@ -40,10 +40,10 @@ public class Chassi extends SubsystemBase {
   DifferentialDriveOdometry driveOdometry;
 
   public Chassi() {
-    LBM = new CANSparkMax(RobotMap.LBMP, CANSparkMaxLowLevel.MotorType.kBrushless);
-    LFM = new CANSparkMax(RobotMap.LFMP, CANSparkMaxLowLevel.MotorType.kBrushless);
-    RBM = new CANSparkMax(RobotMap.RBMP, CANSparkMaxLowLevel.MotorType.kBrushless);
-    RFM = new CANSparkMax(RobotMap.RFMP, CANSparkMaxLowLevel.MotorType.kBrushless);
+    LBM = new CANSparkMax(RobotMap.LEFT_BACK_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
+    LFM = new CANSparkMax(RobotMap.LEFT_FRONT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
+    RBM = new CANSparkMax(RobotMap.RIGHT_BACK_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
+    RFM = new CANSparkMax(RobotMap.RIGHT_FRONT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     leftMotor = new SpeedControllerGroup(LBM, LFM);
     rightMotor = new SpeedControllerGroup(RBM, RFM);
