@@ -31,6 +31,26 @@ public class Limelight extends SubsystemBase {
     double tvert;
     double camMode, ledMode, pipeline;
 
+    public static enum CamModes{
+        VISION(0), DRIVING(1);
+
+        public final int value;
+
+        private CamModes(int val){
+            this.value = val;
+        }
+    } 
+
+    public static enum LedModes{
+        DEFAULT(0), OFF(1), BLINK(2), ON(3);
+
+        public final int value;
+
+        private LedModes(int val){
+            this.value = val;
+        }
+    } 
+
 
     public Limelight(){
         
@@ -57,8 +77,16 @@ public class Limelight extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(mode);
     }
 
+    public void setLEDMode(LedModes mode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(mode.value);
+    }
+
     public void setCamMode(int mode){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(mode);
+    }
+
+    public void setCamMode(CamModes mode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(mode.value);
     }
 
     public void setPipeline(int pipenum){

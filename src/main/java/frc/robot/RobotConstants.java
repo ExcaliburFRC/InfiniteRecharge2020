@@ -7,6 +7,7 @@ public class RobotConstants{
         public static final double ENCODER_TICKS_PER_REVOLUTION = 1024;
         public static final double ENCODER_DISTANCE_PER_PULSE = (WHEELDIAMETER * Math.PI) / ENCODER_TICKS_PER_REVOLUTION;
     }
+
     public static class ImageProccessing{
         public static double TURN_KP = 0.0375;
         public static double TURN_AFF = 0.2825;
@@ -19,6 +20,6 @@ public class RobotConstants{
     }
 
     public static class TransporterConstants{
-        public static final double TOLERANCE = 10.0;
+        public static final double BALL_DETECTION_TOLARANCE = 5.0;
     }
 }
