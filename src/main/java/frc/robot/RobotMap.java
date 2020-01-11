@@ -19,5 +19,15 @@ public class RobotMap{
     public static final int SHOOTER_ANGLER_MOTOR = 8;
     public static final int ANGLE_POTENTIOMETER = 4;
     
+    //Transporter
+    public static final int MOTOR_PORT = 0;
+    public static final int IN_PING_PORT = 1;
+    public static final int IN_ECHO_PORT = 2;
+    public static final int OUT_PING_PORT = 3;
+    public static final int OUT_ECHO_PORT = 4;
 
+    // Climber ports
+    public static int CLIMBER_LIFTER_MOTOR_PORT;
+    public static int ROBOT_LIFTER_MOTOR_PORT1;
+    public static int ROBOT_LIFTER_MOTOR_PORT2;   
 }

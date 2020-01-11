@@ -8,17 +8,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+<<<<<<< HEAD
 import frc.robot.RobotConstants.Shooter;
+=======
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+>>>>>>> be442e26eae6b2e88d6f40841d277620f197e65b
 import frc.robot.Utils.LEDMode;
 import frc.robot.subsystems.Chassi;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Transporter;
 
 public class Robot extends TimedRobot {
   public static Chassi m_chassi;
   public static Limelight m_limelight;
   public static LEDs m_leds;
   public static Shooter m_shooter;
+  public static Climber m_climber;
+  public static Transporter m_transporter;
   
   @Override
   public void robotInit() {
@@ -27,6 +35,8 @@ public class Robot extends TimedRobot {
     m_limelight = new Limelight();
     m_leds = new LEDs();
     m_shooter = new Shooter();
+    m_climber = new Climber();
+    m_transporter = new Transporter();
     OI.init();
   }
 
@@ -37,6 +47,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -46,6 +57,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
