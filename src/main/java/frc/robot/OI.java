@@ -11,12 +11,17 @@ public class OI{
 
     public static JoystickButton shootSetupButton;
     
-    //Button Constants
+    //Driver Joystick Constants
     public static final int xSpeedAxis = 1;
     public static final int zRotationAxis = 3;
     public static final int quickTurnButton = 7;
+
+    //Arm Joystick Constants
     public static final int shootSetupButtonPort = 1;
     public static final int shootButtonPort = 1;
+    public static final int collectorUpButton = 3;
+    public static final int collectorDownButton = 4;
+    public static final int collectorTakeInBallButton = 2;
 
     
     public static void init(){

@@ -8,11 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
+import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
@@ -99,9 +101,13 @@ public class Shooter extends SubsystemBase {
     
     if (isAnglePersuit){
       angleMotor.setSelectedSensorPosition((int) getAngle());
-      angleMotor.set(ControlMode.Position, angleSetpoint);
+      angleMotor.set(ControlMode.Position, angleSetpoint, DemandType.ArbitraryFeedForward, getFeedForward());
     } else {
       angleMotor.set(ControlMode.PercentOutput, 0);
     }
+  }
+
+  private double getFeedForward(){
+    return Math.cos(anglePotentiometer.get()) * RobotConstants.ShooterConstants.ABSOLUTE_FEEDFORWARD;
   }
 }

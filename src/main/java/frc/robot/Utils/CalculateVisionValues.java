@@ -1,6 +1,6 @@
 package frc.robot.Utils;
 
-public class CalculateVisionValues{
+public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
     public static double calculateDistance(double ty){
         return ty*1; //TODO needs to be tuned
     }

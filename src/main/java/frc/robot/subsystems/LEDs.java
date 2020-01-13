@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Spark;
 import frc.robot.RobotMap;
-import frc.robot.Utils.LEDMode;
 
 public class LEDs extends SubsystemBase {
   private Spark ledPWM;
@@ -20,11 +19,20 @@ public class LEDs extends SubsystemBase {
   }
 
   public void setMode(LEDMode mode){
-    ledPWM.set(mode.getValue());
+    ledPWM.set(mode.value);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public enum LEDMode{
+    BLUE(0), RED(1), GREEN(2), YELLOW(3), RAINBOW(4);
+
+    public final double value;
+    private LEDMode(double value){
+        this.value = value;
+    }
   }
 }

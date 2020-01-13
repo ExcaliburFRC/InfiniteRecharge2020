@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.CollectorCommands.CollectorDrive;
 
 import frc.robot.RobotMap;
 
@@ -26,6 +27,8 @@ public class Collector extends SubsystemBase {
   public Collector() {
     rollerMotor = new VictorSPX(RobotMap.ROLLER_MOTOR_PORT);
     lifterPiston = new DoubleSolenoid(RobotMap.LIFTER_PORTS[0], RobotMap.LIFTER_PORTS[1]);
+
+    setDefaultCommand(new CollectorDrive());
   }
 
   public void setRollerMotorPower(double p){

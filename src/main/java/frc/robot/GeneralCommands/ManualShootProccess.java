@@ -14,12 +14,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.ShooterCommands.KeepTarget;
-import frc.robot.ShooterCommands.ShooterSetup;
 import frc.robot.TransporterCommands.PutInShooterWhenOI;
 import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.ChassiCommands.PursuitTX;
-import frc.robot.Utils.LEDMode;
+import frc.robot.subsystems.LEDs.LEDMode;
 
 public class ManualShootProccess extends CommandBase {
   /**
