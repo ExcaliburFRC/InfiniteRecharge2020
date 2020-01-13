@@ -9,15 +9,16 @@ package frc.robot.ChassiCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.ImageProccessingConstants;
 import frc.robot.Utils.RobotUtils;
 
-public class PersuitTX extends CommandBase {
+public class PursuitTX extends CommandBase {
   /**
    * Creates a new PersuitTX.
    */
   double error;
-  public PersuitTX() {
+  public PursuitTX() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,9 +32,11 @@ public class PersuitTX extends CommandBase {
   public void execute() {
     error = (Robot.m_limelight.getTx()-0.2) * ImageProccessingConstants.TURN_KP;
     error += error > 0 ? ImageProccessingConstants.TURN_AFF : -ImageProccessingConstants.TURN_AFF; 
-    error = RobotUtils.clip(error,0.65);
+    error = RobotUtils.clip(error,0.75);
 
-    Robot.m_chassi.arcadeDrive(0, error);
+    if (!isReady()){
+      Robot.m_chassi.arcadeDrive(0, error);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -45,5 +48,9 @@ public class PersuitTX extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public boolean isReady(){
+    return (Math.abs(Robot.m_limelight.getTx()) < RobotConstants.ImageProccessingConstants.TX_TOLERANCE);
   }
 }

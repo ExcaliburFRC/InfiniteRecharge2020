@@ -9,9 +9,10 @@ public class RobotConstants{
     }
 
     public static class ImageProccessingConstants{
-        public static double TURN_KP = 0.0375;
-        public static double TURN_AFF = 0.2825;
-        public static double VISION_TURN_MAX = 0.85;
+        public static final double TURN_KP = 0.0375;
+        public static final double TURN_AFF = 0.2825;
+        public static final double VISION_TURN_MAX = 0.85;
+        public static final double TX_TOLERANCE = 0.5;
     }
     
     public static class ShooterConstants{
@@ -24,6 +25,6 @@ public class RobotConstants{
     }
 
     public static class TransporterConstants{
-        public static final double BALL_DETECTION_TOLARANCE = 5.0;
+        public static final double BALL_DETECTION_TOLERANCE = 5.0;
     }
 }

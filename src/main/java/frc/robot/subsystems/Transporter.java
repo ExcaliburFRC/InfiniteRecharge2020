@@ -41,10 +41,10 @@ public class Transporter extends SubsystemBase {
   }
 
   public boolean isBallInCollector(){
-    return (getCollectorDistance() < TransporterConstants.BALL_DETECTION_TOLARANCE);
+    return (getCollectorDistance() < TransporterConstants.BALL_DETECTION_TOLERANCE);
   }
   public boolean isBallInShooter(){
-    return (getShooterDistance() < TransporterConstants.BALL_DETECTION_TOLARANCE);
+    return (getShooterDistance() < TransporterConstants.BALL_DETECTION_TOLERANCE);
   }
   
   public void setMotorSpeed(double speed){

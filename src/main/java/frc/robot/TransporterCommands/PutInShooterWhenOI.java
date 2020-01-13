@@ -7,6 +7,8 @@
 
 package frc.robot.TransporterCommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -15,8 +17,11 @@ public class PutInShooterWhenOI extends CommandBase {
   /**
    * Creates a new ShootOI.
    */
-  public PutInShooterWhenOI() {
+  BooleanSupplier areSystemsReady;
+
+  public PutInShooterWhenOI(BooleanSupplier systemsReadySupplier) {
     addRequirements(Robot.m_transporter);
+    areSystemsReady = systemsReadySupplier;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,7 +33,7 @@ public class PutInShooterWhenOI extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (OI.armJoystick.getRawButton(OI.shootButtonPort)){
+    if (OI.armJoystick.getRawButton(OI.shootButtonPort) && areSystemsReady.getAsBoolean()){
       Robot.m_transporter.setMotorSpeed(-0.4);
     }
     else {
