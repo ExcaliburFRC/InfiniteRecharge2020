@@ -108,6 +108,6 @@ public class Shooter extends SubsystemBase {
   }
 
   private double getFeedForward(){
-    return Math.cos(anglePotentiometer.get()) * RobotConstants.ShooterConstants.ABSOLUTE_FEEDFORWARD;
+    return Math.cos(Math.toRadians(anglePotentiometer.get())) * RobotConstants.ShooterConstants.ABSOLUTE_FEEDFORWARD;
   }
 }

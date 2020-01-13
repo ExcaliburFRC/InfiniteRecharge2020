@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RobotMap;
 import frc.robot.OI;
+import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DriveConstants;
 
 
@@ -52,10 +53,10 @@ public class Chassi extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
-    rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_P[0], RobotMap.RIGHT_ENCODER_P[1]);
+    rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_P[0], RobotMap.RIGHT_ENCODER_P[1], RobotConstants.DriveConstants.isRightEncoderReversed);
     rightEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
 
-    leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_P[0], RobotMap.LEFT_ENCODER_P[1]);
+    leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_P[0], RobotMap.LEFT_ENCODER_P[1], RobotConstants.DriveConstants.isRightEncoderReversed);
     leftEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
 
     resetEncoders();
@@ -135,6 +136,11 @@ public class Chassi extends SubsystemBase {
 
   public double getTurnRate() {
     return gyro.getRate();
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotor.setVoltage(leftVolts);
+    rightMotor.setVoltage(-rightVolts);
   }
 
   @Override
