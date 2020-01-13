@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.RobotConstants.Shooter;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Utils.LEDMode;
 import frc.robot.subsystems.Chassi;

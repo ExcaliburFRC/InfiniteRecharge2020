@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
@@ -146,6 +147,6 @@ public class Limelight extends SubsystemBase {
     }
 
     public double getDistance(){
-        return getTy()*0.8; //TODO needs to be tuned
+        return CalculateVisionValues.calculateDistance(getTy());
     }
 }

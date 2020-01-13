@@ -13,7 +13,7 @@ import frc.robot.RobotMap;
 import frc.robot.Utils.LEDMode;
 
 public class LEDs extends SubsystemBase {
-  Spark ledPWM;
+  private Spark ledPWM;
 
   public LEDs() {
     ledPWM = new Spark(RobotMap.LED_PWM_PORT);

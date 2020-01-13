@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotConstants;
+import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
 
     angleMotor = new VictorSPX(RobotMap.SHOOTER_ANGLER_MOTOR);
-    anglePotentiometer = new AnalogPotentiometer(RobotMap.ANGLE_POTENTIOMETER, RobotConstants.Shooter.POTENTIOMETER_FULL_RANGE, -RobotConstants.Shooter.ZERO_ANGLE);
+    anglePotentiometer = new AnalogPotentiometer(RobotMap.ANGLE_POTENTIOMETER, ShooterConstants.POTENTIOMETER_FULL_RANGE, -ShooterConstants.ZERO_ANGLE);
 
     isSpeedPersuit = false;
     isAnglePersuit = false;
@@ -74,6 +74,17 @@ public class Shooter extends SubsystemBase {
 
   public double getShooterMotor2Speed(){
     return shooterMotor2.getSelectedSensorVelocity();
+  }
+
+  public boolean isOnSpeed(){
+    boolean motor1 = Math.abs(speedSetpoint - shooterMotor1.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor2 = Math.abs(speedSetpoint - shooterMotor2.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    return motor1 && motor2;
+  }
+
+  public boolean isOnAngle(){
+    boolean angleError = Math.abs(angleSetpoint - angleMotor.getSelectedSensorPosition()) < ShooterConstants.ANGLE_TOLERANCE;
+    return angleError;
   }
 
   @Override

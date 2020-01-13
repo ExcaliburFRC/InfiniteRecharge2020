@@ -27,7 +27,7 @@ public class RobotMap{
     public static final int OUT_ECHO_PORT = 4;
 
     // Climber ports
-    public static int CLIMBER_LIFTER_MOTOR_PORT;
-    public static int ROBOT_LIFTER_MOTOR_PORT1;
-    public static int ROBOT_LIFTER_MOTOR_PORT2;   
+    public static int CLIMBER_LIFTER_MOTOR_PORT = -1;
+    public static int ROBOT_LIFTER_MOTOR_PORT1 = -1;
+    public static int ROBOT_LIFTER_MOTOR_PORT2 = -1;   
 }

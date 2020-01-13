@@ -8,42 +8,44 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.*;
+
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.OI;
-import frc.robot.RobotConstants;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import frc.robot.RobotConstants.DriveConstants;
 
-import com.kauailabs.navx.frc.AHRS;
 
 public class Chassi extends SubsystemBase {
   //4 spark max + neo
-  CANSparkMax LBM,LFM,RBM,RFM;
-  SpeedControllerGroup leftMotor, rightMotor;
-  DifferentialDrive differentialDrive;
+  private CANSparkMax LBM,LFM,RBM,RFM;
+  private SpeedControllerGroup leftMotor, rightMotor;
+  private DifferentialDrive differentialDrive;
   //2 encoders (PWM)
-  Encoder rightEncoder, leftEncoder;
+  private Encoder rightEncoder, leftEncoder;
   //AHRS gyro
-  AHRS gyro;
+  private AHRS gyro;
   //Compressor
 
   DifferentialDriveOdometry driveOdometry;
 
   public Chassi() {
-    LBM = new CANSparkMax(RobotMap.LEFT_BACK_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
-    LFM = new CANSparkMax(RobotMap.LEFT_FRONT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
-    RBM = new CANSparkMax(RobotMap.RIGHT_BACK_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
-    RFM = new CANSparkMax(RobotMap.RIGHT_FRONT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
+    LBM = new CANSparkMax(RobotMap.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
+    LFM = new CANSparkMax(RobotMap.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
+    RBM = new CANSparkMax(RobotMap.RIGHT_BACK_MOTOR_PORT, MotorType.kBrushless);
+    RFM = new CANSparkMax(RobotMap.RIGHT_FRONT_MOTOR_PORT, MotorType.kBrushless);
 
     leftMotor = new SpeedControllerGroup(LBM, LFM);
     rightMotor = new SpeedControllerGroup(RBM, RFM);
@@ -51,10 +53,10 @@ public class Chassi extends SubsystemBase {
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
     rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_P[0], RobotMap.RIGHT_ENCODER_P[1]);
-    rightEncoder.setDistancePerPulse(RobotConstants.Drive.ENCODER_DISTANCE_PER_PULSE);
+    rightEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
 
     leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_P[0], RobotMap.LEFT_ENCODER_P[1]);
-    leftEncoder.setDistancePerPulse(RobotConstants.Drive.ENCODER_DISTANCE_PER_PULSE);
+    leftEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
 
     resetEncoders();
 
@@ -70,11 +72,11 @@ public class Chassi extends SubsystemBase {
   }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean quickTurn){
-    this.differentialDrive.curvatureDrive(xSpeed, zRotation * RobotConstants.Drive.MANUAL_TURN_MAX, quickTurn);
+    this.differentialDrive.curvatureDrive(xSpeed, zRotation * DriveConstants.MANUAL_TURN_MAX, quickTurn);
   }
 
   public void arcadeDrive(double xSpeed, double zRotation){
-    this.differentialDrive.arcadeDrive(xSpeed, zRotation * RobotConstants.Drive.MANUAL_TURN_MAX);
+    this.differentialDrive.arcadeDrive(xSpeed, zRotation * DriveConstants.MANUAL_TURN_MAX);
   }
 
   public void tankDrive(double lSpeed, double rSpeed){
