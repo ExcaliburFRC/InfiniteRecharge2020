@@ -29,5 +29,9 @@ public class FollowerCommandGenerator{
         return ramseteCommand.andThen(()->Robot.m_chassi.tankDrive(0, 0));
     }
 
+    public static Command getRamseteCommandFromTrajectory(Path p){
+        return getRamseteCommandFromTrajectory(p.getTrajectory());
+    }
+
     private FollowerCommandGenerator(){}
 }
