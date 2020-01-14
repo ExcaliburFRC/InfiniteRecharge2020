@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
-public class FollowerCommandGenorator{
+public class FollowerCommandGenerator{
     public static Command getRamseteCommandFromTrajectory(Trajectory trajectory){
         RamseteCommand ramseteCommand = new RamseteCommand(
             trajectory,
@@ -28,4 +28,6 @@ public class FollowerCommandGenorator{
         );
         return ramseteCommand.andThen(()->Robot.m_chassi.tankDrive(0, 0));
     }
+
+    private FollowerCommandGenerator(){}
 }

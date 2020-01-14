@@ -25,6 +25,4 @@ public class Path{
     public Trajectory getTrajectory(){
         return TrajectoryGenerator.generateTrajectory(Arrays.asList(poses), config);
     }
-
-
 }
