@@ -21,6 +21,7 @@ public class RobotConstants{
         public static final double TURN_AFF = 0.2825; //TODO : tune
         public static final double VISION_TURN_MAX = 0.85;// TODO : tune
         public static final double TX_TOLERANCE = 0.5; // TODO : tune
+        public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.5; //TODO: messure
     }
     
     public static class ShooterConstants{

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.ImageProccessingConstants;
+import frc.robot.Utils.CalculateVisionValues;
 import frc.robot.Utils.RobotUtils;
 
 public class PursuitTX extends CommandBase {
@@ -18,6 +19,7 @@ public class PursuitTX extends CommandBase {
    * Creates a new PersuitTX.
    */
   double error;
+  double TX;
   public PursuitTX() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,7 +32,8 @@ public class PursuitTX extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    error = (Robot.m_limelight.getTx()-0.2) * ImageProccessingConstants.TURN_KP;
+    TX = CalculateVisionValues.getShooterTX(Robot.m_limelight.getTx(), Robot.m_limelight.getTy());
+    error = (TX) * ImageProccessingConstants.TURN_KP;
     error += error > 0 ? ImageProccessingConstants.TURN_AFF : -ImageProccessingConstants.TURN_AFF; 
     error = RobotUtils.clip(error,0.75);
 
@@ -51,6 +54,6 @@ public class PursuitTX extends CommandBase {
   }
 
   public boolean isReady(){
-    return (Math.abs(Robot.m_limelight.getTx()) < RobotConstants.ImageProccessingConstants.TX_TOLERANCE);
+    return ((TX) < RobotConstants.ImageProccessingConstants.TX_TOLERANCE);
   }
 }
