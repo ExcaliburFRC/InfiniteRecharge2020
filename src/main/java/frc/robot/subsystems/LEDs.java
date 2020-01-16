@@ -28,7 +28,7 @@ public class LEDs extends SubsystemBase {
   }
 
   public enum LEDMode{
-    BLUE(0), RED(1), GREEN(2), YELLOW(3), RAINBOW(4);
+    BLUE(0.87), RED(0.61), GREEN(0.73), YELLOW(0.67), RAINBOW(-0.97), OFF(0.99);
 
     public final double value;
     private LEDMode(double value){
