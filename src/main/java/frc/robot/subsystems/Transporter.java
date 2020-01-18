@@ -8,16 +8,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.RobotConstants.TransporterConstants;
 import frc.robot.TransporterCommands.TransporterDrive;
 import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
   private Spark motor;
-  private Ultrasonic shooterSensor, collectorSensor;
+  private BallDetector shooterSensor, collectorSensor;
   private int ballAmount = 0;
 
   /**
@@ -26,25 +24,18 @@ public class Transporter extends SubsystemBase {
   public Transporter() {
     super();
     motor = new Spark(RobotMap.MOTOR_PORT);
-    collectorSensor = new Ultrasonic(RobotMap.IN_PING_PORT, RobotMap.IN_ECHO_PORT);
-    shooterSensor = new Ultrasonic(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
+    collectorSensor = new UltrasonicBallDetector(RobotMap.IN_PING_PORT, RobotMap.IN_ECHO_PORT);
+    shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
 
     setDefaultCommand(new TransporterDrive());
   }
 
-  public double getCollectorDistance(){
-    return collectorSensor.getRangeMM() / 10;
-  }
-
-  public double getShooterDistance(){
-    return shooterSensor.getRangeMM() / 10;
+  public boolean isBallInShooter(){
+    return shooterSensor.isBallDetected();
   }
 
   public boolean isBallInCollector(){
-    return (getCollectorDistance() < TransporterConstants.BALL_DETECTION_TOLERANCE);
-  }
-  public boolean isBallInShooter(){
-    return (getShooterDistance() < TransporterConstants.BALL_DETECTION_TOLERANCE);
+    return collectorSensor.isBallDetected();
   }
   
   public void setMotorSpeed(double speed){
