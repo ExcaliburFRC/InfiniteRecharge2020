@@ -27,13 +27,7 @@ public class TransporterDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    speed = 0;
-    if(OI.armJoystick.getPOV() == 90){
-      speed = -0.4;
-    }else if(OI.armJoystick.getPOV() == 270){
-      speed = 0.4;
-    }
-    Robot.m_transporter.setMotorSpeed(speed);
+
   }
 
   // Called once the command ends or is interrupted.

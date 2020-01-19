@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -15,27 +16,35 @@ import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
   private Spark motor;
-  private BallDetector shooterSensor, collectorSensor;
+  private BallDetector shooterSensor, entranceSensor, lowerSensor;
   private int ballAmount = 0;
+  private boolean isReady;
+  private Encoder timingEncoder;
+
 
   /**
    * Creates a new Transporter.
    */
   public Transporter() {
-    super();
     motor = new Spark(RobotMap.MOTOR_PORT);
-    collectorSensor = new UltrasonicBallDetector(RobotMap.IN_PING_PORT, RobotMap.IN_ECHO_PORT);
+    entranceSensor = new MicroswitchBallDetector(RobotMap.ENTRANCE_SENSOR_PORT);
+    lowerSensor = new UltrasonicBallDetector(RobotMap.IN_PING_PORT, RobotMap.IN_ECHO_PORT);
     shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
-
+    timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORT1,RobotMap.TIMING_ENCODER_PORT2);
+    isReady = false;
     setDefaultCommand(new TransporterDrive());
   }
 
-  public boolean isBallInShooter(){
+  public boolean isBallInUpper(){
     return shooterSensor.isBallDetected();
   }
 
-  public boolean isBallInCollector(){
-    return collectorSensor.isBallDetected();
+  public boolean isBallInLower(){
+    return lowerSensor.isBallDetected();
+  }
+
+  public boolean isBallInEnterence(){
+    return entranceSensor.isBallDetected();
   }
   
   public void setMotorSpeed(double speed){
@@ -49,18 +58,36 @@ public class Transporter extends SubsystemBase {
     return ballAmount;
   }
 
+  public boolean getIsReady(){
+    return isReady;
+  }
+
+  public void setIsReady(boolean isReady){
+   this.isReady = isReady; 
+  }
+
+  public void resetEncoder(){
+    timingEncoder.reset();
+  }
+
+  public double getEncoderValue(){
+    return timingEncoder.get();
+  }
+  
+
+
   private boolean lastInStatus = false, lastOutStatus = false;
   @Override
   public void periodic() {
-    if (!lastInStatus && isBallInCollector()){ // check if status has changed and there is a ball in the collector
+    if (!lastInStatus && isBallInLower()){ // check if status has changed and there is a ball in the collector
         ballAmount++;
     } 
-    if (!lastOutStatus && isBallInShooter()){ // check if status has changed and there is a ball in the shooter
+    if (!lastOutStatus && isBallInUpper()){ // check if status has changed and there is a ball in the shooter
       ballAmount--;
     }
 
-    lastInStatus = isBallInCollector();
-    lastOutStatus = isBallInShooter();
+    lastInStatus = isBallInLower();
+    lastOutStatus = isBallInUpper();
 
     if(getBallAmount() < 0 || getBallAmount() > 5){// Something is terribly wrong...
       System.err.println("Something is terribly wrong here, there are " + ballAmount + " balls in the system.");
