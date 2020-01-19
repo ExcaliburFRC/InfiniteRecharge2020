@@ -51,9 +51,6 @@ public class Transporter extends SubsystemBase {
     motor.set(RobotUtils.clip(speed, 1));
   }
 
-  /**
-   * @return the ballAmount
-   */
   public int getBallAmount() {
     return ballAmount;
   }
@@ -79,10 +76,10 @@ public class Transporter extends SubsystemBase {
   private boolean lastInStatus = false, lastOutStatus = false;
   @Override
   public void periodic() {
-    if (!lastInStatus && isBallInLower()){ // check if status has changed and there is a ball in the collector
+    if (!lastInStatus && isBallInLower()){ // check if status has changed and there is a ball in the lower
         ballAmount++;
     } 
-    if (!lastOutStatus && isBallInUpper()){ // check if status has changed and there is a ball in the shooter
+    if (!lastOutStatus && isBallInUpper()){ // check if status has changed and there is a ball in the upper
       ballAmount--;
     }
 
