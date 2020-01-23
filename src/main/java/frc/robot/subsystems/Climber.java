@@ -11,11 +11,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
-
+  private Encoder heightEncoder;
   private TalonSRX climberLifterMotor;
   private VictorSPX robotLifterMotor1, robotLifterMotor2;
 
@@ -25,6 +26,7 @@ public class Climber extends SubsystemBase {
    * Creates a new Climber.
    */
   public Climber() {
+    heightEncoder = new Encoder(RobotMap.HEIGHT_ENCODER_PORT1,RobotMap.HEIGHT_ENCODER_PORT2);
     climberLifterMotor = new TalonSRX(RobotMap.CLIMBER_LIFTER_MOTOR_PORT);
     robotLifterMotor1 = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT1);
     robotLifterMotor2 = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT2);
@@ -34,13 +36,23 @@ public class Climber extends SubsystemBase {
     climberLifterMotor.set(ControlMode.Position, height);
   }
 
+  public void setAbsHeightMotorSpeed(double speed){
+    climberLifterMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public int getHeightEncoderValue(){
+    return heightEncoder.get();
+  }
+  public void resetHeightEncoder(){
+    heightEncoder.reset();
+  }
   public void setRobotClimbersPower(double power){
     hasClimbed = true;
     robotLifterMotor1.set(ControlMode.PercentOutput, power);
     robotLifterMotor2.set(ControlMode.PercentOutput, -power);
   }
 
-  public boolean getHasClimed(){
+  public boolean getHasClimbed(){
     return hasClimbed;
   }
 

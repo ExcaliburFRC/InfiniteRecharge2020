@@ -16,6 +16,16 @@ public class RobotConstants{
         public static final boolean isLeftEncoderReversed = false;
     }
 
+    public static class ClimbConstants{
+        public static final double DISTANCE_PER_TICKS = 100;
+        public static final double MAX_HEIGHT = 50000;
+        public static final double KP = 0.04; //TODO : tune
+        public static final double KI = 0;
+        public static final double KD = 0;
+        public static final double TOLERANCE = 10;
+        public static final double AFF = 0;
+    }
+
     public static class ImageProccessingConstants{
         public static final double TURN_KP = 0.0375; //TODO : tune
         public static final double TURN_AFF = 0.2825; //TODO : tune
