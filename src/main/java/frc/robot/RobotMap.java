@@ -20,7 +20,8 @@ public class RobotMap{
     public static final int ANGLE_POTENTIOMETER = 4;
     
     //Transporter
-    public static final int MOTOR_PORT = 0;
+    public static final int TOWER_MOTOR_PORT = 0;
+    public static final int LOADING_MOTOR_PORT = 0;
     public static final int IN_PING_PORT = 1;
     public static final int IN_ECHO_PORT = 2;
     public static final int OUT_PING_PORT = 3;

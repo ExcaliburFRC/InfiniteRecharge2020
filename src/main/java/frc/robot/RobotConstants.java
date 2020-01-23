@@ -39,6 +39,8 @@ public class RobotConstants{
 
     public static class TransporterConstants{
         public static final double BALL_DETECTION_TOLERANCE = 5.0; //TODO: tune
+        public static final double TRANSPORT_STEP = 500; //TODO: tune
+        public static final double TRANSPORT_TOLERANCE = 10; //TODO: tune
     }
 
     public static class MotionProfilingConstants{
