@@ -25,12 +25,16 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
+        public static final double SPEED_TOLERANCE = 500.0;//TODO : tune
+        public static final double CONSTANT_SHOOT_SPEED = 10000;//TODO : decide
+        
+        public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
         public static final double POTENTIOMETER_FULL_RANGE = 270.0; //TODO: tune
         public static final double ZERO_ANGLE = 20.0;//TODO : tune
-        public static final double SPEED_TOLERANCE = 500.0;//TODO : tune
-        public static final double ANGLE_TOLERANCE = 1.5;//TODO : tune
-		public static final double CONSTANT_SHOOT_SPEED = 10000;//TODO : decide
-        public static final double ABSOLUTE_FEEDFORWARD = 0.1;//TODO : tune
+        public static final double ANGLE_TOLERANCE = 0.5;//TODO : tune
+        public static final double ANGLE_KP = 0.007; //TODO : tune
+        public static final double ANGLE_KI = 0; //TODO : tune
+        public static final double ANGLE_KD = 0; //TODO : tune
     }
 
     public static class TransporterConstants{

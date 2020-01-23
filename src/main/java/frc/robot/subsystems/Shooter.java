@@ -8,13 +8,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
-import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
@@ -22,6 +21,7 @@ public class Shooter extends SubsystemBase {
   VictorSPX shooterMotor1, shooterMotor2;
   VictorSPX angleMotor;
   AnalogPotentiometer anglePotentiometer;
+  PIDController angleController;
 
   boolean isSpeedPersuit, isAnglePersuit;
   double speedSetpoint, angleSetpoint;
@@ -36,6 +36,9 @@ public class Shooter extends SubsystemBase {
 
     isSpeedPersuit = false;
     isAnglePersuit = false;
+    
+    angleController = new PIDController(ShooterConstants.ANGLE_KP, ShooterConstants.ANGLE_KI, ShooterConstants.ANGLE_KD);
+    angleController.setTolerance(ShooterConstants.ANGLE_TOLERANCE);
 
     speedSetpoint = 0;
     angleSetpoint = 0;
@@ -43,6 +46,7 @@ public class Shooter extends SubsystemBase {
 
   public void setAngleSetpoint(double setpoint){
     this.angleSetpoint = setpoint;
+    angleController.setSetpoint(setpoint);
   }
 
   public void setIsAnglePersuit(boolean isAnglePersuit){
@@ -100,14 +104,13 @@ public class Shooter extends SubsystemBase {
     }
     
     if (isAnglePersuit){
-      angleMotor.setSelectedSensorPosition((int) getAngle());
-      angleMotor.set(ControlMode.Position, angleSetpoint, DemandType.ArbitraryFeedForward, getFeedForward());
+      angleMotor.set(ControlMode.PercentOutput, angleController.calculate(getAngle(), angleSetpoint) + getFeedForward());
     } else {
       angleMotor.set(ControlMode.PercentOutput, 0);
     }
   }
 
   private double getFeedForward(){
-    return Math.cos(Math.toRadians(anglePotentiometer.get())) * RobotConstants.ShooterConstants.ABSOLUTE_FEEDFORWARD;
+    return Math.cos(Math.toRadians(anglePotentiometer.get())) * ShooterConstants.ABSOLUTE_FEEDFORWARD;
   }
 }
