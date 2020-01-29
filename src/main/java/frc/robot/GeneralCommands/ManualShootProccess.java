@@ -18,6 +18,7 @@ import frc.robot.TransporterCommands.PutInShooterWhenOI;
 import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.ChassiCommands.PursuitTX;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LEDs.LEDMode;
 
 public class ManualShootProccess extends CommandBase {
@@ -30,13 +31,15 @@ public class ManualShootProccess extends CommandBase {
   KeepTarget setupBlock;
 
   public ManualShootProccess() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.m_leds);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.m_limelight.setLifterState(true);
+    Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
+
     DoubleSupplier angleSupplier = () -> CalculateVisionValues.getAngleWhenSetSpeed(Robot.m_limelight.getDistance());
     DoubleSupplier speedSupplier = () -> ShooterConstants.CONSTANT_SHOOT_SPEED;
 
@@ -62,6 +65,8 @@ public class ManualShootProccess extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shootGroup.cancel(); // cancels the commandGroup
+    Robot.m_limelight.setLifterState(false);
+    Robot.m_limelight.setCamMode(Limelight.CamModes.DRIVING);
   }
 
   // Returns true when the command should end.
