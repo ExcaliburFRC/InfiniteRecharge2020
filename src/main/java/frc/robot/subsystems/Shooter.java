@@ -8,9 +8,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -20,8 +22,9 @@ import frc.robot.Utils.RobotUtils;
 public class Shooter extends SubsystemBase {
   VictorSPX shooterMotor1, shooterMotor2;
   VictorSPX angleMotor;
-  AnalogPotentiometer anglePotentiometer;
   PIDController angleController;
+  Encoder angleEncoder;
+  DigitalInput zeroAngle;
 
   boolean isSpeedPersuit, isAnglePersuit;
   double speedSetpoint, angleSetpoint;
@@ -32,10 +35,12 @@ public class Shooter extends SubsystemBase {
     shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
 
     angleMotor = new VictorSPX(RobotMap.SHOOTER_ANGLER_MOTOR);
-    anglePotentiometer = new AnalogPotentiometer(RobotMap.ANGLE_POTENTIOMETER, ShooterConstants.POTENTIOMETER_FULL_RANGE, -ShooterConstants.ZERO_ANGLE);
+    angleEncoder = new Encoder(RobotMap.ANGLE_ENCODER_PORTS[0], RobotMap.ANGLE_ENCODER_PORTS[1]);
+    angleEncoder.setDistancePerPulse(ShooterConstants.TICKS_TO_ANGLES);
 
     isSpeedPersuit = false;
     isAnglePersuit = false;
+    
     
     angleController = new PIDController(ShooterConstants.ANGLE_KP, ShooterConstants.ANGLE_KI, ShooterConstants.ANGLE_KD);
     angleController.setTolerance(ShooterConstants.ANGLE_TOLERANCE);
@@ -71,7 +76,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getAngle(){
-    return anglePotentiometer.get();
+    return angleEncoder.getDistance(); 
   }
 
   public double getShooterMotor1Speed(){
@@ -89,15 +94,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean isOnAngle(){
-    boolean angleError = Math.abs(angleSetpoint - angleMotor.getSelectedSensorPosition()) < ShooterConstants.ANGLE_TOLERANCE;
+    boolean angleError = Math.abs(angleSetpoint - angleEncoder.getDistance()) < ShooterConstants.ANGLE_TOLERANCE;
     return angleError;
   }
 
   @Override
   public void periodic() {
     if (isSpeedPersuit){
-      shooterMotor1.set(ControlMode.Velocity, speedSetpoint);
-      shooterMotor2.set(ControlMode.Velocity, speedSetpoint);
+      shooterMotor1.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.RIGHT_KV);
+      shooterMotor2.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.LEFT_KV);
     } else {
       shooterMotor1.set(ControlMode.PercentOutput, 0);
       shooterMotor2.set(ControlMode.PercentOutput, 0);
@@ -108,9 +113,13 @@ public class Shooter extends SubsystemBase {
     } else {
       angleMotor.set(ControlMode.PercentOutput, 0);
     }
+
+    if (zeroAngle.get()){
+      angleEncoder.reset();
+    }
   }
 
   private double getFeedForward(){
-    return Math.cos(Math.toRadians(anglePotentiometer.get())) * ShooterConstants.ABSOLUTE_FEEDFORWARD;
+    return Math.cos(Math.toRadians(angleEncoder.getDistance())) * ShooterConstants.ABSOLUTE_FEEDFORWARD;
   }
 }
