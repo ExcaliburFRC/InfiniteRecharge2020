@@ -14,6 +14,11 @@ public class RobotConstants{
 
         public static final boolean isRightEncoderReversed = false;
         public static final boolean isLeftEncoderReversed = false;
+
+        //These values are tuned for large rotations
+        public static final double TURN_KP = 0.0375; //TODO : tune
+        public static final double TURN_AFF = 0.2825; //TODO : tune
+        public static final double ANGLE_TOLERACE = 0.75; //TODO : tune
     }
 
     public static class ClimbConstants{
@@ -27,20 +32,23 @@ public class RobotConstants{
     }
 
     public static class ImageProccessingConstants{
+        //These values are tuned for small, precise rotations
         public static final double TURN_KP = 0.0375; //TODO : tune
         public static final double TURN_AFF = 0.2825; //TODO : tune
         public static final double VISION_TURN_MAX = 0.85;// TODO : tune
-        public static final double TX_TOLERANCE = 0.5; // TODO : tune
+        public static final double TX_TOLERANCE = 0.2; // TODO : tune
+
         public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.5; //TODO: messure
     }
     
     public static class ShooterConstants{
         public static final double SPEED_TOLERANCE = 500.0;//TODO : tune
         public static final double CONSTANT_SHOOT_SPEED = 10000;//TODO : decide
+        public static final double RIGHT_KV = 12.0/40000.0;//TODO : tune
+        public static final double LEFT_KV = 12.0/40000.0;//TODO : tune
         
         public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
-        public static final double POTENTIOMETER_FULL_RANGE = 270.0; //TODO: tune
-        public static final double ZERO_ANGLE = 20.0;//TODO : tune
+        public static final double TICKS_TO_ANGLES = 300;//TODO : tune
         public static final double ANGLE_TOLERANCE = 0.5;//TODO : tune
         public static final double ANGLE_KP = 0.007; //TODO : tune
         public static final double ANGLE_KI = 0; //TODO : tune
