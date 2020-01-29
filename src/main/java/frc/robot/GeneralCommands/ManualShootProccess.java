@@ -12,7 +12,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.ShooterCommands.KeepTarget;
 import frc.robot.TransporterCommands.PutInShooterWhenOI;
 import frc.robot.Utils.CalculateVisionValues;
@@ -40,8 +39,9 @@ public class ManualShootProccess extends CommandBase {
     Robot.m_limelight.setLifterState(true);
     Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
 
-    DoubleSupplier angleSupplier = () -> CalculateVisionValues.getAngleWhenSetSpeed(Robot.m_limelight.getDistance());
-    DoubleSupplier speedSupplier = () -> ShooterConstants.CONSTANT_SHOOT_SPEED;
+    DoubleSupplier shooterDistance = () -> CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getTy());
+    DoubleSupplier angleSupplier = () -> CalculateVisionValues.getOptimalShooterAngle(shooterDistance.getAsDouble());
+    DoubleSupplier speedSupplier = () -> CalculateVisionValues.getOptimalShooterSpeed(shooterDistance.getAsDouble());
 
     txPursuit = new PursuitTX();
     setupBlock = new KeepTarget(angleSupplier, speedSupplier);

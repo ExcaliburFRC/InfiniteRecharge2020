@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -149,10 +148,6 @@ public class Limelight extends SubsystemBase {
     public double getPipeline(){
         this.pipeline = this.getVar("pipeline");
         return pipeline;
-    }
-
-    public double getDistance(){
-        return CalculateVisionValues.calculateDistance(getTy());
     }
 
     public void setLifterState(boolean on){
