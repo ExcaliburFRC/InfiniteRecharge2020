@@ -3,7 +3,11 @@ package frc.robot.Utils;
 import frc.robot.RobotConstants;
 
 public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
-    public static double calculateDistance(double ty){
+    public static double calculateDistanceFeeder(double ta){
+        return ta*1; //TODO needs to be tuned
+    }
+
+    public static double calculateDistanceShooter(double ty){
         return ty*1; //TODO needs to be tuned
     }
 
@@ -25,7 +29,7 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
         @returns the x^2 value for offset calculations
     */
     public static double getX2Value(double tx, double ty){
-        double d = calculateDistance(ty);
+        double d = calculateDistanceShooter(ty);
         double z = RobotConstants.ImageProccessingConstants.CAMERA_OFFSET_FROM_SHOOTER;
         return Math.pow(d,2) + Math.pow(z,2) - 2 * d * z * Math.sin(Math.toRadians(tx));
     }
@@ -37,7 +41,7 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
     */
     public static double getShooterTX(double cameraTx, double cameraTy){
         double x2 = getX2Value(cameraTx, cameraTy);
-        double d = calculateDistance(cameraTy);
+        double d = calculateDistanceShooter(cameraTy);
         double z = RobotConstants.ImageProccessingConstants.CAMERA_OFFSET_FROM_SHOOTER;
 
         double inCosine = (-Math.pow(d,2) + x2 + Math.pow(z,2)) / (2 * Math.sqrt(x2) * z);

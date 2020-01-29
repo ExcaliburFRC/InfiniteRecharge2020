@@ -12,10 +12,9 @@ import frc.robot.subsystems.Chassi;
 import frc.robot.subsystems.Limelight;
 import frc.robot.Robot;
 import frc.robot.RobotConstants.ImageProccessingConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utils.*;
 
-public class VisionPersuit extends CommandBase {
+public class FeederPersuit extends CommandBase {
   Chassi c = Robot.m_chassi;
   Limelight l = Robot.m_limelight;
 
@@ -25,50 +24,38 @@ public class VisionPersuit extends CommandBase {
   double lastTime;
 
   boolean ended;
-  double endTimes;
 
-  public VisionPersuit() {
+  public FeederPersuit() {
     addRequirements(c);
-
-    endTimes = 750;
-    lastTime = 0;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    lastTime = System.currentTimeMillis();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    error = (l.getTx()-0.2) * ImageProccessingConstants.TURN_KP;
+    error = l.getTx() * ImageProccessingConstants.TURN_KP;
     error += error > 0 ? ImageProccessingConstants.TURN_AFF : -ImageProccessingConstants.TURN_AFF; 
-    SmartDashboard.putNumber("Error", System.currentTimeMillis());
     error = RobotUtils.clip(error,0.65);
 
     if (l.getTv() == 1) {
       lastTime = System.currentTimeMillis();
     }
 
-    if (l.getTv() == 1 || System.currentTimeMillis() - lastTime <= endTimes){
-      forward = -0.625;
-    } else {
-      forward = 0;
-    }
+    forward = CalculateVisionValues.calculateDistanceFeeder(Robot.m_limelight.getTa()) * ImageProccessingConstants.FORWARD_KP + ImageProccessingConstants.FORWARD_AFF;
 
     c.arcadeDrive(forward, error);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     c.arcadeDrive(0, 0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() - lastTime > endTimes);
+    return (System.currentTimeMillis() - lastTime > 500);
   }
 }

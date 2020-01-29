@@ -39,6 +39,9 @@ public class RobotConstants{
         public static final double TX_TOLERANCE = 0.2; // TODO : tune
 
         public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.5; //TODO: messure
+
+        public static final double FORWARD_KP = 0.2;
+        public static final double FORWARD_AFF = 0.2;
     }
     
     public static class ShooterConstants{
