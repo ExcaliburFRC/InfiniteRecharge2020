@@ -89,9 +89,5 @@ public class Transporter extends SubsystemBase {
 
     lastInStatus = isBallUnderOmni();
     lastOutStatus = isBallInShooter();
-
-    if(getBallAmount() < 0 || getBallAmount() > 5){// Something is terribly wrong...
-      System.err.println("Something is terribly wrong here, there are " + ballAmount + " balls in the system.");
-    }
   }
 }
