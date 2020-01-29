@@ -14,6 +14,7 @@ import frc.robot.Utils.RobotUtils;
 
 public class RotateAngle extends CommandBase {
   double angleSetpoint, angleChange, error, turnPower; //angleChange is the change in angle needed for every run
+
   public RotateAngle(double angleRotation) {
     angleChange = angleRotation;
     addRequirements(Robot.m_chassi);
@@ -28,9 +29,9 @@ public class RotateAngle extends CommandBase {
   public void execute() {
     error = angleSetpoint - Robot.m_chassi.getGyroAngle();
     turnPower = error * DriveConstants.TURN_KP;
-    error += error > 0 ? DriveConstants.TURN_AFF : -DriveConstants.TURN_AFF; 
-    error = RobotUtils.clip(error,0.8);
-    Robot.m_chassi.arcadeDrive(0, error);
+    turnPower += error > 0 ? DriveConstants.TURN_AFF : -DriveConstants.TURN_AFF; 
+    turnPower = RobotUtils.clip(error,0.8);
+    Robot.m_chassi.arcadeDrive(0, turnPower);
   }
 
   @Override
