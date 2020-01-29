@@ -32,11 +32,13 @@ public class FeederPersuit extends CommandBase {
   @Override
   public void initialize() {
     lastTime = System.currentTimeMillis();
+    Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
+    Robot.m_limelight.setLifterState(false);
   }
 
   @Override
   public void execute() {
-    error = l.getTx() * ImageProccessingConstants.TURN_KP;
+    error = CalculateVisionValues.getShooterTX(Robot.m_limelight.getTx(), Robot.m_limelight.getTy()) * ImageProccessingConstants.TURN_KP;
     error += error > 0 ? ImageProccessingConstants.TURN_AFF : -ImageProccessingConstants.TURN_AFF; 
     error = RobotUtils.clip(error,0.65);
 
@@ -52,6 +54,8 @@ public class FeederPersuit extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     c.arcadeDrive(0, 0);
+    Robot.m_limelight.setCamMode(Limelight.CamModes.DRIVING);
+    Robot.m_limelight.setLifterState(false);
   }
 
   @Override
