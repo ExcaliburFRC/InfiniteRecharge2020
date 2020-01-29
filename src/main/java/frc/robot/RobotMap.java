@@ -39,4 +39,7 @@ public class RobotMap{
     public static int ROBOT_LIFTER_MOTOR_PORT2 = -1;
     public static int HEIGHT_ENCODER_PORT1 = -1;
     public static int HEIGHT_ENCODER_PORT2 = -1;   
+
+    //Limelight
+    public static int[] LIMELIGHT_SOLENOID_PORTS = {2, 3};
 }
