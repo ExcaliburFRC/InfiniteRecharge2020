@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.LEDs.LEDMode;
 import frc.robot.Pathfinding.FollowerCommandGenerator;
 import frc.robot.Pathfinding.TestingPaths;
 import frc.robot.subsystems.Chassi;
@@ -44,7 +43,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_leds.setMode(LEDMode.GREEN);
     FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
   }
 
@@ -55,8 +53,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_leds.setMode(LEDMode.BLUE);
-
     CommandScheduler.getInstance().cancelAll();
     m_chassi.tankDrive(0, 0);
   }
