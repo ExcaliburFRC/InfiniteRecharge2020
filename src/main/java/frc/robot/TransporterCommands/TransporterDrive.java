@@ -58,6 +58,8 @@ public class TransporterDrive extends CommandBase {
   private void putInOmni(){
     if (Robot.m_transporter.isBallInEntrance()){
       Robot.m_transporter.setLoadingMotorSpeed(0.3);
+    } else {
+      Robot.m_transporter.setLoadingMotorSpeed(0);
     }
   }
 
