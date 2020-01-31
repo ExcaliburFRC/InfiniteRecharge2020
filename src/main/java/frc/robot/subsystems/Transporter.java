@@ -20,10 +20,8 @@ public class Transporter extends SubsystemBase {
   private int ballAmount = 0;
   private boolean isReady;
   private Encoder timingEncoder;
+  private boolean isAutoShoot;
 
-  /**
-   * Creates a new Transporter.
-   */
   public Transporter() {
     towerMotor = new Spark(RobotMap.TOWER_MOTOR_PORT);
     loadingMotor = new Spark(RobotMap.LOADING_MOTOR_PORT);
@@ -32,6 +30,7 @@ public class Transporter extends SubsystemBase {
     shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
     timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORT1,RobotMap.TIMING_ENCODER_PORT2);
     isReady = false;
+    isAutoShoot = false;
     setDefaultCommand(new TransporterDrive());
   }
 
@@ -75,7 +74,17 @@ public class Transporter extends SubsystemBase {
     return timingEncoder.get();
   }
   
+  public boolean isSystemEmpty(){
+    return (getBallAmount() <= 0 && !isBallInEntrance() && !isBallInShooter() && !isBallUnderOmni());
+  }
+  
+  public void setAutoShoot(boolean isAuto){
+    isAutoShoot = isAuto;
+  }
 
+  public boolean isAutoShoot(){
+    return isAutoShoot;
+  }
 
   private boolean lastInStatus = false, lastOutStatus = false;
   @Override

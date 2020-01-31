@@ -20,7 +20,7 @@ import frc.robot.ChassiCommands.PursuitTX;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LEDs.LEDMode;
 
-public class ManualShootProccess extends CommandBase {
+public class ShootProccess extends CommandBase {
   /**
    * Creates a new ShooterDrive.
    */
@@ -28,9 +28,11 @@ public class ManualShootProccess extends CommandBase {
   CommandGroupBase shootGroup;
   PursuitTX txPursuit;
   KeepTarget setupBlock;
+  boolean isAuto;
 
-  public ManualShootProccess() {
+  public ShootProccess(boolean isAuto) {
     addRequirements(Robot.m_leds);
+    this.isAuto = isAuto;
   }
 
   // Called when the command is initially scheduled.
@@ -38,6 +40,7 @@ public class ManualShootProccess extends CommandBase {
   public void initialize() {
     Robot.m_limelight.setLifterState(true);
     Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
+    Robot.m_transporter.setAutoShoot(isAuto);
 
     DoubleSupplier shooterDistance = () -> CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getTy());
     DoubleSupplier angleSupplier = () -> CalculateVisionValues.getOptimalShooterAngle(shooterDistance.getAsDouble());
@@ -67,6 +70,7 @@ public class ManualShootProccess extends CommandBase {
     shootGroup.cancel(); // cancels the commandGroup
     Robot.m_limelight.setLifterState(false);
     Robot.m_limelight.setCamMode(Limelight.CamModes.DRIVING);
+    Robot.m_transporter.setAutoShoot(false);
   }
 
   // Returns true when the command should end.
