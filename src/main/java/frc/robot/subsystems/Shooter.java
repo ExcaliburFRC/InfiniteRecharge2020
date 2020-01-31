@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,7 +23,7 @@ import frc.robot.Utils.RobotUtils;
 
 public class Shooter extends SubsystemBase {
   VictorSPX shooterMotor1, shooterMotor2;
-  VictorSPX angleMotor;
+  CANSparkMax angleMotor;
   PIDController angleController;
   Encoder angleEncoder;
   DigitalInput zeroAngle;
@@ -34,7 +36,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor1 = new VictorSPX(RobotMap.SHOOTER_MOTOR_1);
     shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
 
-    angleMotor = new VictorSPX(RobotMap.SHOOTER_ANGLER_MOTOR);
+    angleMotor = new CANSparkMax(RobotMap.SHOOTER_ANGLER_MOTOR, MotorType.kBrushless);
     angleEncoder = new Encoder(RobotMap.ANGLE_ENCODER_PORTS[0], RobotMap.ANGLE_ENCODER_PORTS[1]);
     angleEncoder.setDistancePerPulse(ShooterConstants.TICKS_TO_ANGLES);
 
@@ -59,7 +61,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setAngleMotorPower(double p){
-    angleMotor.set(ControlMode.PercentOutput, p);
+    angleMotor.set(p);
   }
 
   public void setSpeedSetpoint(double setpoint){
@@ -109,9 +111,9 @@ public class Shooter extends SubsystemBase {
     }
     
     if (isAnglePersuit){
-      angleMotor.set(ControlMode.PercentOutput, angleController.calculate(getAngle(), angleSetpoint) + getFeedForward());
+      angleMotor.set(angleController.calculate(getAngle(), angleSetpoint) + getFeedForward());
     } else {
-      angleMotor.set(ControlMode.PercentOutput, 0);
+      angleMotor.set(0);
     }
 
     if (zeroAngle.get()){
