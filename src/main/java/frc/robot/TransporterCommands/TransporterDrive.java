@@ -52,7 +52,7 @@ public class TransporterDrive extends CommandBase {
   }
 
   private boolean isShooting(){
-    return Robot.m_transporter.getIsReady() && OI.armJoystick.getRawButton(OI.shootButtonPort);
+    return Robot.m_transporter.getIsReady() && (OI.armJoystick.getRawButton(OI.shootButtonPort) || Robot.m_transporter.isAutoShoot());
   }
 
   private void putInOmni(){
