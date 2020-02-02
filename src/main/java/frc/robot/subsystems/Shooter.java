@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -18,7 +19,7 @@ import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
 public class Shooter extends SubsystemBase {
-  VictorSPX shooterMotor1, shooterMotor2;
+  TalonSRX leftShooterMotor, rightShooterMotor;
   VictorSPX angleMotor;
   AnalogPotentiometer anglePotentiometer;
   PIDController angleController;
@@ -28,8 +29,8 @@ public class Shooter extends SubsystemBase {
 
 
   public Shooter() {
-    shooterMotor1 = new VictorSPX(RobotMap.SHOOTER_MOTOR_1);
-    shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
+    leftShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
+    rightShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
 
     angleMotor = new VictorSPX(RobotMap.SHOOTER_ANGLER_MOTOR);
     anglePotentiometer = new AnalogPotentiometer(RobotMap.ANGLE_POTENTIOMETER, ShooterConstants.POTENTIOMETER_FULL_RANGE, -ShooterConstants.ZERO_ANGLE);
@@ -66,25 +67,25 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterMotorPower(double p){
-    shooterMotor1.set(ControlMode.PercentOutput, RobotUtils.clip(p,1));
-    shooterMotor2.set(ControlMode.PercentOutput, RobotUtils.clip(-p,1));
+    leftShooterMotor.set(ControlMode.PercentOutput, RobotUtils.clip(p,1));
+    rightShooterMotor.set(ControlMode.PercentOutput, RobotUtils.clip(-p,1));
   }
 
   public double getAngle(){
     return anglePotentiometer.get();
   }
 
-  public double getShooterMotor1Speed(){
-    return shooterMotor1.getSelectedSensorVelocity();
+  public double getLeftMotorSpeed(){
+    return leftShooterMotor.getSelectedSensorVelocity();
   }
 
-  public double getShooterMotor2Speed(){
-    return shooterMotor2.getSelectedSensorVelocity();
+  public double getRightMotorSpeed(){
+    return rightShooterMotor.getSelectedSensorVelocity();
   }
 
   public boolean isOnSpeed(){
-    boolean motor1 = Math.abs(speedSetpoint - shooterMotor1.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
-    boolean motor2 = Math.abs(speedSetpoint - shooterMotor2.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor1 = Math.abs(speedSetpoint - leftShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor2 = Math.abs(speedSetpoint - rightShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
     return motor1 && motor2;
   }
 
@@ -96,11 +97,11 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPersuit){
-      shooterMotor1.set(ControlMode.Velocity, speedSetpoint);
-      shooterMotor2.set(ControlMode.Velocity, speedSetpoint);
+      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint);
+      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint);
     } else {
-      shooterMotor1.set(ControlMode.PercentOutput, 0);
-      shooterMotor2.set(ControlMode.PercentOutput, 0);
+      leftShooterMotor.set(ControlMode.PercentOutput, 0);
+      rightShooterMotor.set(ControlMode.PercentOutput, 0);
     }
     
     if (isAnglePersuit){
@@ -112,5 +113,13 @@ public class Shooter extends SubsystemBase {
 
   private double getFeedForward(){
     return Math.cos(Math.toRadians(anglePotentiometer.get())) * ShooterConstants.ABSOLUTE_FEEDFORWARD;
+  }
+
+  public void setLeftMotorSpeed(double s){
+    leftShooterMotor.set(ControlMode.PercentOutput, s);
+  }
+
+  public void setRightMotorSpeed(double s){
+    rightShooterMotor.set(ControlMode.PercentOutput, s);
   }
 }

@@ -5,21 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.ClimberCommands;
+package frc.robot.DebugCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotConstants.ClimbConstants;
 
-public class ClimberDrive extends CommandBase {
-  double pov;
-
+public class DebugTransport extends CommandBase {
   /**
-   * Creates a new ClimberDrive.
+   * Creates a new DebugTransport.
    */
-  public ClimberDrive() {
-    addRequirements(Robot.m_climber);
+  public DebugTransport() {
+    addRequirements(Robot.m_transporter);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -30,23 +29,18 @@ public class ClimberDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pov = OI.armJoystick.getPOV();
+    double towerSpeed = OI.armJoystick.getRawAxis(1);
+    double loadingSpeed = OI.armJoystick.getRawAxis(2);
+    Robot.m_transporter.setTowerMotorSpeed(towerSpeed);
+    Robot.m_transporter.setLoadingMotorSpeed(loadingSpeed);
 
-    if (pov == 0 && Robot.m_climber.getHeightEncoderValue() < ClimbConstants.MAX_HEIGHT){
-      Robot.m_climber.setAbsHeightMotorSpeed(0.5 + ClimbConstants.AFF);
-    } else if (pov == 180){ //TODO: add constraint back - && Robot.m_climber.getHeightEncoderValue() > 0
-      Robot.m_climber.setAbsHeightMotorSpeed(-0.5 + ClimbConstants.AFF);
-    } else {
-      Robot.m_climber.setAbsHeightMotorSpeed(ClimbConstants.AFF);
-    }
 
-    if (pov == 90){
-      Robot.m_climber.setRobotClimbersPower(0.5);
-    } else if (pov == 270) {
-      Robot.m_climber.setRobotClimbersPower(-0.5);
-    } else {
-      Robot.m_climber.setRobotClimbersPower(0);
-    }
+    SmartDashboard.putBoolean("DEBUG_EntranceSensor", Robot.m_transporter.isBallInEntrance());
+    SmartDashboard.putBoolean("DEBUG_ShooterSensor", Robot.m_transporter.isBallInShooter());
+    SmartDashboard.putBoolean("DEBUG_OmniSensor", Robot.m_transporter.isBallUnderOmni());
+    SmartDashboard.putNumber("DEBUG_TowerSpeed", towerSpeed);
+    SmartDashboard.putNumber("DEBUG_LoadingSpeed", loadingSpeed);
+    SmartDashboard.putNumber("DEBUG_TowerEncoder", Robot.m_transporter.getEncoderValue());
   }
 
   // Called once the command ends or is interrupted.
