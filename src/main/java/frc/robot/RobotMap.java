@@ -25,10 +25,12 @@ public class RobotMap{
     //Transporter
     public static final int TOWER_MOTOR_PORT = 0;
     public static final int LOADING_MOTOR_PORT = 0;
-    public static final int IN_PING_PORT = 1;
-    public static final int IN_ECHO_PORT = 2;
+    public static final int DIAGONAL_MOTOR_PORT = 0;
+    public static final int DIAGONAL_PING_PORT = 1;
+    public static final int DIAGONAL_ECHO_PORT = 2;
     public static final int OUT_PING_PORT = 3;
     public static final int OUT_ECHO_PORT = 4;
+    public static final int UNDERTIMEING_SENSOR_PORT = 8;
     public static final int TIMING_ENCODER_PORT1 = 5;
     public static final int TIMING_ENCODER_PORT2 = 6;
     public static final int ENTRANCE_SENSOR_PORT = 7; 

@@ -15,8 +15,9 @@ import frc.robot.TransporterCommands.TransporterDrive;
 import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
-  private Spark towerMotor, loadingMotor;
+  private Spark towerMotor, loadingMotor, diagonalMotor;
   private BallDetector shooterSensor, entranceSensor, omniSensor;
+  private UltrasonicBallDetector diagonalSensor;
   private int ballAmount = 0;
   private boolean isReady;
   private Encoder timingEncoder;
@@ -27,12 +28,31 @@ public class Transporter extends SubsystemBase {
   public Transporter() {
     towerMotor = new Spark(RobotMap.TOWER_MOTOR_PORT);
     loadingMotor = new Spark(RobotMap.LOADING_MOTOR_PORT);
+    diagonalMotor = new Spark(RobotMap.DIAGONAL_MOTOR_PORT);
+
     entranceSensor = new MicroswitchBallDetector(RobotMap.ENTRANCE_SENSOR_PORT);
-    omniSensor = new UltrasonicBallDetector(RobotMap.IN_PING_PORT, RobotMap.IN_ECHO_PORT);
+    omniSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
     shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
+    diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT);
+
     timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORT1,RobotMap.TIMING_ENCODER_PORT2);
+
     isReady = false;
+
     setDefaultCommand(new TransporterDrive());
+  }
+
+
+  public void setDiagonalMotorSpeed(double s){
+    diagonalMotor.set(s);
+  }
+
+  public boolean isBallInDiagonal(){
+    return diagonalSensor.isBallDetected();
+  }
+
+  public double getBallDiagonalDistance(){
+    return diagonalSensor.getMeasuredDistance();
   }
 
   public boolean isBallInShooter(){

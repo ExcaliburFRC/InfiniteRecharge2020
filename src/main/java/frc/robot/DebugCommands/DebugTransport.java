@@ -24,17 +24,21 @@ public class DebugTransport extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.m_transporter.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double diagonalSpeed = OI.armJoystick.getRawAxis(0);
     double towerSpeed = OI.armJoystick.getRawAxis(1);
     double loadingSpeed = OI.armJoystick.getRawAxis(2);
+
+    Robot.m_transporter.setDiagonalMotorSpeed(diagonalSpeed);
     Robot.m_transporter.setTowerMotorSpeed(towerSpeed);
     Robot.m_transporter.setLoadingMotorSpeed(loadingSpeed);
 
-
+    SmartDashboard.putNumber("DEBUG_DiagonalDistance", Robot.m_transporter.getBallDiagonalDistance());
     SmartDashboard.putBoolean("DEBUG_EntranceSensor", Robot.m_transporter.isBallInEntrance());
     SmartDashboard.putBoolean("DEBUG_ShooterSensor", Robot.m_transporter.isBallInShooter());
     SmartDashboard.putBoolean("DEBUG_OmniSensor", Robot.m_transporter.isBallUnderOmni());

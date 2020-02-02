@@ -17,7 +17,7 @@ public class UltrasonicBallDetector implements BallDetector{
         MINIMUM_DISTANCE =  minimum;
     }
 
-    private double getMeasuredDistance() {
+    public double getMeasuredDistance() {
         return distanceSensor.getRangeMM() / 10;
     }
 
