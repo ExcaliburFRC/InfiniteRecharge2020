@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -24,7 +23,6 @@ import frc.robot.Utils.RobotUtils;
 
 public class Shooter extends SubsystemBase {
   TalonSRX leftShooterMotor, rightShooterMotor;
-  VictorSPX shooterMotor1, shooterMotor2;
   CANSparkMax angleMotor;
   PIDController angleController;
   Encoder angleEncoder;
@@ -105,8 +103,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPersuit){
-      shooterMotor1.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.RIGHT_KV);
-      shooterMotor2.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.LEFT_KV);
+      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.RIGHT_KV);
+      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.LEFT_KV);
     } else {
       leftShooterMotor.set(ControlMode.PercentOutput, 0);
       rightShooterMotor.set(ControlMode.PercentOutput, 0);
