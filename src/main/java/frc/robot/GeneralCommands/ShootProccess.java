@@ -12,15 +12,15 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.ShooterCommands.KeepTarget;
 import frc.robot.TransporterCommands.PutInShooterWhenOI;
 import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.ChassiCommands.PursuitTX;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LEDs.LEDMode;
 
-public class ManualShootProccess extends CommandBase {
+public class ShootProccess extends CommandBase {
   /**
    * Creates a new ShooterDrive.
    */
@@ -28,17 +28,23 @@ public class ManualShootProccess extends CommandBase {
   CommandGroupBase shootGroup;
   PursuitTX txPursuit;
   KeepTarget setupBlock;
+  boolean isAuto;
 
-  public ManualShootProccess() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ShootProccess(boolean isAuto) {
     addRequirements(Robot.m_leds);
+    this.isAuto = isAuto;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DoubleSupplier angleSupplier = () -> CalculateVisionValues.getAngleWhenSetSpeed(Robot.m_limelight.getDistance());
-    DoubleSupplier speedSupplier = () -> ShooterConstants.CONSTANT_SHOOT_SPEED;
+    Robot.m_limelight.setLifterState(true);
+    Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
+    Robot.m_transporter.setAutoShoot(isAuto);
+
+    DoubleSupplier shooterDistance = () -> CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getTy());
+    DoubleSupplier angleSupplier = () -> CalculateVisionValues.getOptimalShooterAngle(shooterDistance.getAsDouble());
+    DoubleSupplier speedSupplier = () -> CalculateVisionValues.getOptimalShooterSpeed(shooterDistance.getAsDouble());
 
     txPursuit = new PursuitTX();
     setupBlock = new KeepTarget(angleSupplier, speedSupplier);
@@ -62,6 +68,9 @@ public class ManualShootProccess extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shootGroup.cancel(); // cancels the commandGroup
+    Robot.m_limelight.setLifterState(false);
+    Robot.m_limelight.setCamMode(Limelight.CamModes.DRIVING);
+    Robot.m_transporter.setAutoShoot(false);
   }
 
   // Returns true when the command should end.

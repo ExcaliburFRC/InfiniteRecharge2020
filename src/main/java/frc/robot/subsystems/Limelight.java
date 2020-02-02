@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.CalculateVisionValues;
+import frc.robot.RobotMap;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Limelight extends SubsystemBase {
 
@@ -32,6 +34,8 @@ public class Limelight extends SubsystemBase {
     double tvert;
     double camMode, ledMode, pipeline;
 
+    DoubleSolenoid hightSolenoid;
+
     public static enum CamModes{
         VISION(0), DRIVING(1);
 
@@ -54,7 +58,7 @@ public class Limelight extends SubsystemBase {
 
 
     public Limelight(){
-        
+        hightSolenoid = new DoubleSolenoid(RobotMap.LIMELIGHT_SOLENOID_PORTS[0], RobotMap.LIMELIGHT_SOLENOID_PORTS[1]);
     }
 
     private double getVar(String var){
@@ -146,7 +150,8 @@ public class Limelight extends SubsystemBase {
         return pipeline;
     }
 
-    public double getDistance(){
-        return CalculateVisionValues.calculateDistance(getTy());
+    public void setLifterState(boolean on){
+        Value value = on ? Value.kForward : Value.kReverse;
+        hightSolenoid.set(value);
     }
 }

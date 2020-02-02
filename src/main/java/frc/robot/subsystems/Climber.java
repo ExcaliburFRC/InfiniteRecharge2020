@@ -19,7 +19,7 @@ import frc.robot.ClimberCommands.ClimberDrive;
 public class Climber extends SubsystemBase {
   private Encoder heightEncoder;
   private TalonSRX climberLifterMotor;
-  private VictorSPX robotLifterMotor1, robotLifterMotor2;
+  private VictorSPX robotLifterMotor;
 
   private boolean hasClimbed = false;
 
@@ -29,8 +29,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
     heightEncoder = new Encoder(RobotMap.HEIGHT_ENCODER_PORT1,RobotMap.HEIGHT_ENCODER_PORT2);
     climberLifterMotor = new TalonSRX(RobotMap.CLIMBER_LIFTER_MOTOR_PORT);
-    robotLifterMotor1 = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT1);
-    robotLifterMotor2 = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT2);
+    robotLifterMotor = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT);
 
     setDefaultCommand(new ClimberDrive());
   }
@@ -51,8 +50,7 @@ public class Climber extends SubsystemBase {
   }
   public void setRobotClimbersPower(double power){
     hasClimbed = true;
-    robotLifterMotor1.set(ControlMode.PercentOutput, power);
-    robotLifterMotor2.set(ControlMode.PercentOutput, -power);
+    robotLifterMotor.set(ControlMode.PercentOutput, power);
   }
 
   public boolean getHasClimbed(){

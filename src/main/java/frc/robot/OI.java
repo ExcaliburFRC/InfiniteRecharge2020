@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.GeneralCommands.ManualShootProccess;
+import frc.robot.GeneralCommands.ShootProccess;
 
 public class OI{
     //Joysticks
@@ -29,7 +29,7 @@ public class OI{
         driverJoystick = new Joystick(1);
 
         shootSetupButton = new JoystickButton(armJoystick, 11);
-        shootSetupButton.toggleWhenPressed(new ManualShootProccess());
+        shootSetupButton.toggleWhenPressed(new ShootProccess(false));
 
         initSmartDashboard();
     }

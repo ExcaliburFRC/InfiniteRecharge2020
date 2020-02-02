@@ -18,9 +18,6 @@ import frc.robot.CollectorCommands.CollectorDrive;
 import frc.robot.RobotMap;
 
 public class Collector extends SubsystemBase {
-  /**
-   * Creates a new Collector.
-   */
   VictorSPX rollerMotor;
   DoubleSolenoid lifterPiston;
 
@@ -42,10 +39,5 @@ public class Collector extends SubsystemBase {
 
   public boolean getLifterPistonPosition(){
     return lifterPiston.get() == Value.kForward ? true : false;
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

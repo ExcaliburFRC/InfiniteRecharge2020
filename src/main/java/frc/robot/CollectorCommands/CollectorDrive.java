@@ -12,11 +12,9 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class CollectorDrive extends CommandBase {
-  /**
-   * Creates a new CollectorDrive.
-   */
+
+  double turnMultiplier;
   public CollectorDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.m_collector);
   }
 
@@ -25,7 +23,6 @@ public class CollectorDrive extends CommandBase {
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (OI.armJoystick.getRawButton(OI.collectorUpButton)){
@@ -34,8 +31,10 @@ public class CollectorDrive extends CommandBase {
       Robot.m_collector.setLiferPistonPosition(false);
     }
 
+    turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? -1 : 1;
+
     if (OI.armJoystick.getRawButton(OI.collectorTakeInBallButton)){
-      Robot.m_collector.setRollerMotorPower(-0.5);
+      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.5);
     } else {
       Robot.m_collector.setRollerMotorPower(0);
     }
