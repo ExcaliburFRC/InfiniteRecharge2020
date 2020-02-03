@@ -64,10 +64,10 @@ public class TransporterDrive extends CommandBase {
   }
 
   private void putInTower(){
-    if (Robot.m_transporter.isBallUnderOmni() && !wasBallUnderOmni){
+    if (Robot.m_transporter.isBallUnderTiming() && !wasBallUnderOmni){
       transportSetpoint += TransporterConstants.TRANSPORT_STEP;
     }
-    wasBallUnderOmni = Robot.m_transporter.isBallUnderOmni();
+    wasBallUnderOmni = Robot.m_transporter.isBallUnderTiming();
   }
 
   @Override
@@ -82,7 +82,7 @@ public class TransporterDrive extends CommandBase {
   private BallManipulationState decideState(Transporter t){
     if (t.getBallAmount() < 2){
       return BallManipulationState.EMPTY_SPACE_IN_TOWER;
-    } else if (t.getBallAmount() >= 2 && !t.isBallUnderOmni()){
+    } else if (t.getBallAmount() >= 2 && !t.isBallUnderTiming()){
       return BallManipulationState.NO_SPACE_IN_TOWER;
     } else {
       return BallManipulationState.NO_SPACE_AT_ALL;

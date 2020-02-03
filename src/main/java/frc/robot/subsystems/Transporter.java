@@ -15,7 +15,7 @@ import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
   private Spark towerMotor, loadingMotor, diagonalMotor;
-  private BallDetector shooterSensor, entranceSensor, omniSensor;
+  private BallDetector shooterSensor, entranceSensor, timingBeltSensor;
   private UltrasonicBallDetector diagonalSensor;
   private int ballAmount = 0;
   private boolean isReady;
@@ -28,7 +28,7 @@ public class Transporter extends SubsystemBase {
     diagonalMotor = new Spark(RobotMap.DIAGONAL_MOTOR_PORT);
 
     entranceSensor = new MicroswitchBallDetector(RobotMap.ENTRANCE_SENSOR_PORT);
-    omniSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
+    timingBeltSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
     shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
     diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT);
 
@@ -55,8 +55,8 @@ public class Transporter extends SubsystemBase {
     return shooterSensor.isBallDetected();
   }
 
-  public boolean isBallUnderOmni(){
-    return omniSensor.isBallDetected();
+  public boolean isBallUnderTiming(){
+    return timingBeltSensor.isBallDetected();
   }
 
   public boolean isBallInEntrance(){
@@ -92,7 +92,7 @@ public class Transporter extends SubsystemBase {
   }
   
   public boolean isSystemEmpty(){
-    return (getBallAmount() <= 0 && !isBallInEntrance() && !isBallInShooter() && !isBallUnderOmni());
+    return (getBallAmount() <= 0 && !isBallInEntrance() && !isBallInShooter() && !isBallUnderTiming());
   }
   
   public void setAutoShoot(boolean isAuto){
@@ -106,14 +106,14 @@ public class Transporter extends SubsystemBase {
   private boolean lastInStatus = false, lastOutStatus = false;
   @Override
   public void periodic() {
-    if (lastInStatus && !isBallUnderOmni()){ // check if status has changed and there is a ball in the lower
+    if (lastInStatus && !isBallUnderTiming()){ // check if status has changed and there is a ball in the lower
         ballAmount++;
     } 
     if (lastOutStatus && !isBallInShooter()){ // check if status has changed and there is a ball in the upper
       ballAmount--;
     }
 
-    lastInStatus = isBallUnderOmni();
+    lastInStatus = isBallUnderTiming();
     lastOutStatus = isBallInShooter();
   }
 }

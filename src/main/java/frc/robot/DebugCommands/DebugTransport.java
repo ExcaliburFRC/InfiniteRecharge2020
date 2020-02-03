@@ -41,7 +41,7 @@ public class DebugTransport extends CommandBase {
     SmartDashboard.putNumber("DEBUG_DiagonalDistance", Robot.m_transporter.getBallDiagonalDistance());
     SmartDashboard.putBoolean("DEBUG_EntranceSensor", Robot.m_transporter.isBallInEntrance());
     SmartDashboard.putBoolean("DEBUG_ShooterSensor", Robot.m_transporter.isBallInShooter());
-    SmartDashboard.putBoolean("DEBUG_OmniSensor", Robot.m_transporter.isBallUnderOmni());
+    SmartDashboard.putBoolean("DEBUG_OmniSensor", Robot.m_transporter.isBallUnderTiming());
     SmartDashboard.putNumber("DEBUG_TowerSpeed", towerSpeed);
     SmartDashboard.putNumber("DEBUG_LoadingSpeed", loadingSpeed);
     SmartDashboard.putNumber("DEBUG_TowerEncoder", Robot.m_transporter.getEncoderValue());
