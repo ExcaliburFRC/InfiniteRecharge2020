@@ -6,8 +6,8 @@ import frc.robot.GeneralCommands.ShootProccess;
 
 public class OI{
     //Joysticks
-    public static Joystick driverJoystick;
-    public static Joystick armJoystick;
+    public static Joystick driverJoystick = new Joystick(1);;
+    public static Joystick armJoystick = new Joystick(0);;
 
     public static JoystickButton shootSetupButton;
     
@@ -25,9 +25,6 @@ public class OI{
 
     
     public static void init(){
-        armJoystick = new Joystick(0);
-        driverJoystick = new Joystick(1);
-
         shootSetupButton = new JoystickButton(armJoystick, 11);
         shootSetupButton.toggleWhenPressed(new ShootProccess(false));
 

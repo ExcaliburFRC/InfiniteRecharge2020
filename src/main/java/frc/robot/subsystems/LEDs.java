@@ -10,14 +10,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Spark;
 import frc.robot.RobotMap;
-import frc.robot.LEDCommands.DefaultLED;
 
 public class LEDs extends SubsystemBase {
   private Spark ledPWM;
 
   public LEDs() {
     ledPWM = new Spark(RobotMap.LED_PWM_PORT);
-    setDefaultCommand(new DefaultLED());
   }
 
   public void setMode(LEDMode mode){

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.TransporterCommands.TransporterDrive;
 import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
@@ -37,7 +36,6 @@ public class Transporter extends SubsystemBase {
 
     isReady = false;
     isAutoShoot = false;
-    setDefaultCommand(new TransporterDrive());
   }
 
 
