@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
   Encoder angleEncoder;
   DigitalInput zeroAngle;
 
-  boolean isSpeedPersuit, isAnglePersuit;
+  boolean isSpeedPursuit, isAnglePursuit;
   double speedSetpoint, angleSetpoint;
 
 
@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase {
     angleEncoder = new Encoder(RobotMap.ANGLE_ENCODER_PORTS[0], RobotMap.ANGLE_ENCODER_PORTS[1]);
     angleEncoder.setDistancePerPulse(ShooterConstants.TICKS_TO_ANGLES);
 
-    isSpeedPersuit = false;
-    isAnglePersuit = false;
+    isSpeedPursuit = false;
+    isAnglePursuit = false;
     
     
     angleController = new PIDController(ShooterConstants.ANGLE_KP, ShooterConstants.ANGLE_KI, ShooterConstants.ANGLE_KD);
@@ -57,8 +57,8 @@ public class Shooter extends SubsystemBase {
     angleController.setSetpoint(setpoint);
   }
 
-  public void setIsAnglePersuit(boolean isAnglePersuit){
-    this.isAnglePersuit = isAnglePersuit;
+  public void setIsAnglePursuit(boolean isAnglePersuit){
+    this.isAnglePursuit = isAnglePersuit;
   }
 
   public void setAngleMotorPower(double p){
@@ -69,8 +69,8 @@ public class Shooter extends SubsystemBase {
     this.speedSetpoint = setpoint;
   }
 
-  public void setIsSpeedPersuit(boolean isSpeedPersuit){
-    this.isSpeedPersuit = isSpeedPersuit;
+  public void setIsSpeedPursuit(boolean isSpeedPersuit){
+    this.isSpeedPursuit = isSpeedPersuit;
   }
 
   public void setShooterMotorPower(double p){
@@ -103,7 +103,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (isSpeedPersuit){
+    if (isSpeedPursuit){
       var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * speedSetpoint)/12.0;
       var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * speedSetpoint)/12.0;
 
@@ -114,7 +114,7 @@ public class Shooter extends SubsystemBase {
       rightShooterMotor.set(ControlMode.PercentOutput, 0);
     }
     
-    if (isAnglePersuit){
+    if (isAnglePursuit){
       angleMotor.set(angleController.calculate(getAngle(), angleSetpoint) + getFeedForward());
     } else {
       angleMotor.set(0);

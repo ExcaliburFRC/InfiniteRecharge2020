@@ -14,7 +14,7 @@ import frc.robot.Robot;
 import frc.robot.RobotConstants.ImageProccessingConstants;
 import frc.robot.Utils.*;
 
-public class FeederPersuit extends CommandBase {
+public class FeederPursuit extends CommandBase {
   Chassi c = Robot.m_chassi;
   Limelight l = Robot.m_limelight;
 
@@ -25,7 +25,7 @@ public class FeederPersuit extends CommandBase {
 
   boolean ended;
 
-  public FeederPersuit() {
+  public FeederPursuit() {
     addRequirements(c);
   }
 
