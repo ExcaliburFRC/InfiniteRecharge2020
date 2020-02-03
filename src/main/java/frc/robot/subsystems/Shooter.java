@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -33,8 +34,8 @@ public class Shooter extends SubsystemBase {
 
 
   public Shooter() {
-    leftShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    rightShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
+    leftShooterMotor = new TalonSRX(RobotMap.LEFT_SHOOTER_MOTOR_PORT);
+    rightShooterMotor = new TalonSRX(RobotMap.RIGHT_SHOOTER_MOTOR_PORT);
 
     angleMotor = new CANSparkMax(RobotMap.SHOOTER_ANGLER_MOTOR, MotorType.kBrushless);
     angleEncoder = new Encoder(RobotMap.ANGLE_ENCODER_PORTS[0], RobotMap.ANGLE_ENCODER_PORTS[1]);
@@ -103,8 +104,11 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPersuit){
-      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.RIGHT_KV);
-      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.LEFT_KV);
+      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * speedSetpoint)/12.0;
+      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * speedSetpoint)/12.0;
+
+      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, leftAFF);
+      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, rightAFF);
     } else {
       leftShooterMotor.set(ControlMode.PercentOutput, 0);
       rightShooterMotor.set(ControlMode.PercentOutput, 0);
@@ -131,5 +135,9 @@ public class Shooter extends SubsystemBase {
 
   public void setRightMotorSpeed(double s){
     rightShooterMotor.set(ControlMode.PercentOutput, s);
+  }
+
+  private double compensateVoltage(double originalVoltage){
+    return originalVoltage * (ShooterConstants.VOLTAGE_AT_TOP_SPEED/RobotController.getBatteryVoltage());
   }
 }

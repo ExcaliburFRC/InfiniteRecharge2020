@@ -32,7 +32,7 @@ public class DebugShooter extends CommandBase {
   public void execute() {
       double leftSpeed = (OI.armJoystick.getRawAxis(3)+1)/2;
       double rightSpeed = (OI.armJoystick.getRawAxis(4)+1)/2;
-
+      
       if (OI.armJoystick.getRawButton(1)){
         Robot.m_shooter.setSpeedSetpoint(25000);
         Robot.m_shooter.setIsSpeedPersuit(true);
