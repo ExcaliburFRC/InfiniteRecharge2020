@@ -68,6 +68,8 @@ public class TransporterDrive extends CommandBase {
       transportSetpoint += TransporterConstants.TRANSPORT_STEP;
     }
     wasBallUnderOmni = Robot.m_transporter.isBallUnderTiming();
+
+    Robot.m_transporter.setDiagonalMotorSpeed(0.4);
   }
 
   @Override

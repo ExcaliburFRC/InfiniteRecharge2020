@@ -44,7 +44,6 @@ public class Shooter extends SubsystemBase {
     isSpeedPursuit = false;
     isAnglePursuit = false;
     
-    
     angleController = new PIDController(ShooterConstants.ANGLE_KP, ShooterConstants.ANGLE_KI, ShooterConstants.ANGLE_KD);
     angleController.setTolerance(ShooterConstants.ANGLE_TOLERANCE);
 
