@@ -45,6 +45,7 @@ public class DebugTransport extends CommandBase {
     SmartDashboard.putNumber("DEBUG_TowerSpeed", towerSpeed);
     SmartDashboard.putNumber("DEBUG_LoadingSpeed", loadingSpeed);
     SmartDashboard.putNumber("DEBUG_TowerEncoder", Robot.m_transporter.getEncoderValue());
+    SmartDashboard.putNumber("DEBUG_BallNumber", Robot.m_transporter.getBallAmount());
   }
 
   // Called once the command ends or is interrupted.
