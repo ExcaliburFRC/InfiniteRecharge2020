@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.ClimberCommands.ClimberDrive;
 
 public class Climber extends SubsystemBase {
   private Encoder heightEncoder;
@@ -30,8 +29,6 @@ public class Climber extends SubsystemBase {
     heightEncoder = new Encoder(RobotMap.HEIGHT_ENCODER_PORT1,RobotMap.HEIGHT_ENCODER_PORT2);
     climberLifterMotor = new TalonSRX(RobotMap.CLIMBER_LIFTER_MOTOR_PORT);
     robotLifterMotor = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT);
-
-    setDefaultCommand(new ClimberDrive());
   }
 
   public void setClimberHeight(double height){

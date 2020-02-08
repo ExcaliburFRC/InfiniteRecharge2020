@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -28,21 +29,20 @@ public class Shooter extends SubsystemBase {
   Encoder angleEncoder;
   DigitalInput zeroAngle;
 
-  boolean isSpeedPersuit, isAnglePersuit;
+  boolean isSpeedPursuit, isAnglePursuit;
   double speedSetpoint, angleSetpoint;
 
 
   public Shooter() {
-    leftShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    rightShooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
+    leftShooterMotor = new TalonSRX(RobotMap.LEFT_SHOOTER_MOTOR_PORT);
+    rightShooterMotor = new TalonSRX(RobotMap.RIGHT_SHOOTER_MOTOR_PORT);
 
     angleMotor = new CANSparkMax(RobotMap.SHOOTER_ANGLER_MOTOR, MotorType.kBrushless);
     angleEncoder = new Encoder(RobotMap.ANGLE_ENCODER_PORTS[0], RobotMap.ANGLE_ENCODER_PORTS[1]);
     angleEncoder.setDistancePerPulse(ShooterConstants.TICKS_TO_ANGLES);
 
-    isSpeedPersuit = false;
-    isAnglePersuit = false;
-    
+    isSpeedPursuit = false;
+    isAnglePursuit = false;
     
     angleController = new PIDController(ShooterConstants.ANGLE_KP, ShooterConstants.ANGLE_KI, ShooterConstants.ANGLE_KD);
     angleController.setTolerance(ShooterConstants.ANGLE_TOLERANCE);
@@ -56,8 +56,8 @@ public class Shooter extends SubsystemBase {
     angleController.setSetpoint(setpoint);
   }
 
-  public void setIsAnglePersuit(boolean isAnglePersuit){
-    this.isAnglePersuit = isAnglePersuit;
+  public void setIsAnglePursuit(boolean isAnglePersuit){
+    this.isAnglePursuit = isAnglePersuit;
   }
 
   public void setAngleMotorPower(double p){
@@ -68,8 +68,8 @@ public class Shooter extends SubsystemBase {
     this.speedSetpoint = setpoint;
   }
 
-  public void setIsSpeedPersuit(boolean isSpeedPersuit){
-    this.isSpeedPersuit = isSpeedPersuit;
+  public void setIsSpeedPursuit(boolean isSpeedPersuit){
+    this.isSpeedPursuit = isSpeedPersuit;
   }
 
   public void setShooterMotorPower(double p){
@@ -102,15 +102,18 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (isSpeedPersuit){
-      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.RIGHT_KV);
-      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, ShooterConstants.LEFT_KV);
+    if (isSpeedPursuit){
+      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * speedSetpoint)/12.0;
+      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * speedSetpoint)/12.0;
+
+      leftShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, leftAFF);
+      rightShooterMotor.set(ControlMode.Velocity, speedSetpoint, DemandType.ArbitraryFeedForward, rightAFF);
     } else {
       leftShooterMotor.set(ControlMode.PercentOutput, 0);
       rightShooterMotor.set(ControlMode.PercentOutput, 0);
     }
     
-    if (isAnglePersuit){
+    if (isAnglePursuit){
       angleMotor.set(angleController.calculate(getAngle(), angleSetpoint) + getFeedForward());
     } else {
       angleMotor.set(0);
@@ -131,5 +134,9 @@ public class Shooter extends SubsystemBase {
 
   public void setRightMotorSpeed(double s){
     rightShooterMotor.set(ControlMode.PercentOutput, s);
+  }
+
+  private double compensateVoltage(double originalVoltage){
+    return originalVoltage * (ShooterConstants.VOLTAGE_AT_TOP_SPEED/RobotController.getBatteryVoltage());
   }
 }

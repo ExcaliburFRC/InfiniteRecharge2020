@@ -26,10 +26,10 @@ public class KeepTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.m_shooter.setIsSpeedPersuit(true);
+    Robot.m_shooter.setIsSpeedPursuit(true);
     Robot.m_shooter.setSpeedSetpoint(speeds.getAsDouble());
 
-    Robot.m_shooter.setIsAnglePersuit(true);
+    Robot.m_shooter.setIsAnglePursuit(true);
     Robot.m_shooter.setAngleSetpoint(angles.getAsDouble());
   }
 

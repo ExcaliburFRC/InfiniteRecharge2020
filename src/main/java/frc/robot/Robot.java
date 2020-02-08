@@ -10,14 +10,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Pathfinding.FollowerCommandGenerator;
-import frc.robot.Pathfinding.TestingPaths;
+// import frc.robot.Pathfinding.FollowerCommandGenerator;
+// import frc.robot.Pathfinding.TestingPaths;
+import frc.robot.TransporterCommands.TransporterDrive;
 import frc.robot.subsystems.Chassi;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Transporter;
 import frc.robot.subsystems.Collector;
+import frc.robot.ClimberCommands.ClimberDrive;
+import frc.robot.CollectorCommands.CollectorDrive;
+import frc.robot.LEDCommands.DefaultLED;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
   public static Chassi m_chassi;
@@ -30,20 +35,14 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    //Init subsystems
-    m_chassi = new Chassi();
-    m_limelight = new Limelight();
-    m_leds = new LEDs();
-    m_shooter = new Shooter();
-    m_climber = new Climber();
-    m_transporter = new Transporter();
-    m_collector = new Collector();
-    OI.init();
+    initSubsystems();
+    initDefaultCommands();
+    // OI.init(); //TODO: after all subsystems work, uncomment this
   }
 
   @Override
   public void autonomousInit() {
-    FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
+    // FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
   }
 
   @Override
@@ -75,4 +74,29 @@ public class Robot extends TimedRobot {
     OI.updateSmartDashBoard();
   }
 
+  private void initSubsystems(){
+    m_chassi = new Chassi();
+    m_limelight = new Limelight();
+    m_leds = new LEDs();
+    m_shooter = new Shooter();
+    m_climber = new Climber();
+    m_transporter = new Transporter();
+    m_collector = new Collector();
+  }
+
+  private void initDefaultCommands(){
+    m_chassi.setDefaultCommand(new RunCommand(()->{
+      m_chassi.curvatureDrive(OI.driverJoystick.getRawAxis(OI.xSpeedAxis),
+                    OI.driverJoystick.getRawAxis(OI.zRotationAxis),
+                    OI.driverJoystick.getRawButton(OI.quickTurnButton));
+    }, m_chassi));
+
+    m_collector.setDefaultCommand(new CollectorDrive());
+
+    m_transporter.setDefaultCommand(new TransporterDrive());
+
+    m_climber.setDefaultCommand(new ClimberDrive());
+
+    m_leds.setDefaultCommand(new DefaultLED());
+  }
 }

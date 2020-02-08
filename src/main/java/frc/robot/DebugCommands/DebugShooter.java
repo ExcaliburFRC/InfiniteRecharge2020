@@ -32,12 +32,12 @@ public class DebugShooter extends CommandBase {
   public void execute() {
       double leftSpeed = (OI.armJoystick.getRawAxis(3)+1)/2;
       double rightSpeed = (OI.armJoystick.getRawAxis(4)+1)/2;
-
+      
       if (OI.armJoystick.getRawButton(1)){
         Robot.m_shooter.setSpeedSetpoint(25000);
-        Robot.m_shooter.setIsSpeedPersuit(true);
+        Robot.m_shooter.setIsSpeedPursuit(true);
       } else {
-        Robot.m_shooter.setIsSpeedPersuit(false);
+        Robot.m_shooter.setIsSpeedPursuit(false);
         Robot.m_shooter.setLeftMotorSpeed(leftSpeed);
         Robot.m_shooter.setRightMotorSpeed(rightSpeed);
       }
@@ -45,9 +45,9 @@ public class DebugShooter extends CommandBase {
       double angleMotorSpeed = OI.armJoystick.getRawAxis(5);
       if (OI.armJoystick.getRawButton(2)){
         Robot.m_shooter.setAngleSetpoint(45);
-        Robot.m_shooter.setIsAnglePersuit(true);
+        Robot.m_shooter.setIsAnglePursuit(true);
       } else {
-        Robot.m_shooter.setIsAnglePersuit(false);
+        Robot.m_shooter.setIsAnglePursuit(false);
         Robot.m_shooter.setAngleMotorPower(angleMotorSpeed);
       }
 

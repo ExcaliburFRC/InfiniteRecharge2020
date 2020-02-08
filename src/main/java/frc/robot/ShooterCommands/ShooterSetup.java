@@ -27,10 +27,10 @@ public class ShooterSetup extends CommandBase {
   @Override
   public void initialize() {
     s.setAngleSetpoint(angleTarget);
-    s.setIsAnglePersuit(true);
+    s.setIsAnglePursuit(true);
 
     s.setSpeedSetpoint(speedTarget);
-    s.setIsSpeedPersuit(true);
+    s.setIsSpeedPursuit(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

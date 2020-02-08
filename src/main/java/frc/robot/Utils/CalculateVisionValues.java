@@ -19,10 +19,6 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
         return 0;
     }
 
-    public static double getAngleWhenSetSpeed(double dist){ //gets the angle when shooter at 85% speed
-        return 0;
-    }
-
     /*
         @param tx is the tx value from the camera in degress
         @param ty is the ty value from the camera in degress

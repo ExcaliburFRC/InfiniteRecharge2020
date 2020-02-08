@@ -46,9 +46,12 @@ public class RobotConstants{
     
     public static class ShooterConstants{
         public static final double SPEED_TOLERANCE = 500.0;//TODO : tune
-        public static final double CONSTANT_SHOOT_SPEED = 10000;//TODO : decide
-        public static final double RIGHT_KV = 12.0/40000.0;//TODO : tune
-        public static final double LEFT_KV = 12.0/40000.0;//TODO : tune
+
+        public static final double RIGHT_TOP_SPEED = 40000.0; //TODO:find
+        public static final double LEFT_TOP_SPEED = 40000.0; //TODO:find
+        public static final double VOLTAGE_AT_TOP_SPEED = 12; //TODO:find
+        public static final double RIGHT_KV = VOLTAGE_AT_TOP_SPEED/RIGHT_TOP_SPEED;
+        public static final double LEFT_KV = VOLTAGE_AT_TOP_SPEED/LEFT_TOP_SPEED;
         
         public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
         public static final double TICKS_TO_ANGLES = 300;//TODO : tune

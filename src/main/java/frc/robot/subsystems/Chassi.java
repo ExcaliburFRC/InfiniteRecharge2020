@@ -20,11 +20,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RobotMap;
-import frc.robot.OI;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DriveConstants;
 
@@ -64,12 +62,6 @@ public class Chassi extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP);
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
-
-    setDefaultCommand(new RunCommand(()->{
-      curvatureDrive(OI.driverJoystick.getRawAxis(OI.xSpeedAxis),
-                    OI.driverJoystick.getRawAxis(OI.zRotationAxis),
-                    OI.driverJoystick.getRawButton(OI.quickTurnButton));
-    }, this));
   }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean quickTurn){
