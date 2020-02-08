@@ -33,7 +33,7 @@ public class FeederPersuit extends CommandBase {
   public void initialize() {
     lastTime = System.currentTimeMillis();
     Robot.m_limelight.setCamMode(Limelight.CamModes.VISION);
-    Robot.m_limelight.setLifterState(false);
+    Robot.m_limelight.setLifterState(true);
   }
 
   @Override
