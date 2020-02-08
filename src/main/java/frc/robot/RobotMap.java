@@ -2,10 +2,10 @@ package frc.robot;
 
 public class RobotMap{
     //Chassi
-    public static final int LEFT_BACK_MOTOR_PORT = 0;
-    public static final int LEFT_FRONT_MOTOR_PORT = 1;
-    public static final int RIGHT_BACK_MOTOR_PORT = 2;
-    public static final int RIGHT_FRONT_MOTOR_PORT = 3;
+    public static final int LEFT_BACK_MOTOR_PORT = 14;
+    public static final int LEFT_FRONT_MOTOR_PORT = 13;
+    public static final int RIGHT_BACK_MOTOR_PORT = 11;
+    public static final int RIGHT_FRONT_MOTOR_PORT = 12;
     public static final int[] RIGHT_ENCODER_P = {0,1};
     public static final int[] LEFT_ENCODER_P = {2,3};
 
@@ -19,9 +19,10 @@ public class RobotMap{
     //Shooter
     public static final int LEFT_SHOOTER_MOTOR_PORT = 6;
     public static final int RIGHT_SHOOTER_MOTOR_PORT = 7;
-    public static final int SHOOTER_ANGLER_MOTOR = 8;
+    public static final int SHOOTER_ANGLER_MOTOR = 15;
     public static final int[] ANGLE_ENCODER_PORTS = {4,5};
     public static final int ZERO_ANGLE_LIMIT_SWITCH = 6;
+
     //Transporter
     public static final int TOWER_MOTOR_PORT = 0;
     public static final int LOADING_MOTOR_PORT = 0;
