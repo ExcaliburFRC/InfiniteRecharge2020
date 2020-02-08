@@ -30,7 +30,7 @@ public class Transporter extends SubsystemBase {
     entranceSensor = new MicroswitchBallDetector(RobotMap.ENTRANCE_SENSOR_PORT);
     timingBeltSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
     shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
-    diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT);
+    diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT, 400);
 
     timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORT1,RobotMap.TIMING_ENCODER_PORT2);
 

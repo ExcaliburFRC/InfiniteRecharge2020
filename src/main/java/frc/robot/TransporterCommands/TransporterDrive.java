@@ -29,9 +29,11 @@ public class TransporterDrive extends CommandBase {
       case EMPTY_SPACE_IN_TOWER: //There is space in the transport tower
         putInOmni();
         putInTower();
+        diagonalMotorWithSpaceInTower();
         break;
       case NO_SPACE_IN_TOWER: //There is no space in the tower, but there is still space under the omni-wheel
         putInOmni();
+        diagonalMotorNoSpaceInTower();
         break;
       case NO_SPACE_AT_ALL: //There is no space at all in the trasport system (there may still be space in the container)
         break;
@@ -68,8 +70,22 @@ public class TransporterDrive extends CommandBase {
       transportSetpoint += TransporterConstants.TRANSPORT_STEP;
     }
     wasBallUnderOmni = Robot.m_transporter.isBallUnderTiming();
+  }
 
-    Robot.m_transporter.setDiagonalMotorSpeed(0.4);
+  private void diagonalMotorWithSpaceInTower(){
+    if (Robot.m_transporter.isBallInDiagonal() || Robot.m_transporter.isBallUnderTiming()){
+      Robot.m_transporter.setDiagonalMotorSpeed(0.4);
+    } else {
+      Robot.m_transporter.setDiagonalMotorSpeed(0);
+    }
+  }
+
+  private void diagonalMotorNoSpaceInTower(){
+    if (Robot.m_transporter.isBallInDiagonal() && !Robot.m_transporter.isBallUnderTiming()){
+      Robot.m_transporter.setDiagonalMotorSpeed(0.4);
+    } else {
+      Robot.m_transporter.setDiagonalMotorSpeed(0);
+    }
   }
 
   @Override
