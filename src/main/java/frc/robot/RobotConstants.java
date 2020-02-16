@@ -45,20 +45,23 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
-        public static final double SPEED_TOLERANCE = 500.0;//TODO : tune
+        public static final double SPEED_TOLERANCE = 500.0;
 
-        public static final double RIGHT_TOP_SPEED = 40000.0; //TODO:find
-        public static final double LEFT_TOP_SPEED = 40000.0; //TODO:find
-        public static final double VOLTAGE_AT_TOP_SPEED = 12; //TODO:find
+        public static final double RIGHT_TOP_SPEED = 24000.0; 
+        public static final double LEFT_TOP_SPEED = 25000.0;
+        public static final double VOLTAGE_AT_TOP_SPEED = 11; 
         public static final double RIGHT_KV = VOLTAGE_AT_TOP_SPEED/RIGHT_TOP_SPEED;
         public static final double LEFT_KV = VOLTAGE_AT_TOP_SPEED/LEFT_TOP_SPEED;
+        public static final double SPEED_KP = 0.000135;
         
         public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
-        public static final double TICKS_TO_ANGLES = 300;//TODO : tune
-        public static final double ANGLE_TOLERANCE = 0.5;//TODO : tune
-        public static final double ANGLE_KP = 0.007; //TODO : tune
+        public static final double TICKS_TO_ANGLES = 0.021176;
+        public static final double MAX_ANGLE = 45;
+        public static final double ANGLE_TOLERANCE = 0.15;//TODO : tune
+        public static final double ANGLE_KP = 0.0275; //TODO : tune
         public static final double ANGLE_KI = 0; //TODO : tune
         public static final double ANGLE_KD = 0; //TODO : tune
+        public static final double ANGLE_MOTOR_EXTRA = 0.0175;
     }
 
     public static class TransporterConstants{

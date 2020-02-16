@@ -17,16 +17,16 @@ public class RobotMap{
     public static final int[] LIFTER_PORTS = {0, 1};
 
     //Shooter
-    public static final int LEFT_SHOOTER_MOTOR_PORT = 6;
-    public static final int RIGHT_SHOOTER_MOTOR_PORT = 7;
+    public static final int LEFT_SHOOTER_MOTOR_PORT = 41;
+    public static final int RIGHT_SHOOTER_MOTOR_PORT = 42;
     public static final int SHOOTER_ANGLER_MOTOR = 15;
-    public static final int[] ANGLE_ENCODER_PORTS = {4,5};
     public static final int ZERO_ANGLE_LIMIT_SWITCH = 6;
+    public static final int[] angleEncoder = {4,5};
 
     //Transporter
-    public static final int TOWER_MOTOR_PORT = 0;
-    public static final int LOADING_MOTOR_PORT = 0;
-    public static final int DIAGONAL_MOTOR_PORT = 0;
+    public static final int TOWER_MOTOR_PORT = 33;
+    public static final int LOADING_MOTOR_PORT = 34;
+    public static final int DIAGONAL_MOTOR_PORT = 32;
     public static final int DIAGONAL_PING_PORT = 1;
     public static final int DIAGONAL_ECHO_PORT = 2;
     public static final int OUT_PING_PORT = 3;

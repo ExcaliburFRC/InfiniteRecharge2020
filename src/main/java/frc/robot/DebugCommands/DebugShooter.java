@@ -30,23 +30,24 @@ public class DebugShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double leftSpeed = (OI.armJoystick.getRawAxis(3)+1)/2;
-      double rightSpeed = (OI.armJoystick.getRawAxis(4)+1)/2;
+      double leftSpeed = OI.driverJoystick.getRawAxis(1);
+      // double rightSpeed = OI.driverJoystick.getRawAxis(5);
       
-      if (OI.armJoystick.getRawButton(1)){
-        Robot.m_shooter.setSpeedSetpoint(25000);
+      if (OI.driverJoystick.getRawButton(1)){
+        Robot.m_shooter.setSpeedSetpoint(20000);
         Robot.m_shooter.setIsSpeedPursuit(true);
       } else {
         Robot.m_shooter.setIsSpeedPursuit(false);
         Robot.m_shooter.setLeftMotorSpeed(leftSpeed);
-        Robot.m_shooter.setRightMotorSpeed(rightSpeed);
+        Robot.m_shooter.setRightMotorSpeed(leftSpeed);
       }
 
-      double angleMotorSpeed = OI.armJoystick.getRawAxis(5);
-      if (OI.armJoystick.getRawButton(2)){
-        Robot.m_shooter.setAngleSetpoint(45);
+      double angleMotorSpeed = OI.driverJoystick.getRawAxis(5)/5;
+      if (OI.driverJoystick.getRawButton(2)){
+        Robot.m_shooter.setAngleSetpoint(30);
         Robot.m_shooter.setIsAnglePursuit(true);
       } else {
+        Robot.m_shooter.setAngleSetpoint(0);
         Robot.m_shooter.setIsAnglePursuit(false);
         Robot.m_shooter.setAngleMotorPower(angleMotorSpeed);
       }
@@ -54,13 +55,10 @@ public class DebugShooter extends CommandBase {
       SmartDashboard.putNumber("DEBUG_LEFTSPEED", Robot.m_shooter.getLeftMotorSpeed());
       SmartDashboard.putNumber("DEBUG_RIGHTSPEED", Robot.m_shooter.getRightMotorSpeed());
       SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
+      SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
       SmartDashboard.putBoolean("DEBUG_isOnSpeed", Robot.m_shooter.isOnSpeed());
       SmartDashboard.putBoolean("DEBUG_isOnAngle", Robot.m_shooter.isOnAngle());
       SmartDashboard.putNumber("DEBUG_ROBOT_VOLTAGE", RobotController.getBatteryVoltage());
-
-
-
-
   }
 
   // Called once the command ends or is interrupted.
