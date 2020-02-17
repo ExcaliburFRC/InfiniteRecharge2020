@@ -61,7 +61,7 @@ public class Limelight extends SubsystemBase {
         hightSolenoid = new DoubleSolenoid(RobotMap.LIMELIGHT_SOLENOID_PORTS[0], RobotMap.LIMELIGHT_SOLENOID_PORTS[1]);
     }
 
-    private double getVar(String var){
+    public double getVar(String var){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry(var).getDouble(0);
     }
 
@@ -154,4 +154,8 @@ public class Limelight extends SubsystemBase {
         Value value = on ? Value.kForward : Value.kReverse;
         hightSolenoid.set(value);
     }
+
+    public boolean getLifterPistonPosition(){
+        return hightSolenoid.get() == Value.kForward ? true : false;
+      }
 }

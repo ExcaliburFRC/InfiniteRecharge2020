@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.GeneralCommands.ShootProccess;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.ShooterCommands.ShooterDown;
 
 public class OI{
     //Joysticks
@@ -13,8 +15,8 @@ public class OI{
     
     //Driver Joystick Constants
     public static final int xSpeedAxis = 1;
-    public static final int zRotationAxis = 3;
-    public static final int quickTurnButton = 7;
+    public static final int zRotationAxis = 2;
+    public static final int quickTurnButton = 5;
 
     //Arm Joystick Constants
     public static final int shootSetupButtonPort = 1;
@@ -26,7 +28,17 @@ public class OI{
     
     public static void init(){
         shootSetupButton = new JoystickButton(armJoystick, 11);
-        shootSetupButton.toggleWhenPressed(new ShootProccess(false));
+        // shootSetupButton.toggleWhenPressed(new ShootProccess(false));
+
+        var upBtn = new JoystickButton(armJoystick, 7).whenPressed(new RunCommand(()->{
+            Robot.m_limelight.setLifterState(true);
+        }, Robot.m_limelight));
+
+        var downBtn = new JoystickButton(armJoystick, 8).whenPressed(new RunCommand(()->{
+            Robot.m_limelight.setLifterState(false);
+        }, Robot.m_limelight));
+
+        var ShooterDownButton = new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
 
         initSmartDashboard();
     }

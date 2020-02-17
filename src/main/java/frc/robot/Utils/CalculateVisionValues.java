@@ -8,15 +8,15 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
     }
 
     public static double calculateDistanceShooter(double ty){
-        return ty*1; //TODO needs to be tuned
+        return 0.0293 * ty * ty - 1.29 * ty + 17.9;
     }
 
     public static double getOptimalShooterAngle(double dist){// gets the optimal shooter angle
-        return 0;
+        return 0.154 * dist * dist - 2.53 * dist + 31.7;
     }
 
     public static double getOptimalShooterSpeed(double dist){// gets the optimal shooter speed
-        return 0;
+        return 17500;
     }
 
     /*

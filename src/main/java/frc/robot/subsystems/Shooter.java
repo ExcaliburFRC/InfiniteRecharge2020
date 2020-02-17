@@ -35,7 +35,8 @@ public class Shooter extends SubsystemBase {
 
   boolean isSpeedPursuit, isAnglePursuit;
   double speedSetpoint, angleSetpoint;
-
+  double rightSpeedSetPoint, leftSpeedSetpoint;
+  BooleanAverager speedReadyAverager, angleReadyAverager;
 
   public Shooter() {
     leftShooterMotor = new TalonSRX(RobotMap.LEFT_SHOOTER_MOTOR_PORT);
@@ -60,6 +61,9 @@ public class Shooter extends SubsystemBase {
 
     speedSetpoint = 0;
     angleSetpoint = 0;
+
+    speedReadyAverager = new BooleanAverager(35);
+    angleReadyAverager = new BooleanAverager(35);
   }
 
   public void setAngleSetpoint(double setpoint){
@@ -100,28 +104,35 @@ public class Shooter extends SubsystemBase {
     return rightShooterMotor.getSelectedSensorVelocity();
   }
 
-  public boolean isOnSpeed(){
-    boolean motor1 = Math.abs(speedSetpoint - leftShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
-    boolean motor2 = Math.abs(speedSetpoint - rightShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+  public boolean getRawIsOnSpeed(){
+    boolean motor1 = Math.abs(leftSpeedSetpoint - leftShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor2 = Math.abs(rightSpeedSetPoint - rightShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
     return motor1 && motor2;
   }
 
-  public boolean isOnAngle(){
+  public boolean isOnSpeed(){
+    return speedReadyAverager.getAverage();
+  }
+
+  public boolean getRawIsOnAngle(){
     boolean angleError = Math.abs(angleSetpoint - angleEncoder.getDistance()) < ShooterConstants.ANGLE_TOLERANCE;
     return angleError;
+  }
+  public boolean isOnAngle(){
+    return angleReadyAverager.getAverage();
   }
 
   @Override
   public void periodic() {
     if (isSpeedPursuit){
-      var leftSetpoint = speedSetpoint;
-      var rightSetpoint = speedSetpoint * 0.92;
+      rightSpeedSetPoint = speedSetpoint * 1;
+      leftSpeedSetpoint = speedSetpoint * 1;
       
-      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * leftSetpoint)/12.0;
-      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * rightSetpoint)/12.0;
+      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * leftSpeedSetpoint)/12.0;
+      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * rightSpeedSetPoint)/12.0;
 
-      var leftError = leftSetpoint - leftShooterMotor.getSelectedSensorVelocity();
-      var rightError = rightSetpoint - rightShooterMotor.getSelectedSensorVelocity();
+      var leftError = leftSpeedSetpoint - leftShooterMotor.getSelectedSensorVelocity();
+      var rightError = rightSpeedSetPoint - rightShooterMotor.getSelectedSensorVelocity();
 
       var leftP = RobotUtils.clip(ShooterConstants.SPEED_KP * leftError, 0.125);
       var rightP = RobotUtils.clip(ShooterConstants.SPEED_KP * rightError, 0.125);
@@ -148,6 +159,9 @@ public class Shooter extends SubsystemBase {
     if (!zeroAngle.get()){
       angleEncoder.reset();
     }
+
+    angleReadyAverager.update(getRawIsOnAngle());
+    speedReadyAverager.update(getRawIsOnSpeed());
   }
 
   private double getFeedForward(){
@@ -168,5 +182,9 @@ public class Shooter extends SubsystemBase {
 
   private double compensateVoltage(double originalVoltage){
     return originalVoltage * (ShooterConstants.VOLTAGE_AT_TOP_SPEED/RobotController.getBatteryVoltage());
+  }
+
+  public boolean getZeroSwitch(){
+    return !zeroAngle.get();
   }
 }

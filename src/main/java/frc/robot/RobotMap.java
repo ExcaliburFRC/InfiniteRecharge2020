@@ -13,8 +13,8 @@ public class RobotMap{
     public static final int LED_PWM_PORT = 4;
 
     //Collector
-    public static final int ROLLER_MOTOR_PORT = 5;
-    public static final int[] LIFTER_PORTS = {0, 1};
+    public static final int ROLLER_MOTOR_PORT = 3;
+    public static final int[] LIFTER_PORTS = {2, 3};
 
     //Shooter
     public static final int LEFT_SHOOTER_MOTOR_PORT = 41;
@@ -43,5 +43,5 @@ public class RobotMap{
     public static final int HEIGHT_ENCODER_PORT2 = -1;   
 
     //Limelight
-    public static final int[] LIMELIGHT_SOLENOID_PORTS = {2, 3};
+    public static final int[] LIMELIGHT_SOLENOID_PORTS = {0, 1};
 }

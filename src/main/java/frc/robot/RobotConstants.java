@@ -45,7 +45,7 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
-        public static final double SPEED_TOLERANCE = 500.0;
+        public static final double SPEED_TOLERANCE = 200.0;
 
         public static final double RIGHT_TOP_SPEED = 24000.0; 
         public static final double LEFT_TOP_SPEED = 25000.0;
@@ -66,9 +66,9 @@ public class RobotConstants{
 
     public static class TransporterConstants{
         public static final double BALL_DETECTION_TOLERANCE = 0; //TODO: tune
-        public static final double TRANSPORT_STEP = 2100; //TODO: tune
+        public static final double TRANSPORT_STEP = 1900; //TODO: tune
         public static final double TRANSPORT_TOLERANCE = 150; //TODO: tune
-        public static final double IN_BETWEEN_TIME = 20;
+        public static final double IN_BETWEEN_TIME = 40;
     }
 
     public static class MotionProfilingConstants{
