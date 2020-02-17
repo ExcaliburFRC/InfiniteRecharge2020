@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,37 +17,48 @@ import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
 public class Transporter extends SubsystemBase {
-  private Spark towerMotor, loadingMotor, diagonalMotor;
-  private BallDetector shooterSensor, entranceSensor, timingBeltSensor;
-  private UltrasonicBallDetector diagonalSensor;
+  private VictorSPX towerMotor, loadingMotor, diagonalMotor;
+  private BallDetector shooterSensor, timingBeltSensor;
+  private UltrasonicBallDetector diagonalSensor, entranceSensor;
   private int ballAmount = 0;
   private boolean isReady;
   private Encoder timingEncoder;
   private boolean isAutoShoot;
 
   public Transporter() {
-    towerMotor = new Spark(RobotMap.TOWER_MOTOR_PORT);
-    loadingMotor = new Spark(RobotMap.LOADING_MOTOR_PORT);
-    diagonalMotor = new Spark(RobotMap.DIAGONAL_MOTOR_PORT);
+    towerMotor = new VictorSPX(RobotMap.TOWER_MOTOR_PORT);
+    loadingMotor = new VictorSPX(RobotMap.LOADING_MOTOR_PORT);
+    diagonalMotor = new VictorSPX(RobotMap.DIAGONAL_MOTOR_PORT);
+    diagonalMotor.setInverted(true);
 
-    entranceSensor = new MicroswitchBallDetector(RobotMap.ENTRANCE_SENSOR_PORT);
+    entranceSensor = new UltrasonicBallDetector(RobotMap.ENTRANCE_PING_PORT, RobotMap.ENTRANCE_ECHO_PORT, 20);
     timingBeltSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
-    shooterSensor = new UltrasonicBallDetector(RobotMap.OUT_PING_PORT, RobotMap.OUT_ECHO_PORT);
-    diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT, 400);
+    shooterSensor = new MicroswitchBallDetector(RobotMap.OUT_MICROSWITCH);
+    diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT, 52);
 
-    timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORT1,RobotMap.TIMING_ENCODER_PORT2);
+    timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORTS[0],RobotMap.TIMING_ENCODER_PORTS[1]);
+
+    entranceSensor.setAuto(true);
+    diagonalSensor.setAuto(true);
 
     isReady = false;
     isAutoShoot = false;
   }
 
+  public double getBallEntranceDistance(){
+    return entranceSensor.getMeasuredDistance();
+  }
 
   public void setDiagonalMotorSpeed(double s){
-    diagonalMotor.set(s);
+    diagonalMotor.set(ControlMode.PercentOutput, s);
   }
 
   public boolean isBallInDiagonal(){
     return diagonalSensor.isBallDetected();
+  }
+
+  public void setBallNumber(double num){
+    ballAmount = 0;
   }
 
   public double getBallDiagonalDistance(){
@@ -52,11 +66,11 @@ public class Transporter extends SubsystemBase {
   }
 
   public boolean isBallInShooter(){
-    return shooterSensor.isBallDetected();
+    return !shooterSensor.isBallDetected();
   }
 
   public boolean isBallUnderTiming(){
-    return timingBeltSensor.isBallDetected();
+    return !timingBeltSensor.isBallDetected();
   }
 
   public boolean isBallInEntrance(){
@@ -64,11 +78,11 @@ public class Transporter extends SubsystemBase {
   }
   
   public void setTowerMotorSpeed(double speed){
-    towerMotor.set(RobotUtils.clip(speed, 1));
+    towerMotor.set(ControlMode.PercentOutput, RobotUtils.clip(speed, 1));
   }
 
   public void setLoadingMotorSpeed(double speed){
-    loadingMotor.set(RobotUtils.clip(speed, 1));
+    loadingMotor.set(ControlMode.PercentOutput, RobotUtils.clip(speed, 1));
   }
 
   public int getBallAmount() {

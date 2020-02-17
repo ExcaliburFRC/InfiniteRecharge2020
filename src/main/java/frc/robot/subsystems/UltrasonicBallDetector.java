@@ -21,6 +21,10 @@ public class UltrasonicBallDetector implements BallDetector{
         return distanceSensor.getRangeMM() / 10;
     }
 
+    public void setAuto(boolean state){
+        distanceSensor.setAutomaticMode(state);
+    }
+
     @Override
     public boolean isBallDetected() {
         return getMeasuredDistance() < MINIMUM_DISTANCE;

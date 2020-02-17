@@ -34,7 +34,7 @@ public class DebugShooter extends CommandBase {
       // double rightSpeed = OI.driverJoystick.getRawAxis(5);
       
       if (OI.driverJoystick.getRawButton(1)){
-        Robot.m_shooter.setSpeedSetpoint(20000);
+        Robot.m_shooter.setSpeedSetpoint(22000);
         Robot.m_shooter.setIsSpeedPursuit(true);
       } else {
         Robot.m_shooter.setIsSpeedPursuit(false);

@@ -114,11 +114,14 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPursuit){
-      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * speedSetpoint)/12.0;
-      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * speedSetpoint)/12.0;
+      var leftSetpoint = speedSetpoint;
+      var rightSetpoint = speedSetpoint * 0.92;
+      
+      var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * leftSetpoint)/12.0;
+      var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * rightSetpoint)/12.0;
 
-      var leftError = speedSetpoint - leftShooterMotor.getSelectedSensorVelocity();
-      var rightError = speedSetpoint - rightShooterMotor.getSelectedSensorVelocity();
+      var leftError = leftSetpoint - leftShooterMotor.getSelectedSensorVelocity();
+      var rightError = rightSetpoint - rightShooterMotor.getSelectedSensorVelocity();
 
       var leftP = RobotUtils.clip(ShooterConstants.SPEED_KP * leftError, 0.125);
       var rightP = RobotUtils.clip(ShooterConstants.SPEED_KP * rightError, 0.125);

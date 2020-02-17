@@ -22,6 +22,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.ClimberCommands.ClimberDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
 import frc.robot.DebugCommands.DebugShooter;
+import frc.robot.DebugCommands.DebugTransport;
 import frc.robot.LEDCommands.DefaultLED;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -81,7 +82,7 @@ public class Robot extends TimedRobot {
     // m_leds = new LEDs();
     m_shooter = new Shooter();
     // m_climber = new Climber();
-    // m_transporter = new Transporter();
+    m_transporter = new Transporter();
     // m_collector = new Collector();
   }
 
@@ -94,7 +95,7 @@ public class Robot extends TimedRobot {
 
     // m_collector.setDefaultCommand(new CollectorDrive());
 
-    // m_transporter.setDefaultCommand(new TransporterDrive());
+    m_transporter.setDefaultCommand(new TransporterDrive());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 
