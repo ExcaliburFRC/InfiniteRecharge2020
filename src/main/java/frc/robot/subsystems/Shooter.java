@@ -42,6 +42,9 @@ public class Shooter extends SubsystemBase {
     leftShooterMotor = new TalonSRX(RobotMap.LEFT_SHOOTER_MOTOR_PORT);
     rightShooterMotor = new TalonSRX(RobotMap.RIGHT_SHOOTER_MOTOR_PORT);
     rightShooterMotor.setSensorPhase(true);
+    rightShooterMotor.configNeutralDeadband(0.1);
+    leftShooterMotor.configNeutralDeadband(0.1);
+
 
     angleMotor = new CANSparkMax(RobotMap.SHOOTER_ANGLER_MOTOR, MotorType.kBrushless);
     angleMotor.setIdleMode(IdleMode.kBrake);
