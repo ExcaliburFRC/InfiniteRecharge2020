@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -62,6 +63,8 @@ public class Chassi extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP);
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
+
+    setIdleMode(IdleMode.kCoast);
   }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean quickTurn){
@@ -133,6 +136,13 @@ public class Chassi extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotor.setVoltage(leftVolts);
     rightMotor.setVoltage(-rightVolts);
+  }
+
+  public void setIdleMode(IdleMode mode){
+    LBM.setIdleMode(mode);
+    LFM.setIdleMode(mode);
+    RBM.setIdleMode(mode);
+    RFM.setIdleMode(mode);
   }
 
   @Override

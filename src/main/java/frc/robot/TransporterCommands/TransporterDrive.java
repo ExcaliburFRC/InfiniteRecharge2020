@@ -46,8 +46,9 @@ public class TransporterDrive extends CommandBase {
     }
 
     transporterLocationDelta = Robot.m_transporter.getEncoderValue() - originalTransportLocation;
-    if (isShooting() || OI.armJoystick.getRawButton(1)){ // TODO: change this back
+    if (isShooting()){ // TODO: change this back
       Robot.m_transporter.setTowerMotorSpeed(0.4);
+      transportSetpoint = transporterLocationDelta;
     } else {
       readyForTower = !waitForTower;
       if (readyForTower){
@@ -73,7 +74,9 @@ public class TransporterDrive extends CommandBase {
   }
 
   private boolean isShooting(){
-    return Robot.m_transporter.getIsReady() && (OI.armJoystick.getRawButton(OI.shootButtonPort) || Robot.m_transporter.isAutoShoot());
+    return OI.armJoystick.getRawButton(1);
+    // return Robot.m_shooter.isOnSpeed() && Robot.m_shooter.isOnAngle(); 
+    // return Robot.m_transporter.getIsReady() && (OI.armJoystick.getRawButton(OI.shootButtonPort) || Robot.m_transporter.isAutoShoot());
   }
 
   private void putInTurn(){
@@ -84,7 +87,7 @@ public class TransporterDrive extends CommandBase {
     }
 
     if (waitingForUnderTiming){
-      Robot.m_transporter.setLoadingMotorSpeed(-0.325);
+      Robot.m_transporter.setLoadingMotorSpeed(-0.32);
     } else {
       Robot.m_transporter.setLoadingMotorSpeed(0);
     }
@@ -101,9 +104,9 @@ public class TransporterDrive extends CommandBase {
 
   private void diagonalMotorWithSpaceInTower(){
     if (Robot.m_transporter.isBallInDiagonal()){
-      Robot.m_transporter.setDiagonalMotorSpeed(0.6);
+      Robot.m_transporter.setDiagonalMotorSpeed(0.5);
     } else if (isInPursuit || waitingForUnderTiming || waitForTower) {
-      Robot.m_transporter.setDiagonalMotorSpeed(0.8);
+      Robot.m_transporter.setDiagonalMotorSpeed(0.7);
     } else {
       Robot.m_transporter.setDiagonalMotorSpeed(0);
     }
@@ -111,7 +114,7 @@ public class TransporterDrive extends CommandBase {
 
   private void diagonalMotorNoSpaceInTower(){
     if (Robot.m_transporter.isBallInDiagonal() && !Robot.m_transporter.isBallUnderTiming()){
-      Robot.m_transporter.setDiagonalMotorSpeed(0.6);
+      Robot.m_transporter.setDiagonalMotorSpeed(0.5);
     } else {
       Robot.m_transporter.setDiagonalMotorSpeed(0);
     }

@@ -34,7 +34,7 @@ public class CollectorDrive extends CommandBase {
     turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? -1 : 1;
 
     if (OI.armJoystick.getRawButton(OI.collectorTakeInBallButton)){
-      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.5);
+      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.95);
     } else {
       Robot.m_collector.setRollerMotorPower(0);
     }

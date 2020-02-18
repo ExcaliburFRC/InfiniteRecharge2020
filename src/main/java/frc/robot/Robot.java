@@ -87,27 +87,25 @@ public class Robot extends TimedRobot {
   }
 
   private void initSubsystems(){
-    m_chassi = new Chassi();
+    // m_chassi = new Chassi();
     m_limelight = new Limelight();
     // m_leds = new LEDs();
     // m_shooter = new Shooter();
     // m_climber = new Climber();
-    // m_transporter = new Transporter();
+    m_transporter = new Transporter();
     m_collector = new Collector();
   }
 
   private void initDefaultCommands(){
-    m_chassi.setDefaultCommand(new RunCommand(()->{
-      m_chassi.curvatureDrive(-OI.driverJoystick.getRawAxis(OI.xSpeedAxis),
-                    OI.driverJoystick.getRawAxis(OI.zRotationAxis),
-                    OI.driverJoystick.getRawButton(OI.quickTurnButton));
-    }, m_chassi));
-
-    
+    // m_chassi.setDefaultCommand(new RunCommand(()->{
+    //   m_chassi.curvatureDrive(-OI.driverJoystick.getRawAxis(OI.xSpeedAxis),
+    //                 OI.driverJoystick.getRawAxis(OI.zRotationAxis),
+    //                 OI.driverJoystick.getRawButton(OI.quickTurnButton));
+    // }, m_chassi));   
 
     m_collector.setDefaultCommand(new CollectorDrive());
 
-    // m_transporter.setDefaultCommand(new TransporterDrive());
+    m_transporter.setDefaultCommand(new TransporterDrive());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 

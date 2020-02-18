@@ -25,6 +25,8 @@ public class Transporter extends SubsystemBase {
   private Encoder timingEncoder;
   private boolean isAutoShoot;
 
+  private BooleanAverager timingBooleanAvarager, shooterSensorAvarager;
+
   public Transporter() {
     towerMotor = new VictorSPX(RobotMap.TOWER_MOTOR_PORT);
     loadingMotor = new VictorSPX(RobotMap.LOADING_MOTOR_PORT);
@@ -38,11 +40,14 @@ public class Transporter extends SubsystemBase {
 
     timingEncoder = new Encoder(RobotMap.TIMING_ENCODER_PORTS[0],RobotMap.TIMING_ENCODER_PORTS[1]);
 
-    entranceSensor.setAuto(true);
+    // entranceSensor.setAuto(true);
     diagonalSensor.setAuto(true);
 
     isReady = false;
     isAutoShoot = false;
+
+    timingBooleanAvarager = new BooleanAverager(5);
+    shooterSensorAvarager = new BooleanAverager(5);
   }
 
   public double getBallEntranceDistance(){
@@ -65,11 +70,19 @@ public class Transporter extends SubsystemBase {
     return diagonalSensor.getMeasuredDistance();
   }
 
-  public boolean isBallInShooter(){
+  public boolean getRawShooterSensor(){
     return !shooterSensor.isBallDetected();
   }
 
+  public boolean isBallInShooter(){
+    return shooterSensorAvarager.getAverage();
+  }
+
   public boolean isBallUnderTiming(){
+    return timingBooleanAvarager.getAverage();
+  }
+  
+  public boolean getRawUnderTiming(){
     return !timingBeltSensor.isBallDetected();
   }
 
@@ -129,5 +142,8 @@ public class Transporter extends SubsystemBase {
 
     lastInStatus = isBallUnderTiming();
     lastOutStatus = isBallInShooter();
+
+    timingBooleanAvarager.update(getRawUnderTiming());
+    shooterSensorAvarager.update(getRawShooterSensor());
   }
 }
