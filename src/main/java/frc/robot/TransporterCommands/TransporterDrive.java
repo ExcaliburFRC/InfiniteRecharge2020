@@ -46,8 +46,8 @@ public class TransporterDrive extends CommandBase {
     }
 
     transporterLocationDelta = Robot.m_transporter.getEncoderValue() - originalTransportLocation;
-    if (isShooting()){ // TODO: change this back
-      Robot.m_transporter.setTowerMotorSpeed(0.4);
+    if (isShooting()){
+      Robot.m_transporter.setTowerMotorSpeed(0.65);
       transportSetpoint = transporterLocationDelta;
     } else {
       readyForTower = !waitForTower;
@@ -74,8 +74,8 @@ public class TransporterDrive extends CommandBase {
   }
 
   private boolean isShooting(){
-    return OI.armJoystick.getRawButton(1);
-    // return Robot.m_shooter.isOnSpeed() && Robot.m_shooter.isOnAngle(); 
+    // return OI.armJoystick.getRawButton(1);
+    return Robot.m_shooter.isOnSpeed() && Robot.m_shooter.isOnAngle() && OI.armJoystick.getRawButton(1); 
     // return Robot.m_transporter.getIsReady() && (OI.armJoystick.getRawButton(OI.shootButtonPort) || Robot.m_transporter.isAutoShoot());
   }
 
@@ -105,7 +105,7 @@ public class TransporterDrive extends CommandBase {
   private void diagonalMotorWithSpaceInTower(){
     if (Robot.m_transporter.isBallInDiagonal()){
       Robot.m_transporter.setDiagonalMotorSpeed(0.5);
-    } else if (isInPursuit || waitingForUnderTiming || waitForTower) {
+    } else if (waitingForUnderTiming || waitForTower) {
       Robot.m_transporter.setDiagonalMotorSpeed(0.7);
     } else {
       Robot.m_transporter.setDiagonalMotorSpeed(0);

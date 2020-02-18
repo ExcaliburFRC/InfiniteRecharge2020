@@ -33,7 +33,7 @@ public class Transporter extends SubsystemBase {
     diagonalMotor = new VictorSPX(RobotMap.DIAGONAL_MOTOR_PORT);
     diagonalMotor.setInverted(true);
 
-    entranceSensor = new UltrasonicBallDetector(RobotMap.ENTRANCE_PING_PORT, RobotMap.ENTRANCE_ECHO_PORT, 20);
+    entranceSensor = new UltrasonicBallDetector(RobotMap.ENTRANCE_PING_PORT, RobotMap.ENTRANCE_ECHO_PORT, 30);
     timingBeltSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);
     shooterSensor = new MicroswitchBallDetector(RobotMap.OUT_MICROSWITCH);
     diagonalSensor = new UltrasonicBallDetector(RobotMap.DIAGONAL_PING_PORT, RobotMap.DIAGONAL_ECHO_PORT, 52);
@@ -46,8 +46,8 @@ public class Transporter extends SubsystemBase {
     isReady = false;
     isAutoShoot = false;
 
-    timingBooleanAvarager = new BooleanAverager(5);
-    shooterSensorAvarager = new BooleanAverager(5);
+    timingBooleanAvarager = new BooleanAverager(2);
+    shooterSensorAvarager = new BooleanAverager(3);
   }
 
   public double getBallEntranceDistance(){
@@ -145,5 +145,7 @@ public class Transporter extends SubsystemBase {
 
     timingBooleanAvarager.update(getRawUnderTiming());
     shooterSensorAvarager.update(getRawShooterSensor());
+
+    System.out.println(getEncoderValue());
   }
 }

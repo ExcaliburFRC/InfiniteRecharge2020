@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     initSubsystems();
     initDefaultCommands();
-    // OI.init(); //TODO: after all subsystems work, uncomment this
+    OI.init(); //TODO: after all subsystems work, uncomment this
     SmartDashboard.putNumber("AngleTOGO", Math.random());
   }
 
@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
+    m_limelight.setCamMode(Limelight.CamModes.VISION);
     SmartDashboard.putNumber("AngleTOGO", Math.random());
     // m_chassi.tankDrive(0, 0);
   }
@@ -87,21 +88,19 @@ public class Robot extends TimedRobot {
   }
 
   private void initSubsystems(){
-    // m_chassi = new Chassi();
+    m_chassi = new Chassi();
     m_limelight = new Limelight();
     // m_leds = new LEDs();
-    // m_shooter = new Shooter();
+    m_shooter = new Shooter();
     // m_climber = new Climber();
     m_transporter = new Transporter();
     m_collector = new Collector();
   }
 
   private void initDefaultCommands(){
-    // m_chassi.setDefaultCommand(new RunCommand(()->{
-    //   m_chassi.curvatureDrive(-OI.driverJoystick.getRawAxis(OI.xSpeedAxis),
-    //                 OI.driverJoystick.getRawAxis(OI.zRotationAxis),
-    //                 OI.driverJoystick.getRawButton(OI.quickTurnButton));
-    // }, m_chassi));   
+    //  m_chassi.setDefaultCommand(new RunCommand(()->{
+    //   m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
+    //  }, m_chassi));   
 
     m_collector.setDefaultCommand(new CollectorDrive());
 
@@ -111,7 +110,7 @@ public class Robot extends TimedRobot {
 
     // m_leds.setDefaultCommand(new DefaultLED());
 
-    // m_shooter.setDefaultCommand(new DebugShooter());
+    m_shooter.setDefaultCommand(new DebugShooter());
   }
 
   @Override

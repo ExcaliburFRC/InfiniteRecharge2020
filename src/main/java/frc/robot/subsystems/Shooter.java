@@ -62,8 +62,8 @@ public class Shooter extends SubsystemBase {
     speedSetpoint = 0;
     angleSetpoint = 0;
 
-    speedReadyAverager = new BooleanAverager(35);
-    angleReadyAverager = new BooleanAverager(35);
+    speedReadyAverager = new BooleanAverager(50);
+    angleReadyAverager = new BooleanAverager(45);
   }
 
   public void setAngleSetpoint(double setpoint){

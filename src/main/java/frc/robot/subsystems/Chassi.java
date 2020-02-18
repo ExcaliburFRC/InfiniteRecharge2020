@@ -42,6 +42,8 @@ public class Chassi extends SubsystemBase {
   DifferentialDriveOdometry driveOdometry;
 
   public Chassi() {
+    gyro = new AHRS(SPI.Port.kMXP);
+
     LBM = new CANSparkMax(RobotMap.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
     LFM = new CANSparkMax(RobotMap.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     RBM = new CANSparkMax(RobotMap.RIGHT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -52,15 +54,13 @@ public class Chassi extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
-    rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_P[0], RobotMap.RIGHT_ENCODER_P[1], RobotConstants.DriveConstants.isRightEncoderReversed);
-    rightEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-
-    leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_P[0], RobotMap.LEFT_ENCODER_P[1], RobotConstants.DriveConstants.isRightEncoderReversed);
+    leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_P[0], RobotMap.LEFT_ENCODER_P[1], RobotConstants.DriveConstants.isLeftEncoderReversed);
     leftEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
 
+    rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_P[0], RobotMap.RIGHT_ENCODER_P[1], RobotConstants.DriveConstants.isRightEncoderReversed);
+    rightEncoder.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+    
     resetEncoders();
-
-    gyro = new AHRS(SPI.Port.kMXP);
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
 

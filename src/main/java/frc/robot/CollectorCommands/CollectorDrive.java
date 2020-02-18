@@ -31,10 +31,10 @@ public class CollectorDrive extends CommandBase {
       Robot.m_collector.setLiferPistonPosition(false);
     }
 
-    turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? -1 : 1;
+    turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? 1 : -1;
 
     if (OI.armJoystick.getRawButton(OI.collectorTakeInBallButton)){
-      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.95);
+      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.7);
     } else {
       Robot.m_collector.setRollerMotorPower(0);
     }

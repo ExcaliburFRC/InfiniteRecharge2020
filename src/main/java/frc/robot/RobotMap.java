@@ -6,8 +6,8 @@ public class RobotMap{
     public static final int LEFT_FRONT_MOTOR_PORT = 13;
     public static final int RIGHT_BACK_MOTOR_PORT = 11;
     public static final int RIGHT_FRONT_MOTOR_PORT = 12;
-    public static final int[] RIGHT_ENCODER_P = {0,1};
-    public static final int[] LEFT_ENCODER_P = {2,3};
+    public static final int[] RIGHT_ENCODER_P = {12,13};
+    public static final int[] LEFT_ENCODER_P = {19,20};
 
     //LED
     public static final int LED_PWM_PORT = 4;
