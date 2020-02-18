@@ -7,14 +7,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.RobotMap;
 
 public class Collector extends SubsystemBase {
@@ -30,7 +26,7 @@ public class Collector extends SubsystemBase {
     rollerMotor.set(p);
   }
 
-  public void setLiferPistonPosition(boolean on){
+  public void setLifterPistonPosition(boolean on){
     Value value = on ? Value.kForward : Value.kReverse;
     lifterPiston.set(value);
   }

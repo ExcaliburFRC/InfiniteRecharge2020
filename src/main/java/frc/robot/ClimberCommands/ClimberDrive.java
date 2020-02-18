@@ -34,16 +34,16 @@ public class ClimberDrive extends CommandBase {
 
     if (pov == 0 && Robot.m_climber.getHeightEncoderValue() < ClimbConstants.MAX_HEIGHT){
       Robot.m_climber.setAbsHeightMotorSpeed(0.5 + ClimbConstants.AFF);
-    } else if (pov == 180){ //TODO: add constraint back - && Robot.m_climber.getHeightEncoderValue() > 0
+      pov = -1.0;//do not enter next block
+    } else if (pov == 180 && Robot.m_climber.getHeightEncoderValue() > ClimbConstants.MIN_HEIGHT){
       Robot.m_climber.setAbsHeightMotorSpeed(-0.5 + ClimbConstants.AFF);
+      pov = -1.0;//do not enter next block
     } else {
       Robot.m_climber.setAbsHeightMotorSpeed(ClimbConstants.AFF);
     }
 
-    if (pov == 90){
-      Robot.m_climber.setRobotClimbersPower(0.5);
-    } else if (pov == 270) {
-      Robot.m_climber.setRobotClimbersPower(-0.5);
+    if(pov != -1.0){
+      Robot.m_climber.setRobotClimbersPower((pov - 180.0) / -180.0);//270:90 -> -0.5 : 0.5
     } else {
       Robot.m_climber.setRobotClimbersPower(0);
     }

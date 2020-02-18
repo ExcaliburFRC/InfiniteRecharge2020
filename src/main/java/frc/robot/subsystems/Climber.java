@@ -12,13 +12,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
   private Encoder heightEncoder;
-  private TalonSRX climberLifterMotor;
-  private VictorSPX robotLifterMotor;
+  private Spark climberLifterMotor;
+  private Spark robotLifterMotor1, robotLifterMotor2;
+  // private SpeedControllerGroup robotLifterGroup;
 
   private boolean hasClimbed = false;
 
@@ -26,17 +30,16 @@ public class Climber extends SubsystemBase {
    * Creates a new Climber.
    */
   public Climber() {
-    heightEncoder = new Encoder(RobotMap.HEIGHT_ENCODER_PORT1,RobotMap.HEIGHT_ENCODER_PORT2);
-    climberLifterMotor = new TalonSRX(RobotMap.CLIMBER_LIFTER_MOTOR_PORT);
-    robotLifterMotor = new VictorSPX(RobotMap.ROBOT_LIFTER_MOTOR_PORT);
-  }
+    climberLifterMotor = new Spark(RobotMap.CLIMBER_LIFTER_MOTOR_PORT);
+    robotLifterMotor1= new Spark(RobotMap.ROBOT_LIFTER_MOTOR_PORT1);
+    robotLifterMotor2 = new Spark(RobotMap.ROBOT_LIFTER_MOTOR_PORT2);
+    // robotLifterGroup = new SpeedControllerGroup(robotLifterMotor1, robotLifterMotor2);
 
-  public void setClimberHeight(double height){
-    climberLifterMotor.set(ControlMode.Position, height);
+    heightEncoder = new Encoder(RobotMap.HEIGHT_ENCODER_PORT1,RobotMap.HEIGHT_ENCODER_PORT2);
   }
 
   public void setAbsHeightMotorSpeed(double speed){
-    climberLifterMotor.set(ControlMode.PercentOutput, speed);
+    climberLifterMotor.set(speed);
   }
 
   public int getHeightEncoderValue(){
@@ -47,11 +50,12 @@ public class Climber extends SubsystemBase {
   }
   public void setRobotClimbersPower(double power){
     hasClimbed = true;
-    robotLifterMotor.set(ControlMode.PercentOutput, power);
+    // robotLifterGroup.set(power);
+    robotLifterMotor1.set(power);
+    robotLifterMotor2.set(power);
   }
 
   public boolean getHasClimbed(){
     return hasClimbed;
   }
-
 }

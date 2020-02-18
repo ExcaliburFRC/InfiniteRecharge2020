@@ -26,9 +26,9 @@ public class CollectorDrive extends CommandBase {
   @Override
   public void execute() {
     if (OI.armJoystick.getRawButton(OI.collectorUpButton)){
-      Robot.m_collector.setLiferPistonPosition(true);
+      Robot.m_collector.setLifterPistonPosition(true);
     } else if (OI.armJoystick.getRawButton(OI.collectorDownButton)){
-      Robot.m_collector.setLiferPistonPosition(false);
+      Robot.m_collector.setLifterPistonPosition(false);
     }
 
     turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? 1 : -1;

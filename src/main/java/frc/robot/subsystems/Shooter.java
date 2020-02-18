@@ -21,6 +21,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.RobotMap;
@@ -62,7 +63,7 @@ public class Shooter extends SubsystemBase {
     speedSetpoint = 0;
     angleSetpoint = 0;
 
-    speedReadyAverager = new BooleanAverager(50);
+    speedReadyAverager = new BooleanAverager(125);
     angleReadyAverager = new BooleanAverager(45);
   }
 
@@ -162,6 +163,8 @@ public class Shooter extends SubsystemBase {
 
     angleReadyAverager.update(getRawIsOnAngle());
     speedReadyAverager.update(getRawIsOnSpeed());
+
+    SmartDashboard.putNumber("IsOkToShooter", isOnSpeed() ? 1 : 0);
   }
 
   private double getFeedForward(){

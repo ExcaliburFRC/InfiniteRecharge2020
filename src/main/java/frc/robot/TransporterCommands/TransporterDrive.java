@@ -47,7 +47,7 @@ public class TransporterDrive extends CommandBase {
 
     transporterLocationDelta = Robot.m_transporter.getEncoderValue() - originalTransportLocation;
     if (isShooting()){
-      Robot.m_transporter.setTowerMotorSpeed(0.65);
+      Robot.m_transporter.setTowerMotorSpeed(0.8);
       transportSetpoint = transporterLocationDelta;
     } else {
       readyForTower = !waitForTower;
@@ -86,11 +86,7 @@ public class TransporterDrive extends CommandBase {
       waitingForUnderTiming = false;
     }
 
-    if (waitingForUnderTiming){
-      Robot.m_transporter.setLoadingMotorSpeed(-0.32);
-    } else {
-      Robot.m_transporter.setLoadingMotorSpeed(0);
-    }
+    Robot.m_transporter.setLoadingMotorSpeed(waitingForUnderTiming? -0.32 : 0);
   }
 
   private void putInTower(){

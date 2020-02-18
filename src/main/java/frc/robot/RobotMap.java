@@ -32,13 +32,14 @@ public class RobotMap{
     public static final int DIAGONAL_ECHO_PORT = 7;
     public static final int OUT_MICROSWITCH = 1;
     public static final int UNDERTIMEING_SENSOR_PORT = 2;
-    public static final int[] TIMING_ENCODER_PORTS = {10,11}; //TODO- find
+    public static final int[] TIMING_ENCODER_PORTS = {10,11};
     public static final int ENTRANCE_PING_PORT = 8;
     public static final int ENTRANCE_ECHO_PORT = 9; 
     
     // Climber ports
-    public static final int CLIMBER_LIFTER_MOTOR_PORT = -1;
-    public static final int ROBOT_LIFTER_MOTOR_PORT = -1;
+    public static final int CLIMBER_LIFTER_MOTOR_PORT = 3;
+    public static final int ROBOT_LIFTER_MOTOR_PORT1 = 1;
+    public static final int ROBOT_LIFTER_MOTOR_PORT2 = 2;
     public static final int HEIGHT_ENCODER_PORT1 = -1;
     public static final int HEIGHT_ENCODER_PORT2 = -1;   
 

@@ -18,7 +18,7 @@ public class RobotConstants{
         //These values are tuned for large rotations
         public static final double TURN_KP = 0.0375; //TODO : tune
         public static final double TURN_AFF = 0.2825; //TODO : tune
-        public static final double ANGLE_TOLERACE = 0.75; //TODO : tune
+        public static final double ANGLE_TOLERACE = 0.5; //TODO : tune
     }
 
     public static class ClimbConstants{
@@ -29,6 +29,7 @@ public class RobotConstants{
         public static final double KD = 0;
         public static final double TOLERANCE = 10;
         public static final double AFF = 0;
+		public static final int MIN_HEIGHT = 0;//TODO : assert
     }
 
     public static class ImageProccessingConstants{
@@ -45,7 +46,7 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
-        public static final double SPEED_TOLERANCE = 150.0;
+        public static final double SPEED_TOLERANCE = 120.0;
 
         public static final double RIGHT_TOP_SPEED = 24000.0; 
         public static final double LEFT_TOP_SPEED = 26000.0;
@@ -58,7 +59,7 @@ public class RobotConstants{
         public static final double TICKS_TO_ANGLES = 0.021176;
         public static final double MAX_ANGLE = 45;
         public static final double ANGLE_TOLERANCE = 0.15;//TODO : tune
-        public static final double ANGLE_KP = 0.0275; //TODO : tune
+        public static final double ANGLE_KP = 0.0225; //TODO : tune
         public static final double ANGLE_KI = 0; //TODO : tune
         public static final double ANGLE_KD = 0; //TODO : tune
         public static final double ANGLE_MOTOR_EXTRA = 0.0175;

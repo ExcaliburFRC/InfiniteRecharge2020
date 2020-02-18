@@ -61,7 +61,8 @@ public class Robot extends TimedRobot {
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
     m_limelight.setCamMode(Limelight.CamModes.VISION);
-    SmartDashboard.putNumber("AngleTOGO", Math.random());
+    m_chassi.resetGyro();
+
     // m_chassi.tankDrive(0, 0);
   }
 
@@ -71,6 +72,8 @@ public class Robot extends TimedRobot {
     if (OI.armJoystick.getRawButton(5)){
       Robot.m_transporter.setBallNumber(0);
     }
+
+    SmartDashboard.putNumber("GYRO", m_chassi.getGyroAngle());
   }
 
   @Override
@@ -102,15 +105,15 @@ public class Robot extends TimedRobot {
     //   m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
     //  }, m_chassi));   
 
-    m_collector.setDefaultCommand(new CollectorDrive());
+    // m_collector.setDefaultCommand(new CollectorDrive());
 
-    m_transporter.setDefaultCommand(new TransporterDrive());
+    // m_transporter.setDefaultCommand(new TransporterDrive());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 
     // m_leds.setDefaultCommand(new DefaultLED());
 
-    m_shooter.setDefaultCommand(new DebugShooter());
+    // m_shooter.setDefaultCommand(new DebugShooter());
   }
 
   @Override

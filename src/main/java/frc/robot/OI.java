@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.ChassiCommands.RotateAngle;
 import frc.robot.GeneralCommands.ShootProccess;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.ShooterCommands.ShooterDown;
@@ -39,6 +40,8 @@ public class OI{
         }, Robot.m_limelight));
 
         var ShooterDownButton = new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
+
+        var rotateAngle = new JoystickButton(armJoystick, 10).whenPressed(new RotateAngle(90));
 
         initSmartDashboard();
     }

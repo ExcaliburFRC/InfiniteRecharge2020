@@ -30,8 +30,10 @@ public class RotateAngle extends CommandBase {
     error = angleSetpoint - Robot.m_chassi.getGyroAngle();
     turnPower = error * DriveConstants.TURN_KP;
     turnPower += error > 0 ? DriveConstants.TURN_AFF : -DriveConstants.TURN_AFF; 
-    turnPower = RobotUtils.clip(error,0.8);
-    Robot.m_chassi.arcadeDrive(0, turnPower);
+    turnPower = RobotUtils.clip(error, 0.4);
+    if (Math.abs(error) < DriveConstants.ANGLE_TOLERACE){
+      Robot.m_chassi.arcadeDrive(0, turnPower);
+    }
   }
 
   @Override
