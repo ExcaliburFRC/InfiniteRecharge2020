@@ -26,6 +26,7 @@ import frc.robot.ClimberCommands.ClimberDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
 import frc.robot.DebugCommands.DebugShooter;
 import frc.robot.DebugCommands.DebugTransport;
+import frc.robot.DebugCommands.FuckedNavXTransport;
 import frc.robot.LEDCommands.DefaultLED;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
     }
 
     SmartDashboard.putNumber("GYRO", m_chassi.getGyroAngle());
-    // SmartDashboard.putNumber("TransportEncoder", m_transporter.getEncoderValue());
+    SmartDashboard.putNumber("ShooterTX", CalculateVisionValues.getShooterTX2(m_limelight.getTx(), m_limelight.getTy()));
   }
 
   @Override
@@ -106,15 +107,15 @@ public class Robot extends TimedRobot {
       m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
      }, m_chassi));   
 
-    m_collector.setDefaultCommand(new CollectorDrive());
+    // m_collector.setDefaultCommand(new CollectorDrive());
 
-    m_transporter.setDefaultCommand(new TransporterDrive());
+    // m_transporter.setDefaultCommand(new FuckedNavXTransport());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 
     // m_leds.setDefaultCommand(new DefaultLED());
 
-    // m_shooter.setDefaultCommand(new DebugShooter());
+    m_shooter.setDefaultCommand(new DebugShooter());
   }
 
   @Override

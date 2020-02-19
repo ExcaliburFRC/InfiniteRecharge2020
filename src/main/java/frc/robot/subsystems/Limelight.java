@@ -68,14 +68,14 @@ public class Limelight extends SubsystemBase {
     @Override
     public void periodic(){
         //need to think about only activating some times so that it isnt too CPU intensive
-        this.tv = (int) (this.getVar("tv"));
-        this.tx = this.getVar("tx");
-        this.ty = this.getVar("ty");
-        this.ta = this.getVar("ta");
-        this.tshort = this.getVar("tshort");
-        this.tlong = this.getVar("tlong");
-        this.thor = this.getVar("thor");
-        this.tvert = this.getVar("tvert");
+        // this.tv = (int) (this.getVar("tv"));
+        // this.tx = this.getVar("tx");
+        // this.ty = this.getVar("ty");
+        // this.ta = this.getVar("ta");
+        // this.tshort = this.getVar("tshort");
+        // this.tlong = this.getVar("tlong");
+        // this.thor = this.getVar("thor");
+        // this.tvert = this.getVar("tvert");
     }
     
     public void setLEDMode(int mode){
@@ -99,19 +99,19 @@ public class Limelight extends SubsystemBase {
     }
 
     public int getTv() {
-        return tv;
+        return (int) getVar("tv");
     }
 
     public boolean isDetectingTarget(){
-        return tv == 1;
+        return getTv() == 1;
     }
 
     public double getTx() {
-        return tx;
+        return getVar("tx");
     }
 
     public double getTy() {
-        return ty;
+        return getVar("ty");
     }
 
     public double getTa() {

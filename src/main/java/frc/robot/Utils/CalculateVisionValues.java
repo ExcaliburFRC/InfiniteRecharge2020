@@ -16,7 +16,7 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
     }
 
     public static double getOptimalShooterSpeed(double dist){// gets the optimal shooter speed
-        return 17500;
+        return 20000;
     }
 
     /*
@@ -42,5 +42,16 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
 
         double inCosine = (-Math.pow(d,2) + x2 + Math.pow(z,2)) / (2 * Math.sqrt(x2) * z);
         return 90 - Math.toDegrees(Math.acos(inCosine));
+    }   
+
+    public static double getShooterTX2(double tx, double ty){
+        double offset = RobotConstants.ImageProccessingConstants.CAMERA_OFFSET_FROM_SHOOTER;
+        double dist = calculateDistanceShooter(ty);
+        double hortx = Math.PI / 2 - Math.toRadians(tx);
+        double f = Math.sqrt(dist * dist + Math.pow(offset, 2) - 2 * dist * offset * Math.cos(hortx));
+        double c = Math.asin(offset * Math.sin(hortx) / f);
+        double b = Math.PI - hortx - c;
+        double a = (Math.PI / 2 - b) * 180.0 / Math.PI;
+        return a;
     }
 }

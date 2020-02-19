@@ -7,53 +7,50 @@
 
 package frc.robot.ChassiCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotConstants;
-import frc.robot.RobotConstants.ImageProccessingConstants;
-import frc.robot.Utils.CalculateVisionValues;
+import frc.robot.RobotConstants.DriveConstants;
 import frc.robot.Utils.RobotUtils;
+import frc.robot.subsystems.BooleanAverager;
 
 public class PursuitTX extends CommandBase {
-  /**
-   * Creates a new PersuitTX.
-   */
-  double error;
-  double TX;
+  private double error, turnPower; //angleChange is the change in angle needed for every run
+  private BooleanAverager errorAverager;
+
   public PursuitTX() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.m_chassi);
+    errorAverager = new BooleanAverager(30);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    errorAverager.reset();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TX = CalculateVisionValues.getShooterTX(Robot.m_limelight.getTx(), Robot.m_limelight.getTy());
-    error = (TX) * ImageProccessingConstants.TURN_KP;
-    error += error > 0 ? ImageProccessingConstants.TURN_AFF : -ImageProccessingConstants.TURN_AFF; 
-    error = RobotUtils.clip(error,0.75);
+    error = Robot.m_limelight.getTx();
+    turnPower = error * DriveConstants.TURN_KP;
+    turnPower += error > 0 ? DriveConstants.TURN_AFF : -DriveConstants.TURN_AFF; 
+    turnPower = RobotUtils.clip(turnPower, DriveConstants.MAX_TURN);
 
-    if (!isReady()){
-      Robot.m_chassi.arcadeDrive(0, error);
-    }
+    Robot.m_chassi.arcadeDrive(0, turnPower);
+
+    errorAverager.update(Math.abs(error) < DriveConstants.ANGLE_TOLERACE);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.m_chassi.tankDrive(0, 0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return errorAverager.getAverage();
   }
 
   public boolean isReady(){
-    return ((TX) < RobotConstants.ImageProccessingConstants.TX_TOLERANCE);
+    return errorAverager.getAverage();
   }
 }

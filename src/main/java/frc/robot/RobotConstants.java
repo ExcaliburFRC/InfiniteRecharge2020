@@ -40,7 +40,7 @@ public class RobotConstants{
         public static final double VISION_TURN_MAX = 0.85;// TODO : tune
         public static final double TX_TOLERANCE = 0.2; // TODO : tune
 
-        public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.5; //TODO: messure
+        public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.315; //TODO: messure
 
         public static final double FORWARD_KP = 0.2;
         public static final double FORWARD_AFF = 0.2;
@@ -51,7 +51,7 @@ public class RobotConstants{
 
         public static final double RIGHT_TOP_SPEED = 27500.0; 
         public static final double LEFT_TOP_SPEED = 27000.0;
-        public static final double VOLTAGE_AT_TOP_SPEED = 11; 
+        public static final double VOLTAGE_AT_TOP_SPEED = 11.4; 
         public static final double RIGHT_KV = VOLTAGE_AT_TOP_SPEED/RIGHT_TOP_SPEED;
         public static final double LEFT_KV = VOLTAGE_AT_TOP_SPEED/LEFT_TOP_SPEED;
         public static final double SPEED_KP = 0.000145;
