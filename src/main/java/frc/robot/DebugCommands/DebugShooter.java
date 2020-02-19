@@ -57,9 +57,9 @@ public class DebugShooter extends CommandBase {
         Robot.m_shooter.setAngleMotorPower(angleMotorSpeed);
       }
 
-      SmartDashboard.putNumber("DEBUG_LEFTSPEED", Robot.m_shooter.getLeftMotorSpeed());
-      SmartDashboard.putNumber("DEBUG_RIGHTSPEED", Robot.m_shooter.getRightMotorSpeed());
-      // SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
+      SmartDashboard.putNumber("DEBUG_LEFTSPEED", 20000 - Robot.m_shooter.getLeftMotorSpeed());
+      SmartDashboard.putNumber("DEBUG_RIGHTSPEED", 20000 - Robot.m_shooter.getRightMotorSpeed());
+      SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
       // SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
       SmartDashboard.putBoolean("DEBUG_isOnSpeed", Robot.m_shooter.isOnSpeed());
       SmartDashboard.putBoolean("DEBUG_isOnAngle", Robot.m_shooter.isOnAngle());

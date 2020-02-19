@@ -63,7 +63,7 @@ public class Shooter extends SubsystemBase {
     speedSetpoint = 0;
     angleSetpoint = 0;
 
-    speedReadyAverager = new BooleanAverager(125);
+    speedReadyAverager = new BooleanAverager(60);
     angleReadyAverager = new BooleanAverager(45);
   }
 
@@ -106,8 +106,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getRawIsOnSpeed(){
-    boolean motor1 = Math.abs(leftSpeedSetpoint - leftShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
-    boolean motor2 = Math.abs(rightSpeedSetPoint - rightShooterMotor.getSelectedSensorVelocity()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor1 = Math.abs(speedSetpoint - getLeftMotorSpeed()) < ShooterConstants.SPEED_TOLERANCE;
+    boolean motor2 = Math.abs(speedSetpoint - getRightMotorSpeed()) < ShooterConstants.SPEED_TOLERANCE;
     return motor1 && motor2;
   }
 
@@ -126,8 +126,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPursuit){
-      rightSpeedSetPoint = speedSetpoint * 1;
-      leftSpeedSetpoint = speedSetpoint * 1;
+      var finePower = 0.98;
+      rightSpeedSetPoint = speedSetpoint * finePower;
+      leftSpeedSetpoint = speedSetpoint * finePower;
       
       var leftAFF = compensateVoltage(ShooterConstants.LEFT_KV * leftSpeedSetpoint)/12.0;
       var rightAFF = compensateVoltage(ShooterConstants.RIGHT_KV * rightSpeedSetPoint)/12.0;

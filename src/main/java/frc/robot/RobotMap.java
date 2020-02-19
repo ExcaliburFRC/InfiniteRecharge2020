@@ -20,7 +20,7 @@ public class RobotMap{
     public static final int LEFT_SHOOTER_MOTOR_PORT = 41;
     public static final int RIGHT_SHOOTER_MOTOR_PORT = 42;
     public static final int SHOOTER_ANGLER_MOTOR = 15;
-    public static final int ZERO_ANGLE_LIMIT_SWITCH = 6;
+    public static final int ZERO_ANGLE_LIMIT_SWITCH = 0;
     public static final int[] angleEncoder = {4,5};
 
     //Transporter

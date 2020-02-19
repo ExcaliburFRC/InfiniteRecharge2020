@@ -70,6 +70,7 @@ public class TransporterDrive extends CommandBase {
       }
       timeSinceUnderTiming++;
     }
+    System.out.println(Robot.m_transporter.getEncoderValue());
     // SmartDashboard.putNumber("DEBUG_timeSinceUnderTiming", timeSinceUnderTiming);
   }
 
