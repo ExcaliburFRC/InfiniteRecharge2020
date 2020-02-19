@@ -59,11 +59,11 @@ public class DebugShooter extends CommandBase {
 
       SmartDashboard.putNumber("DEBUG_LEFTSPEED", Robot.m_shooter.getLeftMotorSpeed());
       SmartDashboard.putNumber("DEBUG_RIGHTSPEED", Robot.m_shooter.getRightMotorSpeed());
-      SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
-      SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
+      // SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
+      // SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
       SmartDashboard.putBoolean("DEBUG_isOnSpeed", Robot.m_shooter.isOnSpeed());
       SmartDashboard.putBoolean("DEBUG_isOnAngle", Robot.m_shooter.isOnAngle());
-      SmartDashboard.putNumber("DEBUG_ROBOT_VOLTAGE", RobotController.getBatteryVoltage());
+      // SmartDashboard.putNumber("DEBUG_ROBOT_VOLTAGE", RobotController.getBatteryVoltage());
   }
 
   // Called once the command ends or is interrupted.

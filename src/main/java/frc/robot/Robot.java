@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
     }
 
     SmartDashboard.putNumber("GYRO", m_chassi.getGyroAngle());
+    // SmartDashboard.putNumber("TransportEncoder", m_transporter.getEncoderValue());
   }
 
   @Override
@@ -87,7 +88,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     OI.updateSmartDashBoard();
-    SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(m_limelight.getVar("ty")));
+    // SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(m_limelight.getVar("ty")));
   }
 
   private void initSubsystems(){
@@ -101,13 +102,13 @@ public class Robot extends TimedRobot {
   }
 
   private void initDefaultCommands(){
-    //  m_chassi.setDefaultCommand(new RunCommand(()->{
-    //   m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
-    //  }, m_chassi));   
+     m_chassi.setDefaultCommand(new RunCommand(()->{
+      m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
+     }, m_chassi));   
 
-    // m_collector.setDefaultCommand(new CollectorDrive());
+    m_collector.setDefaultCommand(new CollectorDrive());
 
-    // m_transporter.setDefaultCommand(new TransporterDrive());
+    m_transporter.setDefaultCommand(new TransporterDrive());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 

@@ -6,11 +6,7 @@ public class BooleanAverager{
     public BooleanAverager(int bucketSize){
         this.size = bucketSize;
         this.location = 0;
-        bucket = new boolean[this.size];
-
-        for (int i = 0 ; i < size; i++){
-            bucket[i] = false;
-        }
+        reset();
     }
 
     public void update(boolean val){
@@ -24,5 +20,13 @@ public class BooleanAverager{
             if (i) trueNum++;
         }
         return trueNum > size/2;
+    }
+
+    public void reset(){
+        bucket = new boolean[this.size];
+
+        for (int i = 0 ; i < size; i++){
+            bucket[i] = false;
+        }
     }
 }

@@ -135,8 +135,8 @@ public class Shooter extends SubsystemBase {
       var leftError = leftSpeedSetpoint - leftShooterMotor.getSelectedSensorVelocity();
       var rightError = rightSpeedSetPoint - rightShooterMotor.getSelectedSensorVelocity();
 
-      var leftP = RobotUtils.clip(ShooterConstants.SPEED_KP * leftError, 0.125);
-      var rightP = RobotUtils.clip(ShooterConstants.SPEED_KP * rightError, 0.125);
+      var leftP = RobotUtils.clip(ShooterConstants.SPEED_KP * leftError, ShooterConstants.kPEffectiveness);
+      var rightP = RobotUtils.clip(ShooterConstants.SPEED_KP * rightError, ShooterConstants.kPEffectiveness);
 
       leftShooterMotor.set(ControlMode.PercentOutput, leftAFF + leftP);
       rightShooterMotor.set(ControlMode.PercentOutput, rightAFF + rightP);
@@ -164,7 +164,7 @@ public class Shooter extends SubsystemBase {
     angleReadyAverager.update(getRawIsOnAngle());
     speedReadyAverager.update(getRawIsOnSpeed());
 
-    SmartDashboard.putNumber("IsOkToShooter", isOnSpeed() ? 1 : 0);
+    // SmartDashboard.putNumber("IsOkToShooter", isOnSpeed() ? 1 : 0);
   }
 
   private double getFeedForward(){

@@ -146,6 +146,6 @@ public class Transporter extends SubsystemBase {
     timingBooleanAvarager.update(getRawUnderTiming());
     shooterSensorAvarager.update(getRawShooterSensor());
 
-    System.out.println(getEncoderValue());
+    // System.out.println(getEncoderValue());
   }
 }

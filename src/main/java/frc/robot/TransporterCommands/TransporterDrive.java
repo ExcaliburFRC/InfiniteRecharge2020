@@ -10,7 +10,7 @@ import frc.robot.subsystems.Transporter;
 public class TransporterDrive extends CommandBase { 
   BallManipulationState state;
   double transportSetpoint, originalTransportLocation, transporterLocationDelta;
-  boolean wasBallUnderOmni, waitingForUnderTiming, isInPursuit, waitForTower, readyForTower;
+  boolean wasBallUnderOmni, waitingForUnderTiming, isInPursuit, waitForTower, readyForTower, lastUnderTimingStatus;
   double timeSinceUnderTiming;
 
   public TransporterDrive() {
@@ -70,7 +70,7 @@ public class TransporterDrive extends CommandBase {
       }
       timeSinceUnderTiming++;
     }
-    SmartDashboard.putNumber("DEBUG_timeSinceUnderTiming", timeSinceUnderTiming);
+    // SmartDashboard.putNumber("DEBUG_timeSinceUnderTiming", timeSinceUnderTiming);
   }
 
   private boolean isShooting(){
@@ -82,11 +82,13 @@ public class TransporterDrive extends CommandBase {
   private void putInTurn(){
     if (Robot.m_transporter.isBallInEntrance() && !(waitForTower || Robot.m_transporter.isBallUnderTiming())){
       waitingForUnderTiming = true;
-    } else if (Robot.m_transporter.isBallUnderTiming()){
+    } else if (!Robot.m_transporter.isBallUnderTiming() && lastUnderTimingStatus){
       waitingForUnderTiming = false;
     }
 
     Robot.m_transporter.setLoadingMotorSpeed(waitingForUnderTiming? -0.32 : 0);
+
+    lastUnderTimingStatus = Robot.m_transporter.isBallUnderTiming();
   }
 
   private void putInTower(){
