@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 // import frc.robot.Pathfinding.FollowerCommandGenerator;
 // import frc.robot.Pathfinding.TestingPaths;
@@ -22,10 +23,13 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Transporter;
 import frc.robot.subsystems.Collector;
+import frc.robot.ChassiCommands.TimedStrightDrive;
 import frc.robot.ClimberCommands.ClimberDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
 import frc.robot.DebugCommands.DebugShooter;
 import frc.robot.DebugCommands.DebugTransport;
+import frc.robot.GeneralCommands.ShootProccess;
+import frc.robot.GeneralCommands.Wait;
 import frc.robot.TransporterCommands.FuckedNavXTransport;
 import frc.robot.LEDCommands.DefaultLED;
 import frc.robot.ShooterCommands.ShooterDown;
@@ -40,6 +44,7 @@ public class Robot extends TimedRobot {
   public static Transporter m_transporter;
   public static Collector m_collector;
   private boolean isFirstTime;
+  Command autoCommand;
   
   @Override
   public void robotInit() {
@@ -58,6 +63,12 @@ public class Robot extends TimedRobot {
       new ShooterDown().schedule();
     }
     // FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
+    var shootCommand = new ShootProccess(true);
+    var shooterWaitCommand = new Wait(8);
+    var moveBack = new TimedStrightDrive(1100, -0.6);
+
+    autoCommand = moveBack.andThen(shooterWaitCommand.deadlineWith(shootCommand));
+    autoCommand.schedule();
   }
 
   @Override
@@ -67,6 +78,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    autoCommand.end(true);
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
     m_limelight.setCamMode(Limelight.CamModes.DRIVING);
