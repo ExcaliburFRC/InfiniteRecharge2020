@@ -31,7 +31,6 @@ public class Transporter extends SubsystemBase {
     towerMotor = new VictorSPX(RobotMap.TOWER_MOTOR_PORT);
     loadingMotor = new VictorSPX(RobotMap.LOADING_MOTOR_PORT);
     diagonalMotor = new VictorSPX(RobotMap.DIAGONAL_MOTOR_PORT);
-    diagonalMotor.setInverted(true);
 
     entranceSensor = new UltrasonicBallDetector(RobotMap.ENTRANCE_PING_PORT, RobotMap.ENTRANCE_ECHO_PORT, 30);
     timingBeltSensor = new MicroswitchBallDetector(RobotMap.UNDERTIMEING_SENSOR_PORT);

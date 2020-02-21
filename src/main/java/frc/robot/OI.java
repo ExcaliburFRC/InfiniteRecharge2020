@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.ChassiCommands.PursuitTX;
 import frc.robot.ChassiCommands.RotateAngle;
+import frc.robot.ChassiCommands.TimedStrightDrive;
 import frc.robot.GeneralCommands.ShootProccess;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.ShooterCommands.ShooterDown;
@@ -42,9 +43,9 @@ public class OI{
 
         var ShooterDownButton = new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
 
-        var rotateAngle = new JoystickButton(armJoystick, 10).whenPressed(new RotateAngle(90));
+        var rotateAngle = new JoystickButton(armJoystick, 10).whenPressed(new TimedStrightDrive(1500, -0.6));
 
-        var txPursuit = new JoystickButton(armJoystick, 9).whenPressed(new PursuitTX());
+        var txPursuit = new JoystickButton(armJoystick, 9).toggleWhenPressed(new ShootProccess(false));
 
         initSmartDashboard();
     }

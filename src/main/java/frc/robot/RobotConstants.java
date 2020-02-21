@@ -20,6 +20,11 @@ public class RobotConstants{
         public static final double TURN_KP = 0.0225; //TODO : tune
         public static final double TURN_AFF = 0.135; //TODO : tune
         public static final double ANGLE_TOLERACE = 0.5; //TODO : tune
+        
+        public static final double DISTANCE_KP = 0.3;
+        public static final double DISTANCE_TOLERANCE = 0.5;
+    
+
     }
 
     public static class ClimbConstants{
@@ -47,24 +52,28 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
-        public static final double SPEED_TOLERANCE = 150.0;
+        public static final double SPEED_TOLERANCE = 250.0;
 
         public static final double RIGHT_TOP_SPEED = 27500.0; 
         public static final double LEFT_TOP_SPEED = 27000.0;
         public static final double VOLTAGE_AT_TOP_SPEED = 11.4; 
         public static final double RIGHT_KV = VOLTAGE_AT_TOP_SPEED/RIGHT_TOP_SPEED;
         public static final double LEFT_KV = VOLTAGE_AT_TOP_SPEED/LEFT_TOP_SPEED;
-        public static final double SPEED_KP = 0.000145;
+        public static final double SPEED_KP = 0.000135;
+        public static final double SPEED_KI = 0.0000001;
         public static final double kPEffectiveness = 0.175;
         
         public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
-        public static final double TICKS_TO_ANGLES = 0.021176;
+        public static final double TICKS_TO_ANGLES = 0.027226;
         public static final double MAX_ANGLE = 45;
-        public static final double ANGLE_TOLERANCE = 0.15;//TODO : tune
-        public static final double ANGLE_KP = 0.325; //TODO : tune
+        public static final double ANGLE_TOLERANCE = 0.45;//TODO : tune
+        public static final double ANGLE_KP = 0.15; //TODO : tune
         public static final double ANGLE_KI = 0; //TODO : tune
         public static final double ANGLE_KD = 0; //TODO : tune
-        public static final double ANGLE_MOTOR_EXTRA = 0.0175;
+        public static final double ANGLE_MOTOR_EXTRA = 0.0075;
+
+        public static final int SPEED_BUCKET_SIZE = 20;
+        public static final int ANGLE_BUCKET_SIZE = 35;
     }
 
     public static class TransporterConstants{
@@ -72,6 +81,8 @@ public class RobotConstants{
         public static final double TRANSPORT_STEP = 1400; //TODO: tune
         public static final double TRANSPORT_TOLERANCE = 150; //TODO: tune
         public static final double IN_BETWEEN_TIME = 25;
+        public static final double STOP_TIME = 250;
+        public static final double END_SLOW_TIME = 750;
     }
 
     public static class MotionProfilingConstants{

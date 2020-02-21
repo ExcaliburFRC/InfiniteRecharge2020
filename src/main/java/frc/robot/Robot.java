@@ -26,8 +26,9 @@ import frc.robot.ClimberCommands.ClimberDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
 import frc.robot.DebugCommands.DebugShooter;
 import frc.robot.DebugCommands.DebugTransport;
-import frc.robot.DebugCommands.FuckedNavXTransport;
+import frc.robot.TransporterCommands.FuckedNavXTransport;
 import frc.robot.LEDCommands.DefaultLED;
+import frc.robot.ShooterCommands.ShooterDown;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
@@ -38,17 +39,24 @@ public class Robot extends TimedRobot {
   public static Climber m_climber;
   public static Transporter m_transporter;
   public static Collector m_collector;
+  private boolean isFirstTime;
   
   @Override
   public void robotInit() {
     initSubsystems();
     initDefaultCommands();
-    OI.init(); //TODO: after all subsystems work, uncomment this
-    SmartDashboard.putNumber("AngleTOGO", Math.random());
+    OI.init();
+    isFirstTime = true;
+    SmartDashboard.putNumber("ReqSpeed", 0.1);
+    SmartDashboard.putNumber("ReqAngle", 0.1);
   }
 
   @Override
   public void autonomousInit() {
+    if (isFirstTime){
+      isFirstTime = false;
+      new ShooterDown().schedule();
+    }
     // FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
   }
 
@@ -61,10 +69,16 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
-    m_limelight.setCamMode(Limelight.CamModes.VISION);
+    m_limelight.setCamMode(Limelight.CamModes.DRIVING);
+    m_limelight.setLEDMode(Limelight.LedModes.OFF);
     m_chassi.resetGyro();
 
-    // m_chassi.tankDrive(0, 0);
+    if (isFirstTime){
+      isFirstTime = false;
+      new ShooterDown().schedule();
+    }
+    // m_limelight.setCamMode(Limelight.CamModes.VISION);
+    // m_limelight.setLEDMode(Limelight.LedModes.ON);
   }
 
   @Override
@@ -75,7 +89,9 @@ public class Robot extends TimedRobot {
     }
 
     SmartDashboard.putNumber("GYRO", m_chassi.getGyroAngle());
-    SmartDashboard.putNumber("ShooterTX", CalculateVisionValues.getShooterTX2(m_limelight.getTx(), m_limelight.getTy()));
+
+    m_climber.setRobotClimbersPower(-OI.armJoystick.getRawAxis(2));
+    m_climber.setAbsHeightMotorSpeed(OI.armJoystick.getRawAxis(1));
   }
 
   @Override
@@ -89,15 +105,17 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     OI.updateSmartDashBoard();
-    // SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(m_limelight.getVar("ty")));
+    SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(m_limelight.getVar("ty")));
+    // SmartDashboard.putNumber("limelightAngle",m_limelight.getTx());
+
   }
 
   private void initSubsystems(){
     m_chassi = new Chassi();
     m_limelight = new Limelight();
     // m_leds = new LEDs();
-    m_shooter = new Shooter();
-    // m_climber = new Climber();
+    m_shooter = new Shooter(true);
+    m_climber = new Climber();
     m_transporter = new Transporter();
     m_collector = new Collector();
   }
@@ -107,15 +125,15 @@ public class Robot extends TimedRobot {
       m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
      }, m_chassi));   
 
-    // m_collector.setDefaultCommand(new CollectorDrive());
+    m_collector.setDefaultCommand(new CollectorDrive());
 
-    // m_transporter.setDefaultCommand(new FuckedNavXTransport());
+    m_transporter.setDefaultCommand(new FuckedNavXTransport());
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 
     // m_leds.setDefaultCommand(new DefaultLED());
 
-    m_shooter.setDefaultCommand(new DebugShooter());
+    // m_shooter.setDefaultCommand(new DebugShooter());
   }
 
   @Override

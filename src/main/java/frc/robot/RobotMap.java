@@ -37,11 +37,11 @@ public class RobotMap{
     public static final int ENTRANCE_ECHO_PORT = 9; 
     
     // Climber ports
-    public static final int CLIMBER_LIFTER_MOTOR_PORT = 3;
+    public static final int CLIMBER_LIFTER_MOTOR_PORT = 2;
     public static final int ROBOT_LIFTER_MOTOR_PORT1 = 1;
-    public static final int ROBOT_LIFTER_MOTOR_PORT2 = 2;
-    public static final int HEIGHT_ENCODER_PORT1 = -1;
-    public static final int HEIGHT_ENCODER_PORT2 = -1;   
+    public static final int ROBOT_LIFTER_MOTOR_PORT2 = 4;
+    public static final int HEIGHT_ENCODER_PORT1 = 21;
+    public static final int HEIGHT_ENCODER_PORT2 = 22;   
 
     //Limelight
     public static final int[] LIMELIGHT_SOLENOID_PORTS = {0, 1};

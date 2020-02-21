@@ -47,6 +47,6 @@ public class PutInShooterWhenOI extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.m_transporter.isSystemEmpty();
+    return false;
   }
 }

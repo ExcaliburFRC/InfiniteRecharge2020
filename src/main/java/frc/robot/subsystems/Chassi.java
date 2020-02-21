@@ -145,6 +145,10 @@ public class Chassi extends SubsystemBase {
     RFM.setIdleMode(mode);
   }
 
+  public IdleMode getIdleMode(){
+    return LBM.getIdleMode();
+  }
+
   @Override
   public void periodic() {
     driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), leftEncoder.getDistance(),

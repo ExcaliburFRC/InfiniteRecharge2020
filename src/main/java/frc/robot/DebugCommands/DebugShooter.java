@@ -34,18 +34,19 @@ public class DebugShooter extends CommandBase {
       double leftSpeed = OI.driverJoystick.getRawAxis(1);
       // double rightSpeed = OI.driverJoystick.getRawAxis(5);
       var dist = CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getVar("ty"));
-
+      var speed = CalculateVisionValues.getOptimalShooterSpeed(dist);
+      
       if (OI.driverJoystick.getRawButton(1)){
         Robot.m_shooter.setSpeedSetpoint(22000);
         Robot.m_shooter.setIsSpeedPursuit(true);
       } else if (OI.driverJoystick.getRawButton(3)) {
-        Robot.m_shooter.setSpeedSetpoint(CalculateVisionValues.getOptimalShooterSpeed(dist));
+        Robot.m_shooter.setSpeedSetpoint(speed);
         Robot.m_shooter.setIsSpeedPursuit(true);
       }else {
         Robot.m_shooter.setIsSpeedPursuit(false);
         Robot.m_shooter.setLeftMotorSpeed(leftSpeed);
         Robot.m_shooter.setRightMotorSpeed(leftSpeed);
-      }
+      } 
 
       double angleMotorSpeed = OI.driverJoystick.getRawAxis(5)/5;
       if (OI.driverJoystick.getRawButton(2)){
@@ -56,14 +57,6 @@ public class DebugShooter extends CommandBase {
         Robot.m_shooter.setIsAnglePursuit(false);
         Robot.m_shooter.setAngleMotorPower(angleMotorSpeed);
       }
-
-      SmartDashboard.putNumber("DEBUG_LEFTSPEED", 20000 - Robot.m_shooter.getLeftMotorSpeed());
-      SmartDashboard.putNumber("DEBUG_RIGHTSPEED", 20000 - Robot.m_shooter.getRightMotorSpeed());
-      SmartDashboard.putNumber("DEBUG_ANGLE", Robot.m_shooter.getAngle());
-      // SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
-      SmartDashboard.putBoolean("DEBUG_isOnSpeed", Robot.m_shooter.isOnSpeed());
-      SmartDashboard.putBoolean("DEBUG_isOnAngle", Robot.m_shooter.isOnAngle());
-      // SmartDashboard.putNumber("DEBUG_ROBOT_VOLTAGE", RobotController.getBatteryVoltage());
   }
 
   // Called once the command ends or is interrupted.

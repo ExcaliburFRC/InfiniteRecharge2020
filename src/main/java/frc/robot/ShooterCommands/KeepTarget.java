@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 public class KeepTarget extends CommandBase {
   private DoubleSupplier angles, speeds;
   /**
    * Creates a new KeepTarget.
    */
   public KeepTarget(DoubleSupplier angleTargetSupplier, DoubleSupplier speedTargetSupplier) {
-    addRequirements(Robot.m_shooter,Robot.m_chassi);
+    addRequirements(Robot.m_shooter);
     angles = angleTargetSupplier;
     speeds = speedTargetSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,6 +47,8 @@ public class KeepTarget extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.m_shooter.setIsSpeedPursuit(false);
+    Robot.m_shooter.setIsAnglePursuit(false);
   }
 
   // Returns true when the command should end.

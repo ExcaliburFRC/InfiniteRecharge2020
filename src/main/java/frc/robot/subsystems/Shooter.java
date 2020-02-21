@@ -38,8 +38,10 @@ public class Shooter extends SubsystemBase {
   double speedSetpoint, angleSetpoint;
   double rightSpeedSetPoint, leftSpeedSetpoint;
   BooleanAverager speedReadyAverager, angleReadyAverager;
+  double leftErrorSum, rightErrorSum;
+  boolean isTelemetry;
 
-  public Shooter() {
+  public Shooter(boolean isTelemetry){
     leftShooterMotor = new TalonSRX(RobotMap.LEFT_SHOOTER_MOTOR_PORT);
     rightShooterMotor = new TalonSRX(RobotMap.RIGHT_SHOOTER_MOTOR_PORT);
     rightShooterMotor.setSensorPhase(true);
@@ -63,8 +65,14 @@ public class Shooter extends SubsystemBase {
     speedSetpoint = 0;
     angleSetpoint = 0;
 
-    speedReadyAverager = new BooleanAverager(60);
-    angleReadyAverager = new BooleanAverager(45);
+    speedReadyAverager = new BooleanAverager(ShooterConstants.SPEED_BUCKET_SIZE);
+    angleReadyAverager = new BooleanAverager(ShooterConstants.ANGLE_BUCKET_SIZE);
+
+    this.isTelemetry = isTelemetry;
+  }
+
+  public Shooter() {
+    this(false);
   }
 
   public void setAngleSetpoint(double setpoint){
@@ -126,7 +134,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (isSpeedPursuit){
-      var finePower = 0.98;
+      var finePower = 0.99;
       rightSpeedSetPoint = speedSetpoint * finePower;
       leftSpeedSetpoint = speedSetpoint * finePower;
       
@@ -139,11 +147,23 @@ public class Shooter extends SubsystemBase {
       var leftP = RobotUtils.clip(ShooterConstants.SPEED_KP * leftError, ShooterConstants.kPEffectiveness);
       var rightP = RobotUtils.clip(ShooterConstants.SPEED_KP * rightError, ShooterConstants.kPEffectiveness);
 
-      leftShooterMotor.set(ControlMode.PercentOutput, leftAFF + leftP);
-      rightShooterMotor.set(ControlMode.PercentOutput, rightAFF + rightP);
+      var leftI = RobotUtils.clip(ShooterConstants.SPEED_KI * leftErrorSum, 0.12);
+      var rightI = RobotUtils.clip(ShooterConstants.SPEED_KI * rightErrorSum, 0.12);
+
+      leftShooterMotor.set(ControlMode.PercentOutput, leftAFF + leftP + leftI);
+      rightShooterMotor.set(ControlMode.PercentOutput, rightAFF + rightP + rightI);
+
+      SmartDashboard.putNumber("Iterm", leftI);
+
+      leftErrorSum += RobotUtils.clip(leftError,2000);
+      rightErrorSum += RobotUtils.clip(rightError,2000);
+
     } else {
       leftShooterMotor.set(ControlMode.PercentOutput, 0);
       rightShooterMotor.set(ControlMode.PercentOutput, 0);
+
+      leftErrorSum = 0;
+      rightErrorSum = 0;
     }
     
     if (isAnglePursuit){
@@ -165,7 +185,16 @@ public class Shooter extends SubsystemBase {
     angleReadyAverager.update(getRawIsOnAngle());
     speedReadyAverager.update(getRawIsOnSpeed());
 
-    // SmartDashboard.putNumber("IsOkToShooter", isOnSpeed() ? 1 : 0);
+    if (isTelemetry){
+      SmartDashboard.putNumber("DEBUG_LEFTSPEED", getLeftMotorSpeed());
+      SmartDashboard.putNumber("DEBUG_RIGHTSPEED", getRightMotorSpeed());
+      SmartDashboard.putNumber("DEBUG_ANGLE", getAngle());
+      SmartDashboard.putNumber("DEBUG_ANGLESETPOINT", angleSetpoint);
+      // SmartDashboard.putNumber("DEBUG_ANGLE_POWER", Robot.m_shooter.getAngleMotorPower());
+      SmartDashboard.putBoolean("DEBUG_isOnSpeed", getRawIsOnSpeed());
+      SmartDashboard.putBoolean("DEBUG_isOnAngle", isOnAngle());
+      // SmartDashboard.putNumber("DEBUG_ROBOT_VOLTAGE", RobotController.getBatteryVoltage());
+    }
   }
 
   private double getFeedForward(){

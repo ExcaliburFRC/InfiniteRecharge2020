@@ -49,8 +49,6 @@ public class Climber extends SubsystemBase {
     heightEncoder.reset();
   }
   public void setRobotClimbersPower(double power){
-    hasClimbed = true;
-    // robotLifterGroup.set(power);
     robotLifterMotor1.set(power);
     robotLifterMotor2.set(power);
   }

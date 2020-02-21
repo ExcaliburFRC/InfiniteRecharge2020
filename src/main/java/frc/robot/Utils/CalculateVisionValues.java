@@ -12,11 +12,14 @@ public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
     }
 
     public static double getOptimalShooterAngle(double dist){// gets the optimal shooter angle
-        return 0.154 * dist * dist - 2.53 * dist + 31.7;
+        // return 0.154 * dist * dist - 2.53 * dist + 31.7;
+        return 0.229 * dist * dist - 2.93 * dist + 44.5;
     }
 
     public static double getOptimalShooterSpeed(double dist){// gets the optimal shooter speed
-        return 20000;
+        // return 15000;
+        // return 91.3 * dist * dist - 704 * dist + 13275;
+        return 91.3 * dist * dist - 704 * dist + 13100;
     }
 
     /*
