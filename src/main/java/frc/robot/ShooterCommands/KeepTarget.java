@@ -9,17 +9,32 @@ package frc.robot.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotConstants.ShooterConstants;
+import frc.robot.subsystems.BooleanAverager;
+
 import java.util.function.DoubleSupplier;
 
 public class KeepTarget extends CommandBase {
   private DoubleSupplier angles, speeds;
+  private double speedTolerance;
+  private boolean isOnSpecialTolerance;
+  private BooleanAverager speedAverager;
   /**
    * Creates a new KeepTarget.
    */
   public KeepTarget(DoubleSupplier angleTargetSupplier, DoubleSupplier speedTargetSupplier) {
+    this(angleTargetSupplier, speedTargetSupplier, ShooterConstants.SPEED_TOLERANCE);
+  }
+
+  public KeepTarget(DoubleSupplier angleTargetSupplier, DoubleSupplier speedTargetSupplier, double speedTolerance) {
     addRequirements(Robot.m_shooter);
     angles = angleTargetSupplier;
     speeds = speedTargetSupplier;
+    this.speedTolerance = speedTolerance;
+    this.isOnSpecialTolerance = speedTolerance != ShooterConstants.SPEED_TOLERANCE;
+    if (isOnSpecialTolerance){
+      speedAverager = new BooleanAverager(ShooterConstants.SPEED_BUCKET_SIZE);
+    }
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,7 +46,9 @@ public class KeepTarget extends CommandBase {
 
     Robot.m_shooter.setIsAnglePursuit(true);
     Robot.m_shooter.setAngleSetpoint(angles.getAsDouble());
-  }
+    
+    if (isOnSpecialTolerance) speedAverager.reset();
+  } 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -39,7 +56,7 @@ public class KeepTarget extends CommandBase {
     Robot.m_shooter.setSpeedSetpoint(speeds.getAsDouble());
     Robot.m_shooter.setAngleSetpoint(angles.getAsDouble());
 
-    //chassi PID on TX 
+    if (isOnSpecialTolerance) speedAverager.update(Robot.m_shooter.isOnSpeed(speedTolerance));
   }
 
   // Called once the command ends or is interrupted.
@@ -56,6 +73,6 @@ public class KeepTarget extends CommandBase {
   }
 
   public boolean isReady(){
-    return Robot.m_shooter.isOnAngle() && Robot.m_shooter.isOnSpeed();
+    return Robot.m_shooter.isOnAngle() && isOnSpecialTolerance ? speedAverager.getAverage() : Robot.m_shooter.isOnSpeed();
   }
 }

@@ -46,7 +46,7 @@ public class LowerShootProccess extends CommandBase {
     DoubleSupplier angleSupplier = () -> ShooterConstants.LOWER_ANGLE;
     DoubleSupplier speedSupplier = () -> ShooterConstants.LOWER_SPEED;
 
-    setupBlock = new KeepTarget(angleSupplier, speedSupplier);
+    setupBlock = new KeepTarget(angleSupplier, speedSupplier, 400);
 
     setupBlock.schedule();
 

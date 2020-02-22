@@ -120,6 +120,12 @@ public class Shooter extends SubsystemBase {
     return speedReadyAverager.getAverage();
   }
 
+  public boolean isOnSpeed(double speedTolerance){
+    boolean motor1 = Math.abs(speedSetpoint - getLeftMotorSpeed()) < speedTolerance;
+    boolean motor2 = Math.abs(speedSetpoint - getRightMotorSpeed()) < speedTolerance;
+    return motor1 && motor2;
+  }
+
   public boolean getRawIsOnAngle(){
     boolean angleError = Math.abs(angleSetpoint - angleEncoder.getDistance()) < ShooterConstants.ANGLE_TOLERANCE;
     return angleError;
