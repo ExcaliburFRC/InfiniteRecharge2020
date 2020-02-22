@@ -13,26 +13,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.ShooterCommands.KeepTarget;
 import frc.robot.ShooterCommands.ShooterDown;
-import frc.robot.Utils.CalculateVisionValues;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-import frc.robot.ChassiCommands.PursuitTX;
+import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.Limelight;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.subsystems.LEDs.LEDMode;
 
-public class ShootProccess extends CommandBase {
+public class LowerShootProccess extends CommandBase {
   /**
    * Creates a new ShooterDrive.
    */
   // Command shootWhenOI, setupBlock;
   CommandGroupBase shootGroup;
-  PursuitTX txPursuit;
   KeepTarget setupBlock;
   boolean isAuto;
   private IdleMode originalMode;
   
 
-  public ShootProccess(boolean isAuto) {
+  public LowerShootProccess(boolean isAuto) {
     addRequirements(Robot.m_leds);
     this.isAuto = isAuto;
   }
@@ -45,16 +43,12 @@ public class ShootProccess extends CommandBase {
     Robot.m_limelight.setLEDMode(Limelight.LedModes.ON);
     Robot.m_transporter.setAutoShoot(isAuto);
 
-    DoubleSupplier shooterDistance = () -> CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getTy());
-    DoubleSupplier angleSupplier = () -> CalculateVisionValues.getOptimalShooterAngle(shooterDistance.getAsDouble());
-    DoubleSupplier speedSupplier = () -> CalculateVisionValues.getOptimalShooterSpeed(shooterDistance.getAsDouble());
+    DoubleSupplier angleSupplier = () -> ShooterConstants.LOWER_ANGLE;
+    DoubleSupplier speedSupplier = () -> ShooterConstants.LOWER_SPEED;
 
-    txPursuit = new PursuitTX();
     setupBlock = new KeepTarget(angleSupplier, speedSupplier);
-    // Command shootWhenOI = new PutInShooterWhenOI(this::isReady);
 
-    shootGroup = setupBlock.alongWith(txPursuit);
-    shootGroup.schedule();
+    setupBlock.schedule();
 
     Robot.m_chassi.setIdleMode(IdleMode.kBrake);
     originalMode = Robot.m_chassi.getIdleMode();
@@ -90,7 +84,7 @@ public class ShootProccess extends CommandBase {
   }
 
   public boolean isReady(){
-    return txPursuit.isReady() && setupBlock.isReady();
+    return setupBlock.isReady();
   }
 }
 

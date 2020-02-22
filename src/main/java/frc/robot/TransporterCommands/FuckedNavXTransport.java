@@ -7,11 +7,9 @@
 
 package frc.robot.TransporterCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.TransporterConstants;
 
 public class FuckedNavXTransport extends CommandBase {
@@ -28,7 +26,7 @@ public class FuckedNavXTransport extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double timeSinceTop = 0;
+    timeSinceTop = 0;
     wasInTop = false;
   }
 

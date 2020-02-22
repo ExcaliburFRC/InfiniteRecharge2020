@@ -2,7 +2,7 @@ package frc.robot.Utils;
 
 import frc.robot.RobotConstants;
 
-public class CalculateVisionValues{ //TODO : TUNE EVERYTHING
+public class CalculateVisionValues{ 
     public static double calculateDistanceFeeder(double ta){
         return ta*1; //TODO needs to be tuned
     }

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotConstants.DriveConstants;
 import frc.robot.Utils.RobotUtils;
-import frc.robot.subsystems.BooleanAverager;
 
 public class TimedStrightDrive extends CommandBase {
   private double gyroError; //angleChange is the change in angle needed for every run

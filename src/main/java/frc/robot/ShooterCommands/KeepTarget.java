@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
 public class KeepTarget extends CommandBase {
   private DoubleSupplier angles, speeds;
   /**

@@ -7,16 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 // import frc.robot.Pathfinding.FollowerCommandGenerator;
 // import frc.robot.Pathfinding.TestingPaths;
-import frc.robot.TransporterCommands.TransporterDrive;
-import frc.robot.Utils.CalculateVisionValues;
 import frc.robot.subsystems.Chassi;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.LEDs;
@@ -24,16 +20,14 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Transporter;
 import frc.robot.subsystems.Collector;
 import frc.robot.ChassiCommands.TimedStrightDrive;
-import frc.robot.ClimberCommands.ClimberDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
-import frc.robot.DebugCommands.DebugShooter;
-import frc.robot.DebugCommands.DebugTransport;
 import frc.robot.GeneralCommands.ShootProccess;
 import frc.robot.GeneralCommands.Wait;
 import frc.robot.TransporterCommands.FuckedNavXTransport;
-import frc.robot.LEDCommands.DefaultLED;
+import frc.robot.Utils.AutoCommandGenerator;
 import frc.robot.ShooterCommands.ShooterDown;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.LEDCommands.DefaultLED;
 
 public class Robot extends TimedRobot {
   public static Chassi m_chassi;
@@ -52,8 +46,6 @@ public class Robot extends TimedRobot {
     initDefaultCommands();
     OI.init();
     isFirstTime = true;
-    SmartDashboard.putNumber("ReqSpeed", 0.1);
-    SmartDashboard.putNumber("ReqAngle", 0.1);
   }
 
   @Override
@@ -63,11 +55,8 @@ public class Robot extends TimedRobot {
       new ShooterDown().schedule();
     }
     // FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
-    var shootCommand = new ShootProccess(true);
-    var shooterWaitCommand = new Wait(8);
-    var moveBack = new TimedStrightDrive(1100, -0.6);
 
-    autoCommand = moveBack.andThen(shooterWaitCommand.deadlineWith(shootCommand));
+    autoCommand = AutoCommandGenerator.goBackAndShoot();
     autoCommand.schedule();
   }
 
@@ -100,8 +89,6 @@ public class Robot extends TimedRobot {
       Robot.m_transporter.setBallNumber(0);
     }
 
-    SmartDashboard.putNumber("GYRO", m_chassi.getGyroAngle());
-
     m_climber.setRobotClimbersPower(-OI.armJoystick.getRawAxis(2));
     m_climber.setAbsHeightMotorSpeed(OI.armJoystick.getRawAxis(1));
   }
@@ -117,15 +104,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     OI.updateSmartDashBoard();
-    SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(m_limelight.getVar("ty")));
-    // SmartDashboard.putNumber("limelightAngle",m_limelight.getTx());
-
   }
 
   private void initSubsystems(){
     m_chassi = new Chassi();
     m_limelight = new Limelight();
-    // m_leds = new LEDs();
+    m_leds = new LEDs();
     m_shooter = new Shooter(true);
     m_climber = new Climber();
     m_transporter = new Transporter();
@@ -143,7 +127,7 @@ public class Robot extends TimedRobot {
 
     // m_climber.setDefaultCommand(new ClimberDrive());
 
-    // m_leds.setDefaultCommand(new DefaultLED());
+    m_leds.setDefaultCommand(new DefaultLED());
 
     // m_shooter.setDefaultCommand(new DebugShooter());
   }

@@ -7,7 +7,6 @@
 
 package frc.robot.ChassiCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotConstants.DriveConstants;
@@ -17,10 +16,16 @@ import frc.robot.subsystems.BooleanAverager;
 public class PursuitTX extends CommandBase {
   private double error, turnPower; //angleChange is the change in angle needed for every run
   private BooleanAverager errorAverager;
+  private boolean isEnd;
 
-  public PursuitTX() {
+  public PursuitTX(boolean isEnd) {
     addRequirements(Robot.m_chassi);
     errorAverager = new BooleanAverager(30);
+    this.isEnd = isEnd;
+  }
+
+  public PursuitTX() {
+    this(true);
   }
 
   @Override
@@ -47,7 +52,7 @@ public class PursuitTX extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return errorAverager.getAverage();
+    return isEnd ? errorAverager.getAverage() : false;
   }
 
   public boolean isReady(){

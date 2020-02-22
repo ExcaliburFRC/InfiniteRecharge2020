@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 public class RobotConstants{
     public static class DriveConstants{
-        public static final double MANUAL_TURN_MAX = 0.85; //TODO : tune
+        public static final double MANUAL_TURN_MAX = 0.85;
         public static final double WHEELDIAMETER = 0.1524;
         public static final double ENCODER_TICKS_PER_REVOLUTION = 1024; //TODO : find
         public static final double ENCODER_DISTANCE_PER_PULSE = (WHEELDIAMETER * Math.PI) / ENCODER_TICKS_PER_REVOLUTION;
@@ -17,9 +17,9 @@ public class RobotConstants{
 
         //These values are tuned for large rotations
         public static final double MAX_TURN = 0.7;
-        public static final double TURN_KP = 0.0225; //TODO : tune
-        public static final double TURN_AFF = 0.135; //TODO : tune
-        public static final double ANGLE_TOLERACE = 0.5; //TODO : tune
+        public static final double TURN_KP = 0.0225; 
+        public static final double TURN_AFF = 0.135; 
+        public static final double ANGLE_TOLERACE = 0.5; 
         
         public static final double DISTANCE_KP = 0.3;
         public static final double DISTANCE_TOLERANCE = 0.5;
@@ -40,12 +40,12 @@ public class RobotConstants{
 
     public static class ImageProccessingConstants{
         //These values are tuned for small, precise rotations
-        public static final double TURN_KP = 0.0375; //TODO : tune
-        public static final double TURN_AFF = 0.2825; //TODO : tune
-        public static final double VISION_TURN_MAX = 0.85;// TODO : tune
-        public static final double TX_TOLERANCE = 0.2; // TODO : tune
+        public static final double TURN_KP = 0.0375;
+        public static final double TURN_AFF = 0.2825; 
+        public static final double VISION_TURN_MAX = 0.85;
+        public static final double TX_TOLERANCE = 0.2; 
 
-        public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.315; //TODO: messure
+        public static final double CAMERA_OFFSET_FROM_SHOOTER = 0.315; 
 
         public static final double FORWARD_KP = 0.2;
         public static final double FORWARD_AFF = 0.2;
@@ -63,23 +63,26 @@ public class RobotConstants{
         public static final double SPEED_KI = 0.0000001;
         public static final double kPEffectiveness = 0.175;
         
-        public static final double ABSOLUTE_FEEDFORWARD = 0;//TODO : tune
+        public static final double ABSOLUTE_FEEDFORWARD = 0;
         public static final double TICKS_TO_ANGLES = 0.027226;
         public static final double MAX_ANGLE = 45;
-        public static final double ANGLE_TOLERANCE = 0.45;//TODO : tune
-        public static final double ANGLE_KP = 0.15; //TODO : tune
-        public static final double ANGLE_KI = 0; //TODO : tune
-        public static final double ANGLE_KD = 0; //TODO : tune
+        public static final double ANGLE_TOLERANCE = 0.45;
+        public static final double ANGLE_KP = 0.15; 
+        public static final double ANGLE_KI = 0; 
+        public static final double ANGLE_KD = 0;
         public static final double ANGLE_MOTOR_EXTRA = 0.0075;
 
         public static final int SPEED_BUCKET_SIZE = 20;
         public static final int ANGLE_BUCKET_SIZE = 35;
+
+        public static final double LOWER_ANGLE = 40;
+        public static final double LOWER_SPEED = 10000;
     }
 
     public static class TransporterConstants{
-        public static final double BALL_DETECTION_TOLERANCE = 0; //TODO: tune
-        public static final double TRANSPORT_STEP = 1400; //TODO: tune
-        public static final double TRANSPORT_TOLERANCE = 150; //TODO: tune
+        public static final double BALL_DETECTION_TOLERANCE = 0;
+        public static final double TRANSPORT_STEP = 1400;
+        public static final double TRANSPORT_TOLERANCE = 150;
         public static final double IN_BETWEEN_TIME = 25;
         public static final double STOP_TIME = 250;
         public static final double END_SLOW_TIME = 750;

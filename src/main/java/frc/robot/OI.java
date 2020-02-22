@@ -2,12 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.ChassiCommands.PursuitTX;
-import frc.robot.ChassiCommands.RotateAngle;
-import frc.robot.ChassiCommands.TimedStrightDrive;
 import frc.robot.GeneralCommands.ShootProccess;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.ShooterCommands.ShooterDown;
+// import frc.robot.Utils.CalculateVisionValues;
+import frc.robot.ClimberCommands.ClimberDrive;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI{
     //Joysticks
@@ -30,31 +30,34 @@ public class OI{
 
     
     public static void init(){
-        shootSetupButton = new JoystickButton(armJoystick, 11);
-        // shootSetupButton.toggleWhenPressed(new ShootProccess(false));
-
-        var upBtn = new JoystickButton(armJoystick, 7).whenPressed(new RunCommand(()->{
+        //Limelight up
+        new JoystickButton(armJoystick, 7).whenPressed(new RunCommand(()->{
             Robot.m_limelight.setLifterState(true);
         }, Robot.m_limelight));
 
-        var downBtn = new JoystickButton(armJoystick, 8).whenPressed(new RunCommand(()->{
+        //Limelight Down
+        new JoystickButton(armJoystick, 8).whenPressed(new RunCommand(()->{
             Robot.m_limelight.setLifterState(false);
         }, Robot.m_limelight));
 
-        var ShooterDownButton = new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
+        //Reset Shooter
+        new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
 
-        var rotateAngle = new JoystickButton(armJoystick, 10).whenPressed(new TimedStrightDrive(1500, -0.6));
+        //High Shoot Proccess (Non-Auto)
+        new JoystickButton(armJoystick, 9).toggleWhenPressed(new ShootProccess(false));
 
-        var txPursuit = new JoystickButton(armJoystick, 9).toggleWhenPressed(new ShootProccess(false));
+        //Climber
+        new JoystickButton(armJoystick, 11).toggleWhenPressed(new ClimberDrive());
 
         initSmartDashboard();
     }
 
     public static void initSmartDashboard(){
-
+        // SmartDashboard.putNumber("ReqSpeed", 0.1);
+        // SmartDashboard.putNumber("ReqAngle", 0.1);
     } 
 
     public static void updateSmartDashBoard(){
-
+        // SmartDashboard.putNumber("limelightDist", CalculateVisionValues.calculateDistanceShooter(Robot.m_limelight.getVar("ty")));
     }
 }

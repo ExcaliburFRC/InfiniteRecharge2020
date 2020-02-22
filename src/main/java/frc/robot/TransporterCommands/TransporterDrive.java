@@ -111,13 +111,13 @@ public class TransporterDrive extends CommandBase {
     }
   }
 
-  private void diagonalMotorNoSpaceInTower(){
-    if (Robot.m_transporter.isBallInDiagonal() && !Robot.m_transporter.isBallUnderTiming()){
-      Robot.m_transporter.setDiagonalMotorSpeed(0.5);
-    } else {
-      Robot.m_transporter.setDiagonalMotorSpeed(0);
-    }
-  }
+  // private void diagonalMotorNoSpaceInTower(){
+  //   if (Robot.m_transporter.isBallInDiagonal() && !Robot.m_transporter.isBallUnderTiming()){
+  //     Robot.m_transporter.setDiagonalMotorSpeed(0.5);
+  //   } else {
+  //     Robot.m_transporter.setDiagonalMotorSpeed(0);
+  //   }
+  // }
 
   @Override
   public void end(boolean interrupted) {
