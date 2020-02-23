@@ -36,12 +36,19 @@ public class FuckedNavXTransport extends CommandBase {
     var isOkToShoot = (Robot.m_transporter.isAutoShoot() || OI.armJoystick.getRawButton(1)) && Robot.m_shooter.isOnAngle() && Robot.m_shooter.isOnSpeed();
     var isInNoReturnMode = (System.currentTimeMillis() - timeSinceTop) < TransporterConstants.STOP_TIME;
     var isInSlowSpeedTime = (System.currentTimeMillis() - timeSinceTop) < TransporterConstants.END_SLOW_TIME && (System.currentTimeMillis() - timeSinceTop) > TransporterConstants.STOP_TIME;
-
-    if ((isOkToShoot && !isInNoReturnMode) || OI.armJoystick.getRawButton(5)){
+    if (OI.armJoystick.getRawButton(5)){
+      Robot.m_transporter.setTowerMotorSpeed(0.5);
+      Robot.m_transporter.setLoadingMotorSpeed(-0.45);
+      Robot.m_transporter.setDiagonalMotorSpeed(-0.7); 
+    } else if ((isOkToShoot && !isInNoReturnMode)){
       var transportSpeed = isInSlowSpeedTime ? 0.35 : 0.6;
       Robot.m_transporter.setTowerMotorSpeed(transportSpeed);
       Robot.m_transporter.setLoadingMotorSpeed(-0.45);
       Robot.m_transporter.setDiagonalMotorSpeed(-0.7); 
+    } else if (OI.armJoystick.getRawButton(12)){
+      // Robot.m_transporter.setTowerMotorSpeed(-0.4);
+      Robot.m_transporter.setLoadingMotorSpeed(0.8);
+      Robot.m_transporter.setDiagonalMotorSpeed(0.4); 
     } else {
       Robot.m_transporter.setTowerMotorSpeed(0);
       Robot.m_transporter.setLoadingMotorSpeed(0);

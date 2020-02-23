@@ -66,7 +66,7 @@ public class Chassi extends SubsystemBase {
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
 
-    setIdleMode(IdleMode.kCoast);
+    setIdleMode(IdleMode.kBrake);
 
     compressor = new Compressor();
   }

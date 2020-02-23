@@ -27,14 +27,14 @@ public class CollectorDrive extends CommandBase {
   public void execute() {
     if (OI.armJoystick.getRawButton(OI.collectorUpButton)){
       Robot.m_collector.setLifterPistonPosition(true);
-    } else if (OI.armJoystick.getRawButton(OI.collectorDownButton)){
+    } else if (OI.armJoystick.getRawButton(OI.collectorDownButton)){// is reversed -> down is up and other way around
       Robot.m_collector.setLifterPistonPosition(false);
     }
 
-    turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? 1 : -1;
+    turnMultiplier = Robot.m_collector.getLifterPistonPosition() ? 1 : 0;//-1;
 
     if (OI.armJoystick.getRawButton(OI.collectorTakeInBallButton)){
-      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.7);
+      Robot.m_collector.setRollerMotorPower(turnMultiplier * 0.75);
     } else {
       Robot.m_collector.setRollerMotorPower(0);
     }

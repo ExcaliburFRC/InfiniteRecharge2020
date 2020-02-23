@@ -8,6 +8,7 @@
 package frc.robot.ChassiCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotConstants.DriveConstants;
 import frc.robot.Utils.RobotUtils;
@@ -40,7 +41,7 @@ public class PursuitTX extends CommandBase {
     turnPower += error > 0 ? DriveConstants.TURN_AFF : -DriveConstants.TURN_AFF; 
     turnPower = RobotUtils.clip(turnPower, DriveConstants.MAX_TURN);
 
-    Robot.m_chassi.arcadeDrive(0, turnPower);
+    Robot.m_chassi.arcadeDrive(OI.driverJoystick.getRawAxis(1)/2.0, turnPower);
 
     errorAverager.update(Math.abs(error) < DriveConstants.ANGLE_TOLERACE);
   }

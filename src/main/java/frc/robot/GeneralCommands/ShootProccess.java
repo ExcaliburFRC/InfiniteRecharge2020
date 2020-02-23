@@ -30,11 +30,21 @@ public class ShootProccess extends CommandBase {
   KeepTarget setupBlock;
   boolean isAuto;
   private IdleMode originalMode;
-  
+  private double ballsShot, ballLimit;
+  private boolean isCountingBalls, lastShooterSwitchStatus;
 
   public ShootProccess(boolean isAuto) {
+    this(isAuto, -1);
+  }
+
+  public ShootProccess(boolean isAuto, double balls) {
     addRequirements(Robot.m_leds);
     this.isAuto = isAuto;
+
+    isCountingBalls = balls != -1;
+    if (isCountingBalls){
+      ballLimit = balls;
+    }
   }
 
   // Called when the command is initially scheduled.
@@ -58,6 +68,11 @@ public class ShootProccess extends CommandBase {
 
     Robot.m_chassi.setIdleMode(IdleMode.kBrake);
     originalMode = Robot.m_chassi.getIdleMode();
+
+    if (isCountingBalls){
+      ballsShot = 0;
+      lastShooterSwitchStatus = false;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,6 +82,13 @@ public class ShootProccess extends CommandBase {
       Robot.m_leds.setMode(LEDMode.GREEN);
     } else {
       Robot.m_leds.setMode(LEDMode.RED);
+    }
+
+    if (isCountingBalls){
+      if (lastShooterSwitchStatus && !Robot.m_transporter.isBallInShooter()){
+        ballsShot++;
+      }
+      lastShooterSwitchStatus = Robot.m_transporter.isBallInShooter();
     }
   }
 
@@ -86,11 +108,10 @@ public class ShootProccess extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return false || (isCountingBalls && ballsShot == ballLimit);
   }
 
   public boolean isReady(){
     return txPursuit.isReady() && setupBlock.isReady();
   }
 }
-
