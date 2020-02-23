@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.Utils.RobotUtils;
 
@@ -135,6 +136,7 @@ public class Transporter extends SubsystemBase {
         ballAmount++;
     } 
     if (lastOutStatus && !isBallInShooter()){ // check if status has changed and there is a ball in the upper
+      OI.rumbleFor(750);
       ballAmount--;
     }
 

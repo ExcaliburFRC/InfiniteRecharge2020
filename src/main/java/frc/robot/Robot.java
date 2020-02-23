@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -132,7 +133,7 @@ public class Robot extends TimedRobot {
 
   private void initDefaultCommands(){
      m_chassi.setDefaultCommand(new RunCommand(()->{
-      m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(1), OI.driverJoystick.getRawAxis(2));
+      m_chassi.arcadeDrive(-OI.driverJoystick.getRawAxis(OI.xSpeedAxis), OI.driverJoystick.getRawAxis(OI.zRotationAxis));
      }, m_chassi));   
 
     m_collector.setDefaultCommand(new CollectorDrive());
