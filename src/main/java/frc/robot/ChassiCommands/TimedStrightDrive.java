@@ -18,6 +18,7 @@ public class TimedStrightDrive extends CommandBase {
   private double gyroError; //angleChange is the change in angle needed for every run
   private double forward, gyroCorrect, constAngle;
   private double originalTime, timeAmount, power;
+  public boolean hasEnded;
   /**
    * Creates a new StraightDistanceDrive.
    */
@@ -25,6 +26,7 @@ public class TimedStrightDrive extends CommandBase {
     addRequirements(Robot.m_chassi);
     timeAmount = time;
     this.power = power;
+    hasEnded = false;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -58,6 +60,7 @@ public class TimedStrightDrive extends CommandBase {
   public void end(boolean interrupted) {
     Robot.m_chassi.arcadeDrive(0, 0);
     Robot.m_chassi.setIdleMode(IdleMode.kCoast);
+    hasEnded = true;
   }
 
   // Returns true when the command should end.

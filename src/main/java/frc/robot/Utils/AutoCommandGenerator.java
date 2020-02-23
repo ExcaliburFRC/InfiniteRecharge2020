@@ -8,11 +8,11 @@ import frc.robot.GeneralCommands.Wait;
 
 public class AutoCommandGenerator{
     public static Command goBackAndShoot(){
-        var shootCommand = new ShootProccess(true);
+        var shootCommand = new ShootProccess(false);
         var shooterWaitCommand = new Wait(8);
         var moveBack = new TimedStrightDrive(1100, -0.6);
 
-        return moveBack.andThen(shooterWaitCommand.deadlineWith(shootCommand));
+        return moveBack.andThen(shootCommand);
     }
 
     public static Command goToLowerAndShoot(){

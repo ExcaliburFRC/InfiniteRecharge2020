@@ -52,7 +52,7 @@ public class RobotConstants{
     }
     
     public static class ShooterConstants{
-        public static final double SPEED_TOLERANCE = 250.0;
+        public static final double SPEED_TOLERANCE = 500.0; //used to be 250
 
         public static final double RIGHT_TOP_SPEED = 27500.0; 
         public static final double LEFT_TOP_SPEED = 27000.0;

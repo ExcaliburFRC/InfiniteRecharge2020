@@ -51,7 +51,10 @@ public class OI{
 
         //Compressor
         new JoystickButton(driverJoystick, 9).whenPressed(()->{
-            Robot.m_chassi.setCompressorMode(!Robot.m_chassi.getCompressorMode());
+            Robot.m_chassi.setCompressorMode(true);
+        });
+        new JoystickButton(driverJoystick, 10).whenPressed(()->{
+            Robot.m_chassi.setCompressorMode(false);
         });
 
         initSmartDashboard();

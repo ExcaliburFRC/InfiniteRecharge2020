@@ -19,8 +19,11 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Transporter;
+import frc.robot.subsystems.LEDs.LEDMode;
 import frc.robot.subsystems.Collector;
+import frc.robot.ChassiCommands.TimedStrightDrive;
 import frc.robot.CollectorCommands.CollectorDrive;
+import frc.robot.GeneralCommands.ShootProccess;
 import frc.robot.TransporterCommands.FuckedNavXTransport;
 import frc.robot.Utils.AutoCommandGenerator;
 import frc.robot.ShooterCommands.ShooterDown;
@@ -36,7 +39,9 @@ public class Robot extends TimedRobot {
   public static Transporter m_transporter;
   public static Collector m_collector;
   private boolean isFirstTime;
-  Command autoCommand;
+  Command autoCommand; 
+  TimedStrightDrive backCommand;
+  boolean hasBackMovingEnded;
   
   @Override
   public void robotInit() {
@@ -47,6 +52,7 @@ public class Robot extends TimedRobot {
 
     // CameraServer.getInstance().startAutomaticCapture("Camera", 0);
     m_chassi.setCompressorMode(false);
+    resetAuto();
   }
 
   @Override
@@ -57,30 +63,38 @@ public class Robot extends TimedRobot {
     }
     // FollowerCommandGenerator.getRamseteCommandFromTrajectory(TestingPaths.sPatternPath).schedule();
 
-    autoCommand = AutoCommandGenerator.goBackAndShoot();
-    autoCommand.schedule();
+    // autoCommand = AutoCommandGenerator.goBackAndShoot().alongWith(new FuckedNavXTransport());
+    resetAuto();
+    backCommand.schedule();
+    hasBackMovingEnded = false;
   }
 
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    if (backCommand.hasEnded && !hasBackMovingEnded){
+      hasBackMovingEnded = true;
+      autoCommand.schedule();
+    }
   }
 
   @Override
   public void teleopInit() {
-    if (autoCommand != null){
-      autoCommand.end(false);
-    }
+    autoCommand.end(false);
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
     m_limelight.setCamMode(Limelight.CamModes.DRIVING);
     m_limelight.setLEDMode(Limelight.LedModes.OFF);
+    m_limelight.setLifterState(false);
+    m_shooter.setIsAnglePursuit(false);
+    m_shooter.setIsSpeedPursuit(false);
+    m_leds.setMode(LEDMode.BLUE);
     m_chassi.resetGyro();
 
-    if (isFirstTime){
-      isFirstTime = false;
-      new ShooterDown().schedule();
-    }
+    // if (isFirstTime){
+    //   isFirstTime = false;
+    new ShooterDown().schedule();
+    // }
     // m_limelight.setCamMode(Limelight.CamModes.VISION);
     // m_limelight.setLEDMode(Limelight.LedModes.ON);
   }
@@ -134,5 +148,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+  }
+  
+  private void resetAuto(){
+    autoCommand = new ShootProccess(true).alongWith(new FuckedNavXTransport());
+    backCommand = new TimedStrightDrive(1100, -0.6);
   }
 }
