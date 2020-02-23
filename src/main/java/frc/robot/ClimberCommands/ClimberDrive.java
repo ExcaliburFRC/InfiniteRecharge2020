@@ -28,7 +28,14 @@ public class ClimberDrive extends CommandBase {
   @Override
   public void execute() {
     Robot.m_climber.setAbsHeightMotorSpeed(OI.armJoystick.getRawAxis(1)); //Elevator height
-    Robot.m_climber.setRobotClimbersPower(OI.armJoystick.getRawAxis(2)); //Climber Power //TODO :set
+
+    if (OI.driverJoystick.getRawButton(6)){ //forward
+      Robot.m_climber.setRobotClimbersPower(0.9);
+    } else if (OI.driverJoystick.getRawButton(5)){ //backwards
+      Robot.m_climber.setRobotClimbersPower(-0.9);
+    } else {
+      Robot.m_climber.setRobotClimbersPower(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

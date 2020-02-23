@@ -19,7 +19,7 @@ public class CalculateVisionValues{
     public static double getOptimalShooterSpeed(double dist){// gets the optimal shooter speed
         // return 15000;
         // return 91.3 * dist * dist - 704 * dist + 13275;
-        return 91.3 * dist * dist - 704 * dist + 13100;
+        return 91.3 * dist * dist - 704 * dist + 13375;
     }
 
     /*

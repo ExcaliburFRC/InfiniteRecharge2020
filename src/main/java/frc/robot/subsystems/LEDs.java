@@ -13,13 +13,15 @@ import frc.robot.RobotMap;
 
 public class LEDs extends SubsystemBase {
   private Spark ledPWM;
+  private double currentLedMode;
 
   public LEDs() {
     ledPWM = new Spark(RobotMap.LED_PWM_PORT);
+    currentLedMode = LEDMode.BLUE.value;
   }
 
   public void setMode(LEDMode mode){
-    ledPWM.set(mode.value);
+    currentLedMode = mode.value;
   }
   
   public enum LEDMode{
@@ -29,5 +31,10 @@ public class LEDs extends SubsystemBase {
     private LEDMode(double value){
         this.value = value;
     }
+  }
+
+  @Override
+  public void periodic() {
+    ledPWM.set(currentLedMode);
   }
 }

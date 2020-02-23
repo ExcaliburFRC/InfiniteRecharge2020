@@ -44,10 +44,15 @@ public class OI{
         new JoystickButton(armJoystick, 6).whenPressed(new ShooterDown());
 
         //High Shoot Proccess (Non-Auto)
-        new JoystickButton(armJoystick, 9).toggleWhenPressed(new ShootProccess(false));
+        new JoystickButton(armJoystick, 11).toggleWhenPressed(new ShootProccess(false));
 
         //Climber
-        new JoystickButton(armJoystick, 11).toggleWhenPressed(new ClimberDrive());
+        new JoystickButton(armJoystick, 9).toggleWhenPressed(new ClimberDrive());
+
+        //Compressor
+        new JoystickButton(driverJoystick, 9).whenPressed(()->{
+            Robot.m_chassi.setCompressorMode(!Robot.m_chassi.getCompressorMode());
+        });
 
         initSmartDashboard();
     }

@@ -37,11 +37,11 @@ public class FuckedNavXTransport extends CommandBase {
     var isInNoReturnMode = (System.currentTimeMillis() - timeSinceTop) < TransporterConstants.STOP_TIME;
     var isInSlowSpeedTime = (System.currentTimeMillis() - timeSinceTop) < TransporterConstants.END_SLOW_TIME && (System.currentTimeMillis() - timeSinceTop) > TransporterConstants.STOP_TIME;
 
-    if (isOkToShoot && !isInNoReturnMode){
+    if ((isOkToShoot && !isInNoReturnMode) || OI.armJoystick.getRawButton(5)){
       var transportSpeed = isInSlowSpeedTime ? 0.35 : 0.6;
       Robot.m_transporter.setTowerMotorSpeed(transportSpeed);
-      Robot.m_transporter.setLoadingMotorSpeed(-0.32);
-      Robot.m_transporter.setDiagonalMotorSpeed(1); //it used to work with .7
+      Robot.m_transporter.setLoadingMotorSpeed(-0.6);
+      Robot.m_transporter.setDiagonalMotorSpeed(-0.7); 
     } else {
       Robot.m_transporter.setTowerMotorSpeed(0);
       Robot.m_transporter.setLoadingMotorSpeed(0);

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +44,9 @@ public class Robot extends TimedRobot {
     initDefaultCommands();
     OI.init();
     isFirstTime = true;
+
+    // CameraServer.getInstance().startAutomaticCapture("Camera", 0);
+    m_chassi.setCompressorMode(false);
   }
 
   @Override
@@ -64,7 +68,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    autoCommand.end(true);
+    if (autoCommand != null){
+      autoCommand.end(false);
+    }
     // CommandScheduler.getInstance().cancelAll();
     m_limelight.setPipeline(0);
     m_limelight.setCamMode(Limelight.CamModes.DRIVING);
@@ -82,12 +88,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    if (OI.armJoystick.getRawButton(5)){
-      Robot.m_transporter.setBallNumber(0);
-    }
 
-    m_climber.setRobotClimbersPower(-OI.armJoystick.getRawAxis(2));
-    m_climber.setAbsHeightMotorSpeed(OI.armJoystick.getRawAxis(1));
+    // m_climber.setRobotClimbersPower(-OI.armJoystick.getRawAxis(2));
+    // m_climber.setAbsHeightMotorSpeed(OI.armJoystick.getRawAxis(1));
   }
 
   @Override

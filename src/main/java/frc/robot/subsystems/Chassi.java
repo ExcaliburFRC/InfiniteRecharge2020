@@ -38,6 +38,8 @@ public class Chassi extends SubsystemBase {
   //AHRS gyro
   private AHRS gyro;
   //Compressor
+  private Compressor compressor;
+  private boolean compressorMode;
 
   DifferentialDriveOdometry driveOdometry;
 
@@ -65,6 +67,8 @@ public class Chassi extends SubsystemBase {
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
 
     setIdleMode(IdleMode.kCoast);
+
+    compressor = new Compressor();
   }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean quickTurn){
@@ -153,5 +157,14 @@ public class Chassi extends SubsystemBase {
   public void periodic() {
     driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), leftEncoder.getDistance(),
                       rightEncoder.getDistance());
+  }
+
+  public void setCompressorMode(boolean mode){
+    compressor.setClosedLoopControl(mode);
+    compressorMode = mode;
+  }
+
+  public boolean getCompressorMode(){
+    return compressorMode;
   }
 }
