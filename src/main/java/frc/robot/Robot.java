@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
   }
   
   private void resetAuto(){
-    autoCommand = new ShootProccess(true).alongWith(new FuckedNavXTransport());
+    autoCommand = new ShootProccess(true, 3).alongWith(new FuckedNavXTransport());
     backCommand = new TimedStrightDrive(1100, -0.6);
   }
 }
